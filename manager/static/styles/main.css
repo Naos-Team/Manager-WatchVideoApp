@@ -10,11 +10,23 @@
 }
 .navcontain{
     height: 100%;
-    
-    
 }
 .navnhi{
     height: 100%;
     display: flex;
     flex-direction: column;
+}
+.login_container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    background-color: aliceblue;
+    align-items: center;
+    justify-content: center;
+}
+.cardparent{
+    background-color: aqua;
+    display: flex;
+    height: 35%;
+    width: 30%;
 }
