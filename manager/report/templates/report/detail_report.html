@@ -1,0 +1,8 @@
+{% extends 'main.html' %}
+{% block content %} 
+    <h1>Day la {{report.report_id | default:'Report'}}</h1>
+    <p>Co uid: {{report.uid}}</p>
+    <p>Co vid: {{report.vid}}</p>
+    <p>Co content: {{report.report_content}}</p>
+    <p>Co status: {{report.report_status}}</p>
+{%endblock%}   

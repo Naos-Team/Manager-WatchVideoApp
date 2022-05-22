@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.urls import reverse
 
 
 class TblCategory(models.Model):
@@ -70,7 +71,7 @@ class TblRating(models.Model):
 class TblReport(models.Model):
     report_id = models.AutoField(primary_key=True)
     uid = models.ForeignKey('TblUsers', models.DO_NOTHING, db_column='uid')
-    vid = models.ForeignKey('TblVideo', models.DO_NOTHING)
+    vid = models.ForeignKey('TblVideo', models.DO_NOTHING, db_column='vid_id')
     report_content = models.TextField()
     report_status = models.IntegerField()
 
@@ -80,6 +81,9 @@ class TblReport(models.Model):
     
     def __str__(self):
         return self.report_content[0:30]
+
+    def get_absolute_url_report(self):
+        return reverse("report:detail_report", kwargs={"report_id": self.report_id})
 
 
 class TblUsers(models.Model):

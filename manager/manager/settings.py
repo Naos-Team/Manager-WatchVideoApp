@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'report',
 ]
 
 MIDDLEWARE = [
@@ -84,7 +85,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost', 
-        'PORT': 3306,
+        'PORT': 3308,
     }
 
     # 'default': {
@@ -125,8 +126,8 @@ USE_I18N = True
 
 USE_TZ = True
 
-MEDIA_URL = '/home/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'home/media/')
+MEDIA_URL = '/styles/images/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'home/media/')
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static'

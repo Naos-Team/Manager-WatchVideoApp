@@ -10,7 +10,7 @@
       <a class="nhi nav-link" href="#">Favorite</a>
     </li>
     <li class="nav-item">
-      <a class="nhi nav-link" href="#">Report</a>
+      <a class="nhi nav-link" href="{% url 'report:report_main' %}">Report</a>
     </li>
     <li class="nav-item">
       <a class="nhi nav-link" href="#">User</a>
@@ -19,7 +19,7 @@
       <a class="nhi nav-link" href="#">Setting</a>
     </li>
     <li class="nav-item">
-      <a class="nhi nav-link" href="{% url 'main:logout'%}">Logout</a>
+      <a class="nhi nav-link" href="{% url 'main:logout' %}">Logout</a>
     </li>
   </ul>
 </nav>
