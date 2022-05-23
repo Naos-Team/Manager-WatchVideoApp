@@ -1,27 +1,78 @@
-{% extends 'main.html' %}
-{% load static %}
+{% extends 'main.html' %} 
+{% load static %} 
 {% block content %} 
-    {% for report in reports %}
-    <table class="table table-striped table-bordere table_report ">
-        <thead class="table-secondary" >
-          <tr>
-            <th scope="col">Report ID</th>
-            <th scope="col">UID</th>
-            <th scope="col">Video ID</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{report.report_id}}</td> 
-            <td>{{report.uid}}</td>
-            <td>{{report.vid}}</td>
-            <td><a href="{{report.get_absolute_url_report}}" style="text-decoration: none"><img class="icon_report" src="{% static 'styles/images/edit.png' %}"></a></td>
-            <td><a href="{{report.get_absolute_url_report}}" style="text-decoration: none"><img class="icon_report" src="{% static 'styles/images/delete.png' %}"></a></td>
-          </tr>
-        </tbody>
-      </table>
-        {% comment %} <p><a href="{{report.get_absolute_url_report}}" style="text-decoration: none">{{report.report_id}}</a> - {{report.uid}} - {{report.vid}}</p> {% endcomment %}
-    {% endfor %}
-{% endblock %}   
+<nav class="navbar bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" name>Reports</a>
+    <form class="d-flex" role="search" method="GET" action="{% url 'report:report_main'%}"> {% csrf_token %}
+      <input class="form-control me-2" type="search" placeholder="Search or All" aria-label="Search" name="tv_search_report">
+      <button class="btn btn-outline-success" type="submit" name="btn_search_report" style="margin-left:5px;">Search</button>
+    </form>
+  </div>
+</nav>
+<table class="table table_report">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Report ID</th>
+      <th scope="col">UID</th>
+      <th scope="col">Video ID</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  {% for report in reports %}
+  <tbody>
+    <tr>
+    
+      <td>{{report.report_id}}</td>
+      <td>{{report.uid}}</td>
+      <td>{{report.vid.vid_id}}</td>
+      <td>
+        <form action="{{report.get_absolute_url_report}}">
+          <input type="image" class="icon_report" src="{% static 'styles/images/edit.png' %}" />
+        </form>
+        
+      </td>
+      <td>
+        <input type="image" class="icon_report" src="{% static 'styles/images/delete.png' %}" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" class="icon_report" />
+          <div
+            class="modal fade"
+            id="exampleModalCenter"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true"
+            
+          >
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">
+                    Are you sure you want to delete?
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">The report {{report.id}} of user {{report.uid}}</div>
+                <div class="modal-footer">
+                  <form action={% url 'report:delete_report' report.report_id %}  method="POST"> {% csrf_token %}
+                  <button type="submit" class="btn btn-primary">Yes</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+      </td>
+    </tr>
+  </tbody>
+  {% endfor %} 
+</table>
+
+
+{% endblock %}
