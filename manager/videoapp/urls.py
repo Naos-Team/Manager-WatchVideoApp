@@ -4,5 +4,5 @@ from . import views
 app_name = "videoapp"
 
 urlpatterns = [
-    path('video/<int:id>/', views.videoDetail, 'detail')
+    path('<str:id>/', views.updateVideo, name='update')
 ]
