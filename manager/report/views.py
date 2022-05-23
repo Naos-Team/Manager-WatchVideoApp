@@ -12,22 +12,26 @@ from django.db.models import Q
 import base64
 
 
-def report_main(request):
+def report_main(request, video_type):
     report_search = request.GET.get('tv_search_report') if request.GET.get('tv_search_report') != None else ''
-    if (report_search!= ''):
+    if (report_search=="" and video_type==0):
+        reports = TblReport.objects.all()
+    elif (report_search==""):
+        reports = TblReport.objects.filter(vid__vid_type = video_type)
+    else:
         if report_search.isnumeric():
-            reports = TblReport.objects.filter(Q(report_id = report_search) | Q(vid = report_search) )
+            reports = TblReport.objects.filter(Q(report_id = report_search) | Q(vid = report_search) | Q(vid__vid_type = video_type) )
         else:
             if report_search.lower() == 'all':
                 reports = TblReport.objects.all()
             else:
-                reports = TblReport.objects.filter(uid = report_search )
-        if len(reports) == 0:
-            reports = TblReport.objects.all()
-    else:
-        reports = TblReport.objects.all()
+                reports = TblReport.objects.filter(Q(uid = report_search) | Q(vid__vid_type = video_type) )
+    
+    # if len(reports) == 0:
+    #         reports = TblReport.objects.all()
+        
 
-    context = {'reports': reports}
+    context = {'reports': reports, 'video_type':video_type}
     return render(request, 'report/list_report.html', context)
 
 def detail_report(request, report_id):
@@ -55,7 +59,7 @@ def detail_report(request, report_id):
         form = ReportForm(context1, instance=report)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect('report/')
 
 
     context = { 'report_id':reportid_de, 'uid':uid_de, 'vid':vid_de, 'report_content':report_content_de, 'report_status':report_status_de }

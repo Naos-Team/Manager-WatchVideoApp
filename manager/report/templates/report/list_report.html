@@ -1,10 +1,21 @@
 {% extends 'main.html' %} 
 {% load static %} 
 {% block content %} 
-<nav class="navbar bg-light">
+<nav class="navbar bg-light" style="top: 1%;">
   <div class="container-fluid">
-    <a class="navbar-brand" name>Reports</a>
-    <form class="d-flex" role="search" method="GET" action="{% url 'report:report_main'%}"> {% csrf_token %}
+    <div class="dropdown">
+      <select class="choice-type btn  btn-dark" name="type" select = "4" size = "1" onchange = "window.location.href =  this.value">
+        <option value="{% url 'report:report_main' 0 %}"
+          {% if video_type == 0%} selected = "selected" {%endif%}>All</option>
+        <option value="{% url 'report:report_main' 1 %}"
+          {% if video_type == 1%} selected = "selected" {%endif%}>Video</option>
+        <option value="{% url 'report:report_main' 2 %}" 
+          {% if video_type == 2%} selected = "selected" {%endif%}>Live TV</option>
+        <option value="{% url 'report:report_main' 3 %}"
+          {% if video_type == 3%} selected = "selected" {%endif%}>Radio</optoion>
+      </select>
+    </div>
+    <form class="d-flex" role="search" method="GET" action="{% url 'report:report_main' video_type%}"> {% csrf_token %}
       <input class="form-control me-2" type="search" placeholder="Search or All" aria-label="Search" name="tv_search_report">
       <button class="btn btn-outline-success" type="submit" name="btn_search_report" style="margin-left:5px;">Search</button>
     </form>
