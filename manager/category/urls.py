@@ -3,5 +3,6 @@ from django.urls import path, include
 from . import views
 app_name = 'category'
 urlpatterns = [
-    path('category/', views.category, name='category'),
+    path('category/<str:pk>/', views.category, name='category'),
+    path('category/<str:pk>/<str:id>', views.disableCategory, name='delcate'),
 ]

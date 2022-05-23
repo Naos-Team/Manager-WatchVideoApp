@@ -6,8 +6,8 @@
 }
 
 .content_category{
-    justify-content: space-around;
-    height: 100%;
+    justify-content: flex-start;
+    height: 50%;
     width: 100%;
 }
 
@@ -29,8 +29,12 @@
     flex-wrap: wrap;
     -ms-flex-align: stretch;
     align-items: stretch;
-    width: 30%;
+    width: 33%;
     right: 0;
+}
+
+.choice-parent{
+    height: 100%;
 }
 
 .choice-type{

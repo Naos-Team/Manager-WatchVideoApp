@@ -4,22 +4,22 @@
   type="text/css"
   href="{% static 'styles/category/category.css' %}"
 />
-{% endblock style%} {% block content %}
+{% endblock style%}
+{% block title %}Category{% endblock title %} {% block content %}
 <div class="taskbar_category">
-  <select class="choice-type" name="type">
-    <option value="1">Video</option>
-    <option value="2">Live TV</option>
-    <option value="3">Radio</option>
+  <select class="choice-type" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
+    <option value="{% url 'category:category' 1 %}"
+      {% if choice == "1"%} selected = "selected" {%endif%}>Video</option>
+    <option value="{% url 'category:category' 2 %}" 
+      {% if choice == "2"%} selected = "selected" {%endif%}>Live TV</option>
+    <option value="{% url 'category:category' 3 %}"
+      {% if choice == "3"%} selected = "selected" {%endif%}>Radio</optoion>
   </select>
-  <div class="input-group">
-    <input
-      type="search"
-      class="form-control rounded"
-      placeholder="Search"
-      aria-label="Search"
-      aria-describedby="search-addon"
-    />
-    <button type="button" class="btn btn-outline-primary">SEARCH</button>
+  <div class="input-group" >
+    <form action="{% url 'category:category' choice %}" method = "GET">
+      <input type="text" name = "q" placeholder = "Search Category...."/>
+    </form>
+    <button type="button" class="btn btn-outline-primary">ADD CATEGORY</button>
   </div>
 </div>
 <div class="row content_category">
@@ -38,14 +38,14 @@
     <div class="card-body">
       <h5 class="card-title">{{category.cat_name}}</h5>
       <a href="#" class="btn btn-primary">Edit</a>
-      <button
-        type="button"
-        class="btn btn-primary"
-        data-toggle="modal"
-        data-target="#exampleModal"
-      >
-        Del
-      </button>
+      <a type="button" href = "{% url 'category:delcate' pk=choice  id=category.cat_id %}" class="btn btn-primary">
+        {% if category.cat_status == 1%}
+            Disable
+        {%else%}
+            Enable
+        {%endif%}
+      </a>
+     
     </div>
   </div>
   {% endfor %}
