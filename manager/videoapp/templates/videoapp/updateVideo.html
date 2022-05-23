@@ -1,6 +1,6 @@
 {% extends 'main.html' %} {% block content %}
 
-<div class="card border-dark bg-light my-5">
+<div class="card border-dark bg-light my-1">
     <p class="card-header h3 text-white bg-dark">VIDEO DETAIL</p>
 
     <form class="font-weight-bold p-4">
@@ -47,11 +47,12 @@
         <div class="form-group">
             <label for="exampleFormControlSelect1">Category</label>
             <select class="form-control" id="exampleFormControlSelect1">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+                {% for cat in categories %}
+
+                <option name="cat_id" value="{{cat.cat_id}}" {% if cat.cat_id == video.cat_id  %} selected="selected"{% endif %}>{{cat.cat_name}}</option>
+
+                
+                {% endfor %}
             </select>
         </div>
         <div class="form-group">
@@ -65,28 +66,34 @@
                 id="exampleFormControlInput1"
             />
         </div>
+
+        <label class="d-block" for="exampleFormControlInput1">URL</label>    
+        <div class="form-row">
+            <div class="form-group col-md-10">
+                <input
+                    name="url"
+                    type="text"
+                    class="d-inline form-control"
+                    value="{{video.vid_url}}"
+                    required
+                    id="exampleFormControlInput1"
+                />
+            </div>
+            <div class="form-group col d-flex flex-row align-items-center justify-content-center">
+                <a class="btn btn-primary w-100" href="">Check video</a>
+            </div>
+          </div>
         <div class="form-group">
-            <label for="exampleFormControlInput1">URL</label>
-            <input
-                name="url"
-                type="text"
-                class="form-control"
-                value="{{video.vid_url}}"
-                required
-                id="exampleFormControlInput1"
-            />
+            <label for="fromFile" class="form-label">Thumbnail</label>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="image_picker">
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+            <div class="d-flex flex-row justify-content-center">
+                <img id="image" class="pt-2 img-fluid w-50" alt="Can't show that picture" src="{{video.vid_thumbnail}}"/>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="exampleFormControlFile1">Thumbnail</label>
-            <input
-                name="thumbnail"
-                type="file"
-                value="{{video.vid_thumbnail}}"
-                class="form-control-file"
-                id="exampleFormControlFile1"
-                accept="image/*"
-            />
-        </div>
+        
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Description</label>
             <textarea
@@ -107,7 +114,6 @@
                     name="views"
                     type="number"
                     min="0"
-                    value="2"
                     step="1"
                     required
                     class="form-control"
@@ -121,7 +127,7 @@
                     name="time"
                     type="date"
                     class="form-control"
-                    value="{{video.vid_time}}"
+                    value="{{date}}"
                     id="exampleFormControlInput1"
                 />
             </div>
@@ -129,8 +135,15 @@
         <div class="form-group">
             <label for="exampleFormControlSelect1">Status</label>
             <select class="form-control" id="exampleFormControlSelect1">
-                <option name="status" value="1">Enable</option>
+
+                {% if video.vid_status == 1 %}
+                <option name="status" value="1" selected="selected">Enable</option>
                 <option name="status" value="0">Disable</option>
+                {% else %}
+                <option name="status" value="1">Enable</option>
+                <option name="status" value="0" selected="selected">Disable</option>
+                {% endif %}
+
             </select>
         </div>
 
@@ -139,12 +152,26 @@
         >
             <input
                 type="submit"
-                class="btn btn-primary btn-lg mr-1"
+                class="btn btn-primary mr-1"
                 value="Save"
             />
-            <input type="submit" class="btn btn-danger btn-lg" value="Cancel" />
+            <input type="submit" class="btn btn-danger" value="Cancel" />
         </div>
     </form>
 </div>
+
+<script>
+    document.getElementById("image_picker").onchange = function () {
+        var reader = new FileReader();
+    
+        reader.onload = function (e) {
+            // get loaded data and render thumbnail.
+            document.getElementById("image").src = e.target.result;
+        };
+    
+        // read the image file as a data URL.
+        reader.readAsDataURL(this.files[0]);
+    };
+</script>
 
 {% endblock content %}
