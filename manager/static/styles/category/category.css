@@ -1,0 +1,43 @@
+
+.taskbar_category{
+    padding-top: 5%;
+    display: flex;
+    position: relative;
+}
+
+.content_category{
+    justify-content: flex-start;
+    height: 50%;
+    width: 100%;
+}
+
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: 0px;
+    margin-top: 20px;
+    margin-left: 0px;
+}
+
+.input-group {
+    position: absolute;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    width: 33%;
+    right: 0;
+}
+
+.choice-parent{
+    height: 100%;
+}
+
+.choice-type{
+    width: 10%;
+    height: 100%;
+}
