@@ -3,7 +3,7 @@
 {% block content %} 
 <nav class="navbar bg-light" style="top: 1%;">
   <div class="container-fluid">
-    <div></div>
+    <a class="navbar-brand">{{num_reports}}</a>
     <form class="d-flex" role="search" method="GET" action="{% url 'report:report_main' video_id%}"> {% csrf_token %}
       <input class="form-control me-2" type="search" placeholder="Search or All" aria-label="Search" name="tv_search_report">
       <button class="btn btn-outline-success" type="submit" name="btn_search_report" style="margin-left:5px;">Search</button>
@@ -24,7 +24,6 @@
   {% for report in reports %}
   <tbody>
     <tr>
-    
       <td>{{report.report_id}}</td>
       <td>{{report.uid}}</td>
       <td>{{report.report_content}}</td>

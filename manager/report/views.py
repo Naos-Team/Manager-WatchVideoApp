@@ -15,19 +15,19 @@ import base64
 def report_home(request, video_type):
     video_search = request.GET.get('tv_search_video') if request.GET.get('tv_search_video') != None else ''
     if (video_search=="" and video_type==0):
-        videos = TblVideo.objects.all()
+        reports = TblReport.objects.all()
     elif (video_search==""):
-        videos = TblVideo.objects.filter(vid_type = video_type)
+        reports = TblReport.objects.filter(vid__vid_type = video_type)
     else:
         if video_search.isnumeric():
-            videos = TblVideo.objects.filter(Q(vid_id = video_search) | Q(vid_type = video_type) )
+            reports = TblReport.objects.filter(Q(vid__vid_id = video_search) | Q(vid__vid_type = video_type) )
         else:
             if video_search.lower() == 'all':
-                videos = TblVideo.objects.all()
+                reports = TblReport.objects.all()
             else:
-                videos = TblVideo.objects.filter(Q(vid_title = video_search) | Q(vid_type = video_type) )
-
-    context = {'videos': videos, 'video_type':video_type}
+                reports = TblReport.objects.filter(Q(vid__vid_title = video_search) | Q(vid__vid_type = video_type) )
+                
+    context = {'reports': reports, 'video_type':video_type}
     return render(request, 'report/home_report.html', context)
 
 
@@ -43,8 +43,13 @@ def report_main(request, video_id):
                 reports = TblReport.objects.all()
             else:
                 reports = TblReport.objects.filter(Q(uid = report_search))   
+    i = len(reports)
+    if i == 1 or i == 0:
+        num_reports = str(i) + ' Report Here';
+    else:
+        num_reports = str(i) + ' Reports Here';
 
-    context = {'reports': reports, 'video_id':video_id}
+    context = {'reports': reports, 'video_id':video_id, 'num_reports':num_reports }
     return render(request, 'report/list_report.html', context)
 
 def detail_report(request, report_id):
@@ -87,3 +92,19 @@ def delete_report(request, report_id):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
     
+    # video_search = request.GET.get('tv_search_video') if request.GET.get('tv_search_video') != None else ''
+    # if (video_search=="" and video_type==0):
+    #     videos = TblVideo.objects.all()
+    # elif (video_search==""):
+    #     videos = TblVideo.objects.filter(vid_type = video_type)
+    # else:
+    #     if video_search.isnumeric():
+    #         videos = TblVideo.objects.filter(Q(vid_id = video_search) | Q(vid_type = video_type) )
+    #     else:
+    #         if video_search.lower() == 'all':
+    #             videos = TblVideo.objects.all()
+    #         else:
+    #             videos = TblVideo.objects.filter(Q(vid_title = video_search) | Q(vid_type = video_type) )
+
+    # context = {'videos': videos, 'video_type':video_type}
+    # return render(request, 'report/home_report.html', context)
