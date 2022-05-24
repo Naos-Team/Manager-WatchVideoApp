@@ -11,6 +11,21 @@ from report.forms import ReportForm
 from django.db.models import Q
 import base64
 
+def encode_Str(columns):
+    return base64.b64encode(columns.encode('ascii')).decode('ascii')    
+
+def decode_Item_Report(report):
+    report.report_uid = base64.b64decode(report.report_uid)
+    report.report_uid = report.report_uid.decode('ascii')
+    report.report_content = base64.b64decode(report.report_content)
+    report.report_content = report.report_content.decode('ascii')
+    return report
+
+def decode_Repor6(reports):
+    for report in reports:
+        report = decode_Item_Report(report)
+    return reports
+
 
 def report_home(request, video_type):
     video_search = request.GET.get('tv_search_video') if request.GET.get('tv_search_video') != None else ''
@@ -26,7 +41,7 @@ def report_home(request, video_type):
                 reports = TblReport.objects.all()
             else:
                 reports = TblReport.objects.filter(Q(vid__vid_title = video_search) | Q(vid__vid_type = video_type) )
-                
+
     context = {'reports': reports, 'video_type':video_type}
     return render(request, 'report/home_report.html', context)
 
