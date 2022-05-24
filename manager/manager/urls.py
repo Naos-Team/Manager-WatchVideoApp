@@ -21,9 +21,6 @@ urlpatterns = [
     path('', include('main.urls')),
     path('report/', include('report.urls')),
     path('', include('category.urls')),
-<<<<<<< HEAD
     path('', include('managervideo.urls')),
-=======
     path('comment/', include('comment.urls')),
->>>>>>> 530e95a92e49a540d6421ddde7d51384e81b8bbe
 ]
