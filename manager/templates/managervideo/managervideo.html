@@ -8,22 +8,37 @@
 {% block title %}Manager Video{% endblock title %} {% block content %}
 <div class="taskbar_category">
   <select class="choice-type" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
-    <option value="{% url 'managervideo:managervideo' 1 %}"
+    <option value="{% url 'managervideo:managervideo' pk=1 cat=0%}"
       {% if choice == "1"%} selected = "selected" {%endif%}>Video</option>
-    <option value="{% url 'managervideo:managervideo' 2 %}" 
+    <option value="{% url 'managervideo:managervideo' pk=2 cat=0%}" 
       {% if choice == "2"%} selected = "selected" {%endif%}>Live TV</option>
-    <option value="{% url 'managervideo:managervideo' 3 %}"
+    <option value="{% url 'managervideo:managervideo' pk=3 cat=0%}"
       {% if choice == "3"%} selected = "selected" {%endif%}>Radio</optoion>
   </select>
+  <select class="choice-cate" name="cate" select = "2" size = "1" onchange = "window.location.href =  this.value">
+    <option value="{% url 'managervideo:managervideo' pk=choice cat=0%}">All Category</option>
+    {% for category in categories %}
+
+      <option value="{% url 'managervideo:managervideo' pk=choice cat=category.cat_id%}"
+      {% if category.cat_id == cat  %} selected="selected"{% endif %}>{{category.cat_name}}</option>
+        
+    {% endfor %}
+  </select>
   <div class="input-group" >
-    <form action="{% url 'managervideo:managervideo' choice %}" method = "GET">
+    <form action="{% url 'managervideo:managervideo' pk=choice cat=cat %}" method = "GET">
       <input type="text" name = "q" placeholder = "Search Video...."/>
     </form>
-    <a type="button" href="{%url 'category:add' pk=choice%}" class="btn btn-outline-primary">ADD VIDEO</a>
+    <a type="button" 
+      {% if choice == "1"%} 
+        href="#" 
+      {% else %}
+        href = "{% url 'managervideo:addvideo' pk=choice cat=cat%}"
+      {% endif %}
+      class="btn btn-outline-primary">ADD VIDEO</a>
   </div>
 </div>
 <div class="row content_category">
-  {% for category in categories %}
+  {% for video in videos %}
   <div
     class="card"
     style="
@@ -34,12 +49,17 @@
       padding-bottom: 15px;
     "
   >
-    <img src="{{category.cat_image}}" class="card-img-top" alt="..." />
+    <img src="{{video.vid_thumbnail}}" class="card-img-top" alt="..." />
     <div class="card-body">
-      <h5 class="card-title">{{category.cat_name}}</h5>
-      <a href="{% url 'category:edit' pk=choice  id=category.cat_id %}" class="btn btn-primary">Edit</a>
-      <a type="button" href = "{% url 'category:delcate' pk=choice  id=category.cat_id pk=choice  id=category.cat_id %}" class="btn btn-primary">
-        {% if category.cat_status == 1%}
+      <h5 class="card-title">{{video.vid_title}}</h5>
+      <a type="button"
+      {% if choice == "1"%} 
+        href="#" 
+      {% else %}
+        href = "{% url 'managervideo:editvideo' pk=choice cat=cat id=video.vid_id%}"
+      {% endif %} class="btn btn-primary">Edit</a>
+      <a type="button" href = "{% url 'managervideo:disablevideo' pk=choice cat=cat id=video.vid_id  %}" class="btn btn-primary">
+        {% if video.vid_status == 1%}
             Disable
         {%else%}
             Enable
