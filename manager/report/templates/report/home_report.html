@@ -1,0 +1,46 @@
+{% extends 'main.html' %} 
+{% load static %} 
+{% block content %} 
+<nav class="navbar bg-light" style="top: 1%;">
+  <div class="container-fluid">
+    <div class="dropdown">
+        <select class="choice-type btn  btn-dark" name="type" select = "4" size = "1" onchange = "window.location.href =  this.value">
+          <option value="{% url 'report:report_home' 0 %}"
+            {% if video_type == 0%} selected = "selected" {%endif%}>All</option>
+          <option value="{% url 'report:report_home' 1 %}"
+            {% if video_type == 1%} selected = "selected" {%endif%}>Video</option>
+          <option value="{% url 'report:report_home' 2 %}" 
+            {% if video_type == 2%} selected = "selected" {%endif%}>Live TV</option>
+          <option value="{% url 'report:report_home' 3 %}"
+            {% if video_type == 3%} selected = "selected" {%endif%}>Radio</optoion>
+        </select>
+      </div>
+    <form class="d-flex" role="search" method="GET" action="{% url 'report:report_home' video_type%}"> {% csrf_token %}
+      <input class="form-control me-2" type="search" placeholder="Search or All" aria-label="Search" name="tv_search_video">
+      <button class="btn btn-outline-success" type="submit" name="btn_search_video" style="margin-left:5px;">Search</button>
+    </form>
+  </div>
+</nav>
+<table class="table table_report">
+  <thead class="thead-light">
+    <tr>
+      <th scope="col">Video ID</th>
+      <th scope="col">Video Title</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  {% for video in videos %}
+  <tbody>
+    <tr>
+      <td>{{video.vid_id}}</td>
+      <td>{{video.vid_title}}</td>
+      <td>
+        <form action="{% url 'report:report_main' video.vid_id %}">
+          <input type="image" class="icon_report" src="{% static 'styles/images/more.png' %}" />
+        </form>
+      </td>
+    </tr>
+  </tbody>
+  {% endfor %} 
+</table>
+{% endblock %}

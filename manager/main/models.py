@@ -88,6 +88,9 @@ class TblReport(models.Model):
     def get_absolute_url_report_delete(self):
         return reverse("report:delete_report", kwargs={"report_id": self.report_id})
 
+    def get_absolute_url_report_main(self):
+        return reverse("report:report_main", kwargs={"video_id": self.vid.vid_id})
+
 
 class TblUsers(models.Model):
     uid = models.CharField(primary_key=True, max_length=100, db_collation='utf8_unicode_ci')

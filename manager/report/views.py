@@ -6,32 +6,45 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from main.models import TblReport
+from main.models import TblReport, TblVideo
 from report.forms import ReportForm
 from django.db.models import Q
 import base64
 
 
-def report_main(request, video_type):
+def report_home(request, video_type):
+    video_search = request.GET.get('tv_search_video') if request.GET.get('tv_search_video') != None else ''
+    if (video_search=="" and video_type==0):
+        videos = TblVideo.objects.all()
+    elif (video_search==""):
+        videos = TblVideo.objects.filter(vid_type = video_type)
+    else:
+        if video_search.isnumeric():
+            videos = TblVideo.objects.filter(Q(vid_id = video_search) | Q(vid_type = video_type) )
+        else:
+            if video_search.lower() == 'all':
+                videos = TblVideo.objects.all()
+            else:
+                videos = TblVideo.objects.filter(Q(vid_title = video_search) | Q(vid_type = video_type) )
+
+    context = {'videos': videos, 'video_type':video_type}
+    return render(request, 'report/home_report.html', context)
+
+
+def report_main(request, video_id):
     report_search = request.GET.get('tv_search_report') if request.GET.get('tv_search_report') != None else ''
-    if (report_search=="" and video_type==0):
-        reports = TblReport.objects.all()
-    elif (report_search==""):
-        reports = TblReport.objects.filter(vid__vid_type = video_type)
+    if (report_search==""):
+        reports = TblReport.objects.filter(vid__vid_id = video_id)
     else:
         if report_search.isnumeric():
-            reports = TblReport.objects.filter(Q(report_id = report_search) | Q(vid = report_search) | Q(vid__vid_type = video_type) )
+            reports = TblReport.objects.filter(Q(report_id = report_search))
         else:
             if report_search.lower() == 'all':
                 reports = TblReport.objects.all()
             else:
-                reports = TblReport.objects.filter(Q(uid = report_search) | Q(vid__vid_type = video_type) )
-    
-    # if len(reports) == 0:
-    #         reports = TblReport.objects.all()
-        
+                reports = TblReport.objects.filter(Q(uid = report_search))   
 
-    context = {'reports': reports, 'video_type':video_type}
+    context = {'reports': reports, 'video_id':video_id}
     return render(request, 'report/list_report.html', context)
 
 def detail_report(request, report_id):
