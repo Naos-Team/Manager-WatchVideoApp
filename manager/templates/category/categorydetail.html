@@ -1,15 +1,11 @@
 {% extends 'main.html' %} {% load static %} {% block style %}
-<link
-  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
-  rel="stylesheet"
-/>
-<link
-  rel="stylesheet"
-  href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-  integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-  crossorigin="anonymous"
-/>
-{% endblock style%} {% block title %}Add Category{% endblock title %} 
+{% endblock style%} {% block title %}
+  {% if page == 'edit'%}
+    Edit Category
+  {%else%}
+    Add Category
+  {%endif%}
+{% endblock title %} 
 {% block content %}
 <div class="card border-dark bg-light my-1">
   <p class="card-header h3 text-white bg-dark">

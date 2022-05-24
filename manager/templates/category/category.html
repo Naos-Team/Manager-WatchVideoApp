@@ -38,7 +38,7 @@
     <div class="card-body">
       <h5 class="card-title">{{category.cat_name}}</h5>
       <a href="{% url 'category:edit' pk=choice  id=category.cat_id %}" class="btn btn-primary">Edit</a>
-      <a type="button" href = "{% url 'category:delcate' pk=choice  id=category.cat_id pk=choice  id=category.cat_id %}" class="btn btn-primary">
+      <a type="button" href = "{% url 'category:delcate'  pk=choice  id=category.cat_id %}" class="btn btn-primary">
         {% if category.cat_status == 1%}
             Disable
         {%else%}
