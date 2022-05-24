@@ -9,14 +9,15 @@
             <div class="col d-flex flex-column justify-content-end">
                 <label for="fromFile" class="form-label">Thumbnail</label>
                 <div>
-                    <input id="image_picker" accept="image/*" class="form-control" name="myfile" type="file" id="formFile">
+                    <input id="image_picker" accept="image/*" class="form-control" name="file_img" type="file" id="formFile">
                 </div>
             </div>
             <div class="col-md-4 d-flex align-items-center justify-content-center border border-primary bg-dark">
                 
                 <div class="d-flex flex-row justify-content-center">
                     <img id="image" class="w-75" alt="Can't show that picture" src="{{video.vid_thumbnail}}"/>
-                </div>
+                    <input type="hidden" name="thumbnail" value="{{video.vid_thumbnail}}"/>
+                </div>  
                 
             </div>
         </div>
@@ -75,12 +76,11 @@
         </div>
         <div class="mb-3">
             <label class="form-label" for="exampleFormControlSelect1">Category</label>
-            <select class="form-control" id="exampleFormControlSelect1">
+            <select name="cat_id" class="form-control" id="exampleFormControlSelect1">
                 {% for cat in categories %}
 
-                <option name="cat_id" value="{{cat.cat_id}}" {% if cat.cat_id == video.cat_id  %} selected="selected"{% endif %}>{{cat.cat_name}}</option>
+                <option value="{{cat.cat_id}}" {% if cat.cat_id == video.cat_id  %} selected="selected"{% endif %}>{{cat.cat_name}}</option>
 
-                
                 {% endfor %}
             </select>
         </div>
