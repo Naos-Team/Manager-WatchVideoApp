@@ -62,7 +62,7 @@
                 </div>
                 <div class="modal-body">The report {{report.id}} of user {{report.uid}}</div>
                 <div class="modal-footer">
-                  <form action={% url 'report:delete_report' report.report_id %}  method="POST"> {% csrf_token %}
+                  <form action="{% url 'report:delete_report' report.report_id %}"  method="POST"> {% csrf_token %}
                   <button type="submit" class="btn btn-primary">Yes</button>
                   </form>
                 </div>

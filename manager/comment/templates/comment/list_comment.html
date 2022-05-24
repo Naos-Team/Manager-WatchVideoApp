@@ -1,0 +1,86 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<p class="text-center fs-4 fw-bold" style="margin-top: 2%">Video</p>
+{% comment %} {{video_title}} {% endcomment %}
+<ol class="list-group list-group-numbered border border-primary">
+  <li class="list-group-item d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Video Category</div>
+      {{video_cat}}
+    </div>
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Video Views</div>
+      {{video_view}}
+    </div>
+  </li>
+  <li class="list-group-item d-flex justify-content-between align-items-start">
+    <div class="ms-2 me-auto">
+      <div class="fw-bold">Total Comments</div>
+      {{num_cmts}}
+    </div>
+  </li>
+</ol>
+
+
+<div class="list-group border border-primary" style="margin-top: 20px">
+    {% for cmt in cmts %}
+  <li class="list-group-item ">
+    <div class="row g-3">
+      <div class="col-md-1 d-flex justify-content-center align-items-center">
+        <input
+          type="image"
+          class="icon_user"
+          src="{% static 'styles/images/user.png' %}"
+        />
+      </div>
+      <div class="col-md-11 ">
+        <div class="d-flex w-100 justify-content-between align-items-center">
+          <h6 >{{cmt.uid}}</h6>
+          <p style="font-size:12px;">{{cmt.cmt_time}}</p>
+        </div>
+        <div class="d-flex w-100 justify-content-between align-items-center">
+            <p>{{cmt.cmt_text}}</p>
+            <input type="image" class="icon_report" src="{% static 'styles/images/delete.png' %}" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" class="icon_report" />
+          <div
+            class="modal fade"
+            id="exampleModalCenter"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalCenterTitle"
+            aria-hidden="true"
+            
+          >
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">
+                    Are you sure you want to delete comment of user {{cmt.uid}} at {{cmt.cmt_time}} ?
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">{{cmt.cmt_text}} </div>
+                <div class="modal-footer">
+                  <form action="{% url 'comment:delete_comment' cmt.cmt_id %}"  method="POST"> {% csrf_token %}
+                  <button type="submit" class="btn btn-primary">Yes</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      </div>
+    </div>
+  </li>
+  {% endfor %}
+</div>
+
+{% endblock %}

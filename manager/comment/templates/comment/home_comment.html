@@ -6,13 +6,13 @@
     <div class="dropdown">
         <select class="choice-type btn  btn-dark" name="type" select = "4" size = "1" onchange = "window.location.href =  this.value">
           <option value="{% url 'comment:comment_home' 0 %}"
-            {% if video_type == 0%} selected = "selected" {%endif%}>All</option>
+            {% if video_type == 0 %} selected = "selected" {% endif %}>All</option>
           <option value="{% url 'comment:comment_home' 1 %}"
-            {% if video_type == 1%} selected = "selected" {%endif%}>Video</option>
+            {% if video_type == 1 %} selected = "selected" {% endif %}>Video</option>
           <option value="{% url 'comment:comment_home' 2 %}" 
-            {% if video_type == 2%} selected = "selected" {%endif%}>Live TV</option>
+            {% if video_type == 2 %} selected = "selected" {% endif %}>Live TV</option>
           <option value="{% url 'comment:comment_home' 3 %}"
-            {% if video_type == 3%} selected = "selected" {%endif%}>Radio</optoion>
+            {% if video_type == 3 %} selected = "selected" {% endif %}>Radio</optoion>
         </select>
       </div>
     <form class="d-flex" role="search" method="GET" action="{% url 'comment:comment_home' video_type%}"> {% csrf_token %}
@@ -32,10 +32,10 @@
   {% for comment in comments %}
   <tbody>
     <tr>
-      <td>{{comment.vid.vid_id}}</td>
-      <td>{{comment.vid.vid_title}}</td>
+      <td>{{comment.vid_id}}</td>
+      <td>{{comment.vid_title}}</td>
       <td>
-        <form action="{% url 'comment:comment_home' comment.vid.vid_id %}">
+        <form action="{% url 'comment:comment_main' comment.vid_id %}">
           <input type="image" class="icon_report" src="{% static 'styles/images/more.png' %}" />
         </form>
       </td>
