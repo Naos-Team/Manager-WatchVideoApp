@@ -27,8 +27,7 @@ def category(request , pk):
     q_encode = encode_Str(q) if request.GET.get('q') != None else ''
     categories = TblCategory.objects.filter(
         Q(cat_type=pk) &
-        Q(cat_name__icontains= q_encode) |
-        Q(cat_id__icontains= q)
+        Q(cat_name__icontains= q_encode)
         )
     context = {'categories':decode_Cate(categories), 'choice':pk}
     return render(request, 'category/category.html', context)
