@@ -3,19 +3,8 @@
 {% block content %} 
 <nav class="navbar bg-light" style="top: 1%;">
   <div class="container-fluid">
-    <div class="dropdown">
-      <select class="choice-type btn  btn-dark" name="type" select = "4" size = "1" onchange = "window.location.href =  this.value">
-        <option value="{% url 'report:report_main' 0 %}"
-          {% if video_type == 0%} selected = "selected" {%endif%}>All</option>
-        <option value="{% url 'report:report_main' 1 %}"
-          {% if video_type == 1%} selected = "selected" {%endif%}>Video</option>
-        <option value="{% url 'report:report_main' 2 %}" 
-          {% if video_type == 2%} selected = "selected" {%endif%}>Live TV</option>
-        <option value="{% url 'report:report_main' 3 %}"
-          {% if video_type == 3%} selected = "selected" {%endif%}>Radio</optoion>
-      </select>
-    </div>
-    <form class="d-flex" role="search" method="GET" action="{% url 'report:report_main' video_type%}"> {% csrf_token %}
+    <div></div>
+    <form class="d-flex" role="search" method="GET" action="{% url 'report:report_main' video_id%}"> {% csrf_token %}
       <input class="form-control me-2" type="search" placeholder="Search or All" aria-label="Search" name="tv_search_report">
       <button class="btn btn-outline-success" type="submit" name="btn_search_report" style="margin-left:5px;">Search</button>
     </form>
@@ -25,8 +14,9 @@
   <thead class="thead-light">
     <tr>
       <th scope="col">Report ID</th>
-      <th scope="col">UID</th>
-      <th scope="col">Video ID</th>
+      <th scope="col">User ID</th>
+      <th scope="col">Report Content</th>
+      <th scope="col">Report Status</th>
       <th scope="col"></th>
       <th scope="col"></th>
     </tr>
@@ -37,7 +27,8 @@
     
       <td>{{report.report_id}}</td>
       <td>{{report.uid}}</td>
-      <td>{{report.vid.vid_id}}</td>
+      <td>{{report.report_content}}</td>
+      <td>{{report.report_status}}</td>
       <td>
         <form action="{{report.get_absolute_url_report}}">
           <input type="image" class="icon_report" src="{% static 'styles/images/edit.png' %}" />
@@ -87,3 +78,5 @@
 
 
 {% endblock %}
+
+
