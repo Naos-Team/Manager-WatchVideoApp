@@ -29,13 +29,13 @@
       <th scope="col"></th>
     </tr>
   </thead>
-  {% for video in videos %}
+  {% for comment in comments %}
   <tbody>
     <tr>
-      <td>{{video.vid_id}}</td>
-      <td>{{video.vid_title}}</td>
+      <td>{{comment.vid.vid_id}}</td>
+      <td>{{comment.vid.vid_title}}</td>
       <td>
-        <form action="{% url 'comment:comment_home' video.vid_id %}">
+        <form action="{% url 'comment:comment_home' comment.vid.vid_id %}">
           <input type="image" class="icon_report" src="{% static 'styles/images/more.png' %}" />
         </form>
       </td>
