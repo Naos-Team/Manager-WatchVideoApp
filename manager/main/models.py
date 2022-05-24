@@ -9,6 +9,21 @@ from django.db import models
 from django.urls import reverse
 
 
+
+class TblSettingWeb(models.Model):
+    ads_key_banner = models.TextField()
+    ads_key_interstial = models.TextField()
+    ad_display_count = models.IntegerField()
+    ads_key_openads = models.TextField()
+    arr_trend = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'tbl_setting_web'
+        
+    def __str__(self):
+        return self.ads_key_banner + ' ' + self.ads_key_interstial
+
 class TblCategory(models.Model):
     cat_id = models.AutoField(primary_key=True)
     cat_name = models.CharField(max_length=100, db_collation='utf8_unicode_ci')

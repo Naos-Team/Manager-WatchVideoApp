@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'category',
     'comment',
     'managervideo',
+    'settingweb',
 ]
 
 MIDDLEWARE = [
@@ -88,7 +89,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost', 
-        'PORT': 3308,
+        'PORT': 3307,
     }
 
     # 'default': {
