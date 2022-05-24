@@ -1,0 +1,53 @@
+{% extends 'main.html' %} {% load static %} {% block style %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'styles/category/category.css' %}"
+/>
+{% endblock style%}
+{% block title %}Manager Video{% endblock title %} {% block content %}
+<div class="taskbar_category">
+  <select class="choice-type" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
+    <option value="{% url 'managervideo:managervideo' 1 %}"
+      {% if choice == "1"%} selected = "selected" {%endif%}>Video</option>
+    <option value="{% url 'managervideo:managervideo' 2 %}" 
+      {% if choice == "2"%} selected = "selected" {%endif%}>Live TV</option>
+    <option value="{% url 'managervideo:managervideo' 3 %}"
+      {% if choice == "3"%} selected = "selected" {%endif%}>Radio</optoion>
+  </select>
+  <div class="input-group" >
+    <form action="{% url 'managervideo:managervideo' choice %}" method = "GET">
+      <input type="text" name = "q" placeholder = "Search Video...."/>
+    </form>
+    <a type="button" href="{%url 'category:add' pk=choice%}" class="btn btn-outline-primary">ADD VIDEO</a>
+  </div>
+</div>
+<div class="row content_category">
+  {% for category in categories %}
+  <div
+    class="card"
+    style="
+      width: 30%;
+      padding-left: 15px;
+      padding-right: 15px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+    "
+  >
+    <img src="{{category.cat_image}}" class="card-img-top" alt="..." />
+    <div class="card-body">
+      <h5 class="card-title">{{category.cat_name}}</h5>
+      <a href="{% url 'category:edit' pk=choice  id=category.cat_id %}" class="btn btn-primary">Edit</a>
+      <a type="button" href = "{% url 'category:delcate' pk=choice  id=category.cat_id pk=choice  id=category.cat_id %}" class="btn btn-primary">
+        {% if category.cat_status == 1%}
+            Disable
+        {%else%}
+            Enable
+        {%endif%}
+      </a>
+     
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock content %}

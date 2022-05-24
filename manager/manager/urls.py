@@ -21,4 +21,5 @@ urlpatterns = [
     path('', include('main.urls')),
     path('report/', include('report.urls')),
     path('', include('category.urls')),
+    path('', include('managervideo.urls')),
 ]
