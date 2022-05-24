@@ -5,17 +5,17 @@
   <div class="container-fluid">
     <div class="dropdown">
         <select class="choice-type btn  btn-dark" name="type" select = "4" size = "1" onchange = "window.location.href =  this.value">
-          <option value="{% url 'report:report_home' 0 %}"
+          <option value="{% url 'comment:comment_home' 0 %}"
             {% if video_type == 0%} selected = "selected" {%endif%}>All</option>
-          <option value="{% url 'report:report_home' 1 %}"
+          <option value="{% url 'comment:comment_home' 1 %}"
             {% if video_type == 1%} selected = "selected" {%endif%}>Video</option>
-          <option value="{% url 'report:report_home' 2 %}" 
+          <option value="{% url 'comment:comment_home' 2 %}" 
             {% if video_type == 2%} selected = "selected" {%endif%}>Live TV</option>
-          <option value="{% url 'report:report_home' 3 %}"
+          <option value="{% url 'comment:comment_home' 3 %}"
             {% if video_type == 3%} selected = "selected" {%endif%}>Radio</optoion>
         </select>
       </div>
-    <form class="d-flex" role="search" method="GET" action="{% url 'report:report_home' video_type%}"> {% csrf_token %}
+    <form class="d-flex" role="search" method="GET" action="{% url 'comment:comment_home' video_type%}"> {% csrf_token %}
       <input class="form-control me-2" type="search" placeholder="Search or All" aria-label="Search" name="tv_search_video">
       <button class="btn btn-outline-success" type="submit" name="btn_search_video" style="margin-left:5px;">Search</button>
     </form>
@@ -29,13 +29,13 @@
       <th scope="col"></th>
     </tr>
   </thead>
-  {% for report in reports %}
+  {% for video in videos %}
   <tbody>
     <tr>
-      <td>{{report.vid.vid_id}}</td>
-      <td>{{report.vid.vid_title}}</td>
+      <td>{{video.vid_id}}</td>
+      <td>{{video.vid_title}}</td>
       <td>
-        <form action="{% url 'report:report_main' report.vid.vid_id %}">
+        <form action="{% url 'comment:comment_home' video.vid_id %}">
           <input type="image" class="icon_report" src="{% static 'styles/images/more.png' %}" />
         </form>
       </td>
