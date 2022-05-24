@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'report',
     'category',
     'comment',
+    'managervideo',
 ]
 
 MIDDLEWARE = [
