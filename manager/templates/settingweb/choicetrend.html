@@ -1,0 +1,54 @@
+{% extends 'main.html' %}
+
+{% block title %}
+    Choice
+    {% if type == "1"%} VIDEO {%endif%}
+    {% if type == "2"%} TV {%endif%}
+    {% if type == "3"%} RADIO {%endif%} 
+    Trending
+{% endblock title %}
+
+{% block content %}
+<div class="card border-dark bg-light my-1">
+    <p class="card-header h3 text-white bg-dark">
+        Choice
+        {% if type == "1"%} VIDEO {%endif%}
+        {% if type == "2"%} TV {%endif%}
+        {% if type == "3"%} RADIO {%endif%} 
+        Trending
+    </p>
+    <form method="post" action="{% url 'settingweb:choice' type%}" class="fw-bold p-4">
+        {% csrf_token %}
+        {% for video in videos %}
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{video.vid_thumbnail}}" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col">
+                        <div class="card-body">
+                            <h5 class="card-title">{{video.vid_title}}</h5>
+                        </div>
+                    </div>
+                    <div  class="col-md-1">
+                        <div class="form-check" >
+                            <input name="list_trend" style = "width:30px; height:30px; right:0px;" class="form-check-input" type="checkbox" value="{{video.vid_id}}" id="check{{video.vid_id}}"
+                            {% for trend in list_trend %}
+                                {% if trend == video.vid_id %}
+                                    checked
+                                {% endif %}
+                            {% endfor %}>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div
+            class="d-flex mt-5 flex-row justify-content-end align-items-center"
+        >
+            <input type="submit" class="btn btn-primary me-2" value="Save"/>
+            <a type="button" href="{% url 'settingweb:setting' 1%}" class="btn btn-danger" value="Back">Back</a>
+        </div>
+    </form>
+</div>        
+{% endblock content %}

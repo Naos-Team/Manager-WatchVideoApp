@@ -15,8 +15,10 @@ class TblSettingWeb(models.Model):
     ads_key_interstial = models.TextField()
     ad_display_count = models.IntegerField()
     ads_key_openads = models.TextField()
-    arr_trend = models.TextField()
-
+    arr_vid_trend = models.TextField(db_column='arr_Vid_trend')  # Field name made lowercase.
+    arr_tv_trend = models.TextField(db_column='arr_TV_trend')  # Field name made lowercase.
+    arr_radi_trend = models.TextField(db_column='arr_Radi_trend')  # Field name made lowercase.
+    
     class Meta:
         managed = False
         db_table = 'tbl_setting_web'
