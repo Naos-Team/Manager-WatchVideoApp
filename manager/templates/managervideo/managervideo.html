@@ -7,7 +7,7 @@
 {% endblock style%}
 {% block title %}Manager Video{% endblock title %} {% block content %}
 <div class="taskbar_category">
-  <select class="choice-type" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
+  <select class="form-select form-select-lg mb-3" style="width:15%;" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
     <option value="{% url 'managervideo:managervideo' pk=1 cat=0%}"
       {% if choice == "1"%} selected = "selected" {%endif%}>Video</option>
     <option value="{% url 'managervideo:managervideo' pk=2 cat=0%}" 
@@ -15,7 +15,7 @@
     <option value="{% url 'managervideo:managervideo' pk=3 cat=0%}"
       {% if choice == "3"%} selected = "selected" {%endif%}>Radio</optoion>
   </select>
-  <select class="choice-cate" name="cate" select = "2" size = "1" onchange = "window.location.href =  this.value">
+  <select class="form-select form-select-lg mb-3" style="width:15%;" name="cate" select = "2" size = "1" onchange = "window.location.href =  this.value">
     <option value="{% url 'managervideo:managervideo' pk=choice cat=0%}">All Category</option>
     {% for category in categories %}
 
@@ -26,7 +26,7 @@
   </select>
   <div class="input-group" >
     <form action="{% url 'managervideo:managervideo' pk=choice cat=cat %}" method = "GET">
-      <input type="text" name = "q" placeholder = "Search Video...."/>
+      <input class="input-group-text" type="text" name = "q" placeholder = "Search Video...."/>
     </form>
     <a type="button" 
       {% if choice == "1"%} 
