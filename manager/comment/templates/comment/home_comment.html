@@ -26,21 +26,31 @@
     <tr>
       <th scope="col">Video ID</th>
       <th scope="col">Video Title</th>
+      <th scope="col">Total Comments</th>
       <th scope="col"></th>
     </tr>
   </thead>
-  {% for comment in comments %}
+  
+  {% for x,y in list_vid %}
+  {% if y!=0 %}
   <tbody>
     <tr>
-      <td>{{comment.vid_id}}</td>
-      <td>{{comment.vid_title}}</td>
+      <td>{{x.vid_id}}</td>
+      <td>{{x.vid_title}}</td>
+      <td>{{y}}</td>
       <td>
-        <form action="{% url 'comment:comment_main' comment.vid_id %}">
+        <form action="{% url 'comment:comment_main' x.vid_id %}">
           <input type="image" class="icon_report" src="{% static 'styles/images/more.png' %}" />
         </form>
       </td>
+      
     </tr>
+    
   </tbody>
+  {% endif %} 
   {% endfor %} 
+ 
+  
+
 </table>
 {% endblock %}

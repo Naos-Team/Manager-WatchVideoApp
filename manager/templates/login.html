@@ -19,11 +19,17 @@
             crossorigin="anonymous"
         />
     </head>
-    <body>
-        <div class="login_container">
+    <body style="background-color: #f0f8ff">
+
+        
+        
+        <span class="login_container">
+            <img src="{% static 'styles/images/login.png' %}" alt="" style="width:20%; height:40%; align:center">
             <div class="cardparent card">
+                
                 <div class="card-body">
                     <div>
+                        
                         <form method="POST">
                             {% csrf_token %}
                             <div class="form-group">
@@ -56,6 +62,6 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </span>
     </body>
 </html>

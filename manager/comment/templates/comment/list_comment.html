@@ -1,5 +1,15 @@
-{% extends 'main.html' %} {% load static %} {% block content %}
-<p class="text-center fs-4 fw-bold" style="margin-top: 2%">Video</p>
+{% extends 'main.html' %} 
+{% load static %} 
+{% block content %}
+<nav class="navbar bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand">sdasdasdjiasdiadu</a>
+    <form class="d-flex" role="search" method="GET" action="{% url 'comment:comment_main' video_id %}"> {% csrf_token %}
+      <input class="form-control me-2" type="search" name="tv_search_cmt" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" name="btn_search_cmt" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
 {% comment %} {{video_title}} {% endcomment %}
 <ol class="list-group list-group-numbered border border-primary">
   <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -41,20 +51,20 @@
         </div>
         <div class="d-flex w-100 justify-content-between align-items-center">
             <p>{{cmt.cmt_text}}</p>
-            <input type="image" class="icon_report" src="{% static 'styles/images/delete.png' %}" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" class="icon_report" />
+            <input type="image" class="icon_report" src="{% static 'styles/images/delete.png' %}" data-bs-toggle="modal" data-bs-target="#mymodal{{cmt.cmt_id}}" class="icon_report" />
           <div
             class="modal fade"
-            id="exampleModalCenter"
+            id="mymodal{{cmt.cmt_id}}"
             tabindex="-1"
             role="dialog"
             aria-labelledby="exampleModalCenterTitle"
             aria-hidden="true"
             
           >
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-dialog-centered" role="document" id="a{{cmt.cmt_id}}">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">
+                  <h5 class="modal-title" id="b{{cmt.cmt_id}}">
                     Are you sure you want to delete comment of user {{cmt.uid}} at {{cmt.cmt_time}} ?
                   </h5>
                   <button

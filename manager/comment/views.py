@@ -22,6 +22,19 @@ def decode_Cmt(comments):
         comment = decode_Item_Cmt(comment)
     return comments
 
+def decode_Item_Vid(video):
+    video.vid_title = bs.decode_Str(video.vid_title)
+    video.vid_url = bs.decode_Str(video.vid_url)
+    video.vid_thumbnail = bs.decode_Str(video.vid_thumbnail)
+    video.vid_description = bs.decode_Str(video.vid_description)
+    return video
+
+def decode_Vid(videos):
+    for video in videos:
+        video = decode_Item_Vid(video)
+    return videos
+
+
 
 
 def comment_home(request, video_type):
@@ -44,19 +57,33 @@ def comment_home(request, video_type):
 
     video_search = request.GET.get('tv_search_video') if request.GET.get('tv_search_video') != None else ''
     if (video_search=="" and video_type==0):
-        comments = TblVideo.objects.all()
+        videos = TblVideo.objects.all()
     elif (video_search==""):
-        comments = TblVideo.objects.filter(vid_type = video_type)
+        videos = TblVideo.objects.filter(vid_type = video_type)
     else:
         if video_search.isnumeric():
-            comments = TblVideo.objects.filter(Q(vid_id = video_search) | Q(vid_type = video_type) )
+            videos = TblVideo.objects.filter(Q(vid_id = video_search) & Q(vid_type = video_type) )
         else:
             if video_search.lower() == 'all':
-                comments = TblVideo.objects.all()
+                videos = TblVideo.objects.all()
             else:
-                comments = TblVideo.objects.filter(Q(vid_title = video_search) | Q(vid_type = video_type) )
+                videos = TblVideo.objects.filter(Q(vid_title = video_search) & Q(vid_type = video_type) )
 
-    context = {'comments': comments, 'video_type':video_type}
+    cmt_count =  []
+    videos_de = decode_Vid(videos)
+
+    for video in videos:
+        cmts = TblComment.objects.filter(vid = video)
+        cmt_count.append(len(cmts))
+
+    list_vid = []
+    for i in range(0,len(videos_de)):
+        temp = []
+        temp.append(videos_de[i])
+        temp.append(cmt_count[i])
+        list_vid.append(temp)
+        
+    context = {'list_vid': list_vid, 'video_type':video_type}
     return render(request, 'comment/home_comment.html', context)
 
 def comment_main(request, video_id):
@@ -65,23 +92,21 @@ def comment_main(request, video_id):
         cmts = TblComment.objects.filter(vid__vid_id = video_id)
     else:
         if cmt_search.isnumeric():
-            cmts = TblComment.objects.filter(Q(report_id = cmt_search) | Q(vid__vid_id = video_id))
+            cmts = TblComment.objects.filter(Q(cmt_id = cmt_search) & Q(vid__vid_id = video_id))
         else:
             if cmt_search.lower() == 'all':
                 cmts = TblComment.objects.all()
             else:
-                cmts = TblComment.objects.filter(Q(uid = cmt_search) | Q(vid__vid_id = video_id)) 
+                cmt_search_en = bs.encode_Str(cmt_search)
+                cmts = TblComment.objects.filter(Q(uid__uid__icontains = cmt_search_en) | Q(cmt_text = cmt_search_en) & Q(vid__vid_id = video_id)) 
 
     video = get_object_or_404(TblVideo, vid_id = video_id)
-
-    video_view = video.vid_view
 
     context = {
         'cmts': decode_Cmt(cmts), 
         'video_id' : video_id, 
         'video_cat' : bs.decode_Str(video.cat.cat_name), 
-  
-        'video_view': video_view, 
+        'video_view': video.vid_view, 
         'num_cmts': len(cmts),
     }
     return render(request, 'comment/list_comment.html', context)

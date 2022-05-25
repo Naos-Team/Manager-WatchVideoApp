@@ -35,10 +35,10 @@
         
       </td>
       <td>
-        <input type="image" class="icon_report" src="{% static 'styles/images/delete.png' %}" data-bs-toggle="modal" data-bs-target="#exampleModalCenter" class="icon_report" />
+        <input type="image" class="icon_report" src="{% static 'styles/images/delete.png' %}" data-bs-toggle="modal" data-bs-target="#modal{{report.report_id}}" class="icon_report" />
           <div
             class="modal fade"
-            id="exampleModalCenter"
+            id="modal{{report.report_id}}"
             tabindex="-1"
             role="dialog"
             aria-labelledby="exampleModalCenterTitle"
@@ -48,7 +48,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">
+                  <h5 class="modal-title" id="a{{report.report_id}}">
                     Are you sure you want to delete?
                   </h5>
                   <button

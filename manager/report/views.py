@@ -21,23 +21,50 @@ def decode_Report(reports):
         report = decode_Item_Report(report)
     return reports
 
+def decode_Item_Vid(video):
+    video.vid_title = bs.decode_Str(video.vid_title)
+    video.vid_url = bs.decode_Str(video.vid_url)
+    video.vid_thumbnail = bs.decode_Str(video.vid_thumbnail)
+    video.vid_description = bs.decode_Str(video.vid_description)
+    return video
+
+def decode_Vid(videos):
+    for video in videos:
+        video = decode_Item_Vid( video )
+    return videos
+
 
 def report_home(request, video_type):
     video_search = request.GET.get('tv_search_video') if request.GET.get('tv_search_video') != None else ''
     if (video_search=="" and video_type==0):
-        reports = TblReport.objects.all()
+        videos = TblVideo.objects.all()
     elif (video_search==""):
-        reports = TblReport.objects.filter(vid__vid_type = video_type)
+        videos = TblVideo.objects.filter(vid__vid_type = video_type)
     else:
         if video_search.isnumeric():
-            reports = TblReport.objects.filter(Q(vid__vid_id = video_search) | Q(vid__vid_type = video_type) )
+            videos = TblVideo.objects.filter(Q(vid__vid_id = video_search) & Q(vid__vid_type = video_type) )
         else:
             if video_search.lower() == 'all':
-                reports = TblReport.objects.all()
+                videos = TblVideo.objects.all()
             else:
-                reports = TblReport.objects.filter(Q(vid__vid_title = video_search) | Q(vid__vid_type = video_type) )
+                videos = TblVideo.objects.filter(Q(vid__vid_title = video_search) & Q(vid__vid_type = video_type) )
+    
+    re_count =  []
+    videos_de = decode_Vid(videos)
 
-    context = {'reports': decode_Report(reports), 'video_type':video_type}
+    for video in videos:
+        reports = TblReport.objects.filter(vid = video)
+        re_count.append(len(reports))
+
+    list_vid = []
+    for i in range(0,len(videos_de)):
+        temp = []
+        temp.append(videos_de[i])
+        temp.append(re_count[i])
+        list_vid.append(temp)
+        
+
+    context = {'list_vid':list_vid, 'video_type':video_type}
     return render(request, 'report/home_report.html', context)
 
 
@@ -47,12 +74,12 @@ def report_main(request, video_id):
         reports = TblReport.objects.filter(vid__vid_id = video_id)
     else:
         if report_search.isnumeric():
-            reports = TblReport.objects.filter(Q(report_id = report_search) | Q(vid__vid_id = video_id))
+            reports = TblReport.objects.filter(Q(report_id = report_search) & Q(vid__vid_id = video_id))
         else:
             if report_search.lower() == 'all':
                 reports = TblReport.objects.all()
             else:
-                reports = TblReport.objects.filter(Q(uid = report_search) | Q(vid__vid_id = video_id))   
+                reports = TblReport.objects.filter(Q(uid = report_search) & Q(vid__vid_id = video_id))   
     i = len(reports)
     if i == 1 or i == 0:
         num_reports = str(i) + ' Report Here';
