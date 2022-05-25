@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include('managervideo.urls')),
     path('', include('settingweb.urls')),
     path('comment/', include('comment.urls')),
+    path('video/', include('videoapp.urls')),
 ]
