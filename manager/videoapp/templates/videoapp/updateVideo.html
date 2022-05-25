@@ -1,7 +1,7 @@
 {% extends 'main.html' %} {% block content %}
 
 <div class="card border-dark bg-light my-1">
-    <p class="card-header h3 text-white bg-dark">VIDEO DETAIL</p>
+    <p class="card-header h3 fw-bold text-white bg-dark"> {% if mode == 'create' %}CREATE NEW VIDEO{% else %}VIDEO DETAIL{% endif %}</p>
 
     <form id="form_update" method="post" enctype="multipart/form-data" action="" class="fw-bold p-4">
         {% csrf_token %}
@@ -12,10 +12,10 @@
                     <input id="image_picker" accept="image/*" class="form-control" name="file_img" type="file" id="formFile">
                 </div>
             </div>
-            <div class="col-md-4 d-flex align-items-center justify-content-center border border-primary bg-dark">
+            <div class="col-md-4 d-flex align-items-center justify-content-center border border-primary bg-secondary">
                 
                 <div class="d-flex flex-row justify-content-center">
-                    <img id="image" class="w-75" alt="Can't show that picture" src="{{video.vid_thumbnail}}"/>
+                    <img id="image" class="w-75" alt="Can't show that picture" src="{% if mode == 'create' %}https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640{% else %} {{video.vid_thumbnail}} {% endif %}"/>
                     <input type="hidden" name="thumbnail" value="{{video.vid_thumbnail}}"/>
                 </div>  
                 
@@ -34,7 +34,9 @@
             />
         </div>
 
-        <div class="mb-3 row g-3">
+
+
+        <div class="{% if mode == 'create' %}visually-hidden{% endif %} mb-3 row g-3">
             <div class="form-group col-md-4">
                 <label class="form-label" for="exampleFormControlInput1">ID</label>
                 <input
@@ -48,7 +50,7 @@
                 />
             </div>
             <div class="form-group col-md-4">
-                <label class="form-label" for="exampleFormControlInput1">Duration</label>
+                <label class="form-label" for="exampleFormControlInput1">Duration (second)</label>
                 <input
                     name="duration"
                     type="number"
@@ -110,10 +112,8 @@
                 class="form-control"
                 id="exampleFormControlTextarea1"
                 required
-                rows="6"
-            >
-            {{video.vid_description}}
-            </textarea
+                rows="5"
+            >{{video.vid_description}}</textarea
             >
         </div>
         <div class="row g-3 mb-3">
@@ -143,14 +143,14 @@
         </div>
         <div class="form-group">
             <label class="form-label" for="exampleFormControlSelect1">Status</label>
-            <select class="form-control" id="exampleFormControlSelect1">
+            <select name="status" class="form-control" id="exampleFormControlSelect1">
 
-                {% if video.vid_status == 1 %}
-                <option name="status" value="1" selected="selected">Enable</option>
-                <option name="status" value="0">Disable</option>
+                {% if video.vid_status == 0 %}
+                <option value="1">Enable</option>
+                <option value="0" selected="selected">Disable</option>
                 {% else %}
-                <option name="status" value="1">Enable</option>
-                <option name="status" value="0" selected="selected">Disable</option>
+                <option value="1" selected="selected">Enable</option>
+                <option value="0">Disable</option>
                 {% endif %}
 
             </select>
@@ -160,7 +160,7 @@
             class="d-flex mt-5 flex-row justify-content-end align-items-center"
         >
             <input type="submit" onclick="save()" class="btn btn-primary me-2" value="Save"/>
-            <input type="submit" class="btn btn-danger" value="Cancel" />
+            <button class="btn btn-danger" onClick="javascript:history.go(-1);" />Cancel</button>
         </div>
     </form>
     <form id="form_check" method="post" action="{% url 'videoapp:player' %}">
@@ -170,7 +170,6 @@
 </div>
 
 <script>
-
 
     form_update = document.getElementById("form_update");
 
