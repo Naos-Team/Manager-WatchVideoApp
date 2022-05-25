@@ -20,8 +20,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('report/', include('report.urls')),
-    path('', include('category.urls')),
+    path('category/', include('category.urls')),
     path('', include('managervideo.urls')),
-    path('', include('settingweb.urls')),
+    path('setting/', include('settingweb.urls')),
     path('comment/', include('comment.urls')),
 ]

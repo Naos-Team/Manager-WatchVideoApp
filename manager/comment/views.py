@@ -76,13 +76,21 @@ def comment_home(request, video_type):
         cmts = TblComment.objects.filter(vid = video)
         cmt_count.append(len(cmts))
 
+    temp = []
     list_vid = []
     for i in range(0,len(videos_de)):
-        temp = []
-        temp.append(videos_de[i])
-        temp.append(cmt_count[i])
-        list_vid.append(temp)
-        
+        temp__ = []
+        temp__.append(videos_de[i])
+        temp__.append(cmt_count[i])
+        temp.append(temp__)
+
+    for x,y in temp:
+        temp_ = []
+        if y!=0:
+            temp_.append(x)
+            temp_.append(y)
+            list_vid.append(temp_)
+
     context = {'list_vid': list_vid, 'video_type':video_type}
     return render(request, 'comment/home_comment.html', context)
 
@@ -106,12 +114,13 @@ def comment_main(request, video_id):
         'cmts': decode_Cmt(cmts), 
         'video_id' : video_id, 
         'video_cat' : bs.decode_Str(video.cat.cat_name), 
+        'video_title' : bs.decode_Str(video.vid_title), 
         'video_view': video.vid_view, 
         'num_cmts': len(cmts),
     }
     return render(request, 'comment/list_comment.html', context)
 
-        #   'video_title' : bs.decode_Str(video.vid_title), 
+        
 
 def delete_comment(request, cmt_id):
     comment = get_object_or_404(TblComment, cmt_id=cmt_id)

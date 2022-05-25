@@ -50,6 +50,7 @@ def report_home(request, video_type):
                 videos = TblVideo.objects.filter(Q(vid__vid_title = video_search) & Q(vid__vid_type = video_type) )
     
     re_count =  []
+    temp = []
     videos_de = decode_Vid(videos)
 
     for video in videos:
@@ -58,10 +59,17 @@ def report_home(request, video_type):
 
     list_vid = []
     for i in range(0,len(videos_de)):
-        temp = []
-        temp.append(videos_de[i])
-        temp.append(re_count[i])
-        list_vid.append(temp)
+        temp__ = []
+        temp__.append(videos_de[i])
+        temp__.append(re_count[i])
+        temp.append(temp__)
+
+    for x,y in temp:
+        temp_=[]
+        if y!=0:
+            temp_.append(x)
+            temp_.append(y)
+            list_vid.append(temp_)
         
 
     context = {'list_vid':list_vid, 'video_type':video_type}

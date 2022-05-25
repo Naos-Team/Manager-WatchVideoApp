@@ -3,7 +3,7 @@
 {% block content %}
 <nav class="navbar bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand">sdasdasdjiasdiadu</a>
+    <a class="navbar-brand fw-bold text-primary">{{video_title}}</a>
     <form class="d-flex" role="search" method="GET" action="{% url 'comment:comment_main' video_id %}"> {% csrf_token %}
       <input class="form-control me-2" type="search" name="tv_search_cmt" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success" name="btn_search_cmt" type="submit">Search</button>

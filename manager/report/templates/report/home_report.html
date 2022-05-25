@@ -31,20 +31,18 @@
     </tr>
   </thead>
   {% for x,y in list_vid %}
-  {% if y!=0 %}
   <tbody>
     <tr>
       <td>{{x.vid_id}}</td>
       <td>{{x.vid_title}}</td>
       <td>{{y}}</td>
       <td>
-        <form action="{% url 'report:report_main' x.vid_id %}">
+        <form action="{% url 'report:report_main' x.vid_id %}"
           <input type="image" class="icon_report" src="{% static 'styles/images/more.png' %}" />
         </form>
       </td>
     </tr>
   </tbody>
-  {% endif %}
   {% endfor %} 
 </table>
 {% endblock %}
