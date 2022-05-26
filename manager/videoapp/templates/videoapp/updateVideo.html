@@ -176,7 +176,9 @@
     }
 
     function save(){
-        form_update.submit();
+        if (confirm("Please confirm your action!") == true) {
+            form_update.submit();
+        }
     }
 
     function checkVideo(){
