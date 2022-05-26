@@ -6,6 +6,7 @@ from .categoryform import CategoryForm
 from django.contrib.auth.decorators import login_required
 import main.base64_change as bs
 import base64
+from django.core.paginator import Paginator
 # Create your views here.
 def decode_Item_cate(category):
     category.cat_name = bs.decode_Str(category.cat_name)
@@ -24,7 +25,13 @@ def category(request , pk):
         Q(cat_type=pk) &
         Q(cat_name__icontains= q_encode)
         )
-    context = {'categories':decode_Cate(categories), 'choice':pk}
+
+    categories_de = decode_Cate(categories)
+    p = Paginator(categories_de, 8)
+    page = request.GET.get('page') 
+    list_cats = p.get_page(page)
+    nums = "a" * list_cats.paginator.num_pages
+    context = {'list_cats':list_cats, 'nums': nums, 'choice':pk}
     return render(request, 'category/category.html', context)
 
 @login_required(login_url='/login')

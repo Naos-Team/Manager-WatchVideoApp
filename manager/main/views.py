@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 
 def login_view(request):
     if(request.user.is_authenticated):
-        return render(request, 'main.html')
+        return redirect("managervideo:managervideo", 1, 0)
 
     context = {}
 
@@ -21,7 +21,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return render(request, 'main.html', context)
+                return redirect("managervideo:managervideo", 1, 0)
             else:
                 messages.error(request, "Wrong password!")
         except:

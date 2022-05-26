@@ -11,6 +11,7 @@ import main.base64_change as bs
 from .videoform import VideoForm
 from datetime import date
 import base64
+from django.core.paginator import Paginator
 # Create your views here.
 
 def decode_Item_cate(category):
@@ -56,7 +57,13 @@ def managervideo(request , pk, cat):
             Q(vid_description__icontains=q_encode))
         )
     videos = decode_Video(videos)
-    context = {'choice':pk, 'cat':cat, 'categories':categories, 'videos':videos, 'test':q_encode}
+
+    #Paginator
+    p = Paginator(videos, 8)
+    page = request.GET.get('page') 
+    list_res = p.get_page(page)
+    nums = "a" * list_res.paginator.num_pages
+    context = {'choice':pk, 'cat':cat, 'categories':categories, 'videos':videos, 'test':q_encode, 'nums':nums}
     return render(request, 'managervideo/managervideo.html', context)
 
 @login_required(login_url='/login')

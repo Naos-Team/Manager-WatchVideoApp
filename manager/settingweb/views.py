@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 import main.base64_change as bs
 from .stwform import SettingForm
+from django.core.paginator import Paginator
 # Create your views here.
 
 def decode_Item_Setting(stw):
@@ -74,7 +75,14 @@ def choiceTrending(request, type):
         videos = decode_Video(videos)
         list_trend.pop(0)
         list_trend = [int(item) for item in list_trend]
-        context = {'type':type, 'videos':videos, 'list_trend':list_trend}
+
+        #Paginator
+        p = Paginator(videos, 5)
+        page = request.GET.get('page') 
+        list_vid = p.get_page(page)
+        nums = "a" * list_vid.paginator.num_pages
+
+        context = {'type':type, 'videos':list_vid, 'list_trend':list_trend, 'nums': nums}
         return render(request, 'settingweb/choicetrend.html', context)
 
 def updateSTW(request):

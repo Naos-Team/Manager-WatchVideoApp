@@ -5,9 +5,11 @@
   href="{% static 'styles/category/category.css' %}"
 />
 {% endblock style%}
-{% block title %}Category{% endblock title %} {% block content %}
+{% block title %}Category{% endblock title %} 
+{% block content %}
+<div>
 <div class="taskbar_category">
-  <select class="form-select form-select-lg mb-3" style="width:15%;" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
+  <select  class="form-select form-select-lg mb-3" style="width:15%;" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
     <option value="{% url 'category:category' 1 %}"
       {% if choice == "1"%} selected = "selected" {%endif%}>Video</option>
     <option value="{% url 'category:category' 2 %}" 
@@ -23,7 +25,7 @@
   </div>
 </div>
 <div class="row content_category">
-  {% for category in categories %}
+  {% for category in list_cats %}
   <div
     class="card"
     style="
@@ -32,9 +34,29 @@
       padding-right: 15px;
       padding-top: 15px;
       padding-bottom: 15px;
+      margin-left: 20px;
+      margin-bottom: 15px;
     "
   >
-    <img src="{{category.cat_image}}" class="card-img-top" alt="..." />
+    <div
+    style = "
+      height:300px;
+      position: relative;
+      overflow: hidden;
+    "
+    class="card-img-top">
+      <img  src="{{category.cat_image}}"
+      style = "
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        height: 100%;
+        min-width: 100%;
+        -webkit-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+                transform: translate(-50%,-50%);
+      " />
+    </div>
     <div class="card-body">
       <h5 class="card-title">{{category.cat_name}}</h5>
       <a href="{% url 'category:edit' pk=choice  id=category.cat_id %}" class="btn btn-primary">Edit</a>
@@ -50,4 +72,22 @@
   </div>
   {% endfor %}
 </div>
+<nav aria-label="Page navigation example ">
+  <ul class="pagination">
+    {% if list_cats.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{list_cats.previous_page_number}}">Previous</a></li>
+    {% endif %}
+    {% for i in nums %}
+    <li class="page-item"><a class="page-link" href="?page={{forloop.counter}}">{{forloop.counter}}</a></li>
+    {% endfor %}
+    {% if list_cats.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{list_cats.next_page_number}}">Next</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{list_cats.paginator.num_pages}}">Last &raquo</a></li>
+    {% endif %}
+  </ul>
+</nav>
+</div>
+
+
 {% endblock content %}

@@ -9,6 +9,7 @@
 {% endblock title %}
 
 {% block content %}
+<div>
 <div class="card border-dark bg-light my-1">
     <p class="card-header h3 text-white bg-dark">
         Choice
@@ -23,7 +24,25 @@
             <div class="card mb-3" style="max-width: 540px;">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img src="{{video.vid_thumbnail}}" class="img-fluid rounded-start" alt="...">
+                        <div
+                            style = "
+                            height:180px;
+                            position: relative;
+                            overflow: hidden;
+                            "
+                            class="card-img-top">
+                            <img  src="{{video.vid_thumbnail}}"
+                            style = "
+                                position: absolute;
+                                left: 50%;
+                                top: 50%;
+                                height: 100%;
+                                min-width: 100%;
+                                -webkit-transform: translate(-50%,-50%);
+                                    -ms-transform: translate(-50%,-50%);
+                                        transform: translate(-50%,-50%);
+                            " />
+                        </div>
                     </div>
                     <div class="col">
                         <div class="card-body">
@@ -43,12 +62,30 @@
                 </div>
             </div>
         {% endfor %}
+
         <div
             class="d-flex mt-5 flex-row justify-content-end align-items-center"
         >
+            <nav aria-label="Page navigation example " class="position-absolute bottom-0 start-0" style="margin-left:20px;">
+                <ul class="pagination">
+                {% if videos.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{videos.previous_page_number}}">Previous</a></li>
+                {% endif %}
+                {% for i in nums %}
+                <li class="page-item"><a class="page-link" href="?page={{forloop.counter}}">{{forloop.counter}}</a></li>
+                {% endfor %}
+                {% if videos.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{videos.next_page_number}}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{videos.paginator.num_pages}}">Last &raquo</a></li>
+                {% endif %}
+                </ul>
+            </nav>
             <input type="submit" class="btn btn-primary me-2" value="Save"/>
             <a type="button" href="{% url 'settingweb:setting' 1%}" class="btn btn-danger" value="Back">Back</a>
         </div>
     </form>
+    </div>
+
 </div>        
 {% endblock content %}
