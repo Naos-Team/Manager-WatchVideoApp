@@ -32,7 +32,7 @@
     </form>
     <a type="button" 
       {% if choice == "1"%} 
-        href="#" 
+        href="{% url 'videoapp:create' %}" 
       {% else %}
         href = "{% url 'managervideo:addvideo' pk=choice cat=cat%}"
       {% endif %}
@@ -76,11 +76,12 @@
       <h5 class="card-title">{{video.vid_title}}</h5>
       <a type="button"
       {% if choice == "1"%} 
-        href="#" 
+        href="{% url 'videoapp:update' video.vid_id %}" 
       {% else %}
         href = "{% url 'managervideo:editvideo' pk=choice cat=cat id=video.vid_id%}"
       {% endif %} class="btn btn-primary">Edit</a>
-      <a type="button" href = "{% url 'managervideo:disablevideo' pk=choice cat=cat id=video.vid_id  %}" class="btn btn-primary">
+      <a type="button" href = "{% url 'managervideo:disablevideo' pk=choice cat=cat id=video.vid_id  %}" 
+        class=" {% if video.vid_status == 1 %}btn btn-primary{% else %}btn btn-secondary{% endif %} ">
         {% if video.vid_status == 1%}
             Disable
         {%else%}
