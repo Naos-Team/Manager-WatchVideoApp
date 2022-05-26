@@ -39,7 +39,9 @@
       class="btn btn-outline-primary">ADD VIDEO</a>
   </div>
 </div>
-<div class="row content_category" style = "overflow-y:scroll; height:70vh">
+
+<div style = "overflow-y:scroll; height:80vh">
+<div class="row content_category" >
   {% for video in videos %}
   <div
     class="card"
@@ -92,6 +94,7 @@
     </div>
   </div>
   {% endfor %}
+</div>
 </div>
 <nav aria-label="Page navigation example ">
   <ul class="pagination">
