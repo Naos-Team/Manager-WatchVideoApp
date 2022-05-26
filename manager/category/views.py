@@ -23,14 +23,16 @@ def decode_Cate(categories):
 
 def category(request , pk):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
-    q_encode = bs.encode_Str(q) if request.GET.get('q') != None else ''
     categories = TblCategory.objects.filter(
-        Q(cat_type=pk) &
-        Q(cat_name__icontains= q_encode)
+        Q(cat_type=pk)
         )
 
     categories_de = decode_Cate(categories)
-    p = Paginator(categories_de, 8)
+    list_search = []
+    for category in categories_de:
+            if(q in category.cat_name.lower()):
+                list_search.append(category)
+    p = Paginator(list_search, 8)
     page = request.GET.get('page') 
     list_cats = p.get_page(page)
     nums = "a" * list_cats.paginator.num_pages

@@ -10,9 +10,14 @@
 
 {% block content %}
 <div>
+    <div class="input-group mt-3 mb-3">
+        <form action="{% url 'settingweb:choice' type=type%}" method = "GET" >
+          <input class="input-group-text" type="text" name = "q" placeholder = "Search...."/>
+        </form>
+      </div>
 <div class="card border-dark bg-light my-1">
     <p class="card-header h3 text-white bg-dark">
-        Choice
+        Choose
         {% if type == "1"%} VIDEO {%endif%}
         {% if type == "2"%} TV {%endif%}
         {% if type == "3"%} RADIO {%endif%} 
@@ -20,13 +25,21 @@
     </p>
     <form method="post" action="{% url 'settingweb:choice' type%}" class="fw-bold p-4">
         {% csrf_token %}
+        
+        <div class="row content_category">
         {% for video in videos %}
-            <div class="card mb-3" style="max-width: 540px;">
+            <div class="card mb-3" style="width: 45%;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            margin-left: 30px;
+            margin-bottom: 20px;">
                 <div class="row g-0">
                     <div class="col-md-4">
                         <div
                             style = "
-                            height:180px;
+                            height:100px;
                             position: relative;
                             overflow: hidden;
                             "
@@ -62,6 +75,7 @@
                 </div>
             </div>
         {% endfor %}
+    </div>
 
         <div
             class="d-flex mt-5 flex-row justify-content-end align-items-center"
@@ -84,6 +98,8 @@
             <input type="submit" class="btn btn-primary me-2" value="Save"/>
             <a type="button" href="{% url 'settingweb:setting' 1%}" class="btn btn-danger" value="Back">Back</a>
         </div>
+
+    
     </form>
     </div>
 
