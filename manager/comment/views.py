@@ -11,6 +11,7 @@ from report.forms import ReportForm
 from django.db.models import Q
 import base64
 import main.base64_change as bs
+from django.core.paginator import Paginator
 
 def decode_Item_Cmt(comment):
     comment.uid.uid = bs.decode_Str(comment.uid.uid)
@@ -91,7 +92,13 @@ def comment_home(request, video_type):
             temp_.append(y)
             list_vid.append(temp_)
 
-    context = {'list_vid': list_vid, 'video_type':video_type}
+    #Paginator
+    p = Paginator(list_vid, 8)
+    page = request.GET.get('page') 
+    list_vids = p.get_page(page)
+    nums = "a" * list_vids.paginator.num_pages
+
+    context = {'list_vid': list_vid, 'video_type':video_type, 'list_vids':list_vids, 'nums':nums}
     return render(request, 'comment/home_comment.html', context)
 
 def comment_main(request, video_id):
@@ -109,14 +116,22 @@ def comment_main(request, video_id):
                 cmts = TblComment.objects.filter(Q(uid__uid__icontains = cmt_search_en) | Q(cmt_text = cmt_search_en) & Q(vid__vid_id = video_id)) 
 
     video = get_object_or_404(TblVideo, vid_id = video_id)
+    cmts_de = decode_Cmt(cmts)
+
+    p = Paginator(cmts_de, 8)
+    page = request.GET.get('page') 
+    list_cmts = p.get_page(page)
+    nums = "a" * list_cmts.paginator.num_pages
 
     context = {
-        'cmts': decode_Cmt(cmts), 
+        'cmts': cmts_de, 
         'video_id' : video_id, 
         'video_cat' : bs.decode_Str(video.cat.cat_name), 
         'video_title' : bs.decode_Str(video.vid_title), 
         'video_view': video.vid_view, 
         'num_cmts': len(cmts),
+        'nums': nums,
+        'list_cmts': list_cmts,
     }
     return render(request, 'comment/list_comment.html', context)
 
