@@ -8,17 +8,14 @@
     height: 100vh;
     width: 100%;
 }
-.navcontain{
-    height: 100%;
-}
 .container{
     height: 100vh;
     width: 100%;
 }
 .navnhi{
     display: flex;
-    height: 100%;
     flex-direction: column;
+    height: 100vh;
 }
 .login_container{
     width: 100vw;

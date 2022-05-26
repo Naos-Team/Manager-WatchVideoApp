@@ -24,7 +24,7 @@
     <a type="button" href="{%url 'category:add' pk=choice%}" class="btn btn-outline-primary">ADD CATEGORY</a>
   </div>
 </div>
-<div class="row content_category">
+<div class="row content_category" style = "overflow-y:scroll; height:70vh">
   {% for category in list_cats %}
   <div
     class="card"
