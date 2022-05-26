@@ -64,6 +64,7 @@ def choiceTrending(request, type):
         else:
             return HttpResponse(form)
     else:
+        q = request.GET.get('q') if request.GET.get('q') != None else ''
         list_trend = []
         if type == "1":
             list_trend = settingweb.arr_vid_trend.split(':')
@@ -72,12 +73,16 @@ def choiceTrending(request, type):
         if type == "3":
             list_trend = settingweb.arr_radi_trend.split(':')
         videos = TblVideo.objects.filter(Q(vid_type=type))
+        list_search = []
         videos = decode_Video(videos)
+        for video in videos:
+            if(q in video.vid_title.lower()):
+                list_search.append(video)
         list_trend.pop(0)
         list_trend = [int(item) for item in list_trend]
 
         #Paginator
-        p = Paginator(videos, 5)
+        p = Paginator(list_search, 5)
         page = request.GET.get('page') 
         list_vid = p.get_page(page)
         nums = "a" * list_vid.paginator.num_pages

@@ -35,30 +35,28 @@ def decode_Video(videos):
 
 def managervideo(request , pk, cat):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
-    q_encode = bs.encode_Str(q) if request.GET.get('q') != None else ''
     categories = TblCategory.objects.filter(Q(cat_type=pk))
     categories = decode_Cate(categories)
     if cat != 0:
         videos = TblVideo.objects.filter( 
             Q(vid_type=pk) &
-            Q(cat__cat_id=cat) &
-            (Q(vid_title__icontains=q_encode) |
-            Q(vid_description__icontains=q_encode))
+            Q(cat__cat_id=cat)
         )
     else:
           videos = TblVideo.objects.filter(
-            Q(vid_type=pk) & 
-            (Q(vid_title__icontains=q_encode) |
-            Q(vid_description__icontains=q_encode))
+            Q(vid_type=pk)
         )
     videos = decode_Video(videos)
-
+    list_search = []
+    for video in videos:
+            if(q in video.vid_title.lower()):
+                list_search.append(video)
     #Paginator
-    p = Paginator(videos, 8)
+    p = Paginator(list_search, 8)
     page = request.GET.get('page') 
     list_res = p.get_page(page)
     nums = "a" * list_res.paginator.num_pages
-    context = {'choice':pk, 'cat':cat, 'categories':categories, 'videos':videos, 'test':q_encode, 'nums':nums}
+    context = {'choice':pk, 'cat':cat, 'categories':categories, 'videos':list_res, 'test':q, 'nums':nums}
     return render(request, 'managervideo/managervideo.html', context)
 
 @login_required(login_url='/login')
