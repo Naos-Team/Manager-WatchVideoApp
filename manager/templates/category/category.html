@@ -9,7 +9,7 @@
 {% block content %}
 <div>
 <div class="taskbar_category">
-  <select class="form-select form-select-lg mb-3" style="width:15%;" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
+  <select  class="form-select  mb-3" style="width:15%;" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
     <option value="{% url 'category:category' 1 %}"
       {% if choice == "1"%} selected = "selected" {%endif%}>Video</option>
     <option value="{% url 'category:category' 2 %}" 
@@ -34,6 +34,8 @@
       padding-right: 15px;
       padding-top: 15px;
       padding-bottom: 15px;
+      margin-left: 20px;
+      margin-bottom: 15px;
     "
   >
     <div
@@ -70,7 +72,7 @@
   </div>
   {% endfor %}
 </div>
-<nav aria-label="Page navigation example " style="margin-top: 10px;">
+<nav aria-label="Page navigation example ">
   <ul class="pagination">
     {% if list_cats.has_previous %}
       <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>

@@ -9,7 +9,7 @@
 {% block content %}
 <div>
 <div class="taskbar_category">
-  <select class="form-select form-select-lg mb-3" style="width:15%;" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
+  <select class="form-select mb-3" style="width:15%;" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
     <option value="{% url 'managervideo:managervideo' pk=1 cat=0%}"
       {% if choice == "1"%} selected = "selected" {%endif%}>Video</option>
     <option value="{% url 'managervideo:managervideo' pk=2 cat=0%}" 
@@ -17,7 +17,7 @@
     <option value="{% url 'managervideo:managervideo' pk=3 cat=0%}"
       {% if choice == "3"%} selected = "selected" {%endif%}>Radio</optoion>
   </select>
-  <select class="form-select form-select-lg mb-3" style="width:15%;" name="cate" select = "2" size = "1" onchange = "window.location.href =  this.value">
+  <select class="form-select mb-3" style="width:15%; margin-left:10px;" name="cate" select = "2" size = "1" onchange = "window.location.href =  this.value">
     <option value="{% url 'managervideo:managervideo' pk=choice cat=0%}">All Category</option>
     {% for category in categories %}
 
@@ -32,7 +32,7 @@
     </form>
     <a type="button" 
       {% if choice == "1"%} 
-        href="#" 
+        href="{% url 'videoapp:create' %}" 
       {% else %}
         href = "{% url 'managervideo:addvideo' pk=choice cat=cat%}"
       {% endif %}
@@ -49,6 +49,8 @@
       padding-right: 15px;
       padding-top: 15px;
       padding-bottom: 15px;
+      margin-left: 20px;
+      margin-bottom: 20px;
     "
   >
     <div
@@ -74,11 +76,12 @@
       <h5 class="card-title">{{video.vid_title}}</h5>
       <a type="button"
       {% if choice == "1"%} 
-        href="#" 
+        href="{% url 'videoapp:update' video.vid_id %}" 
       {% else %}
         href = "{% url 'managervideo:editvideo' pk=choice cat=cat id=video.vid_id%}"
       {% endif %} class="btn btn-primary">Edit</a>
-      <a type="button" href = "{% url 'managervideo:disablevideo' pk=choice cat=cat id=video.vid_id  %}" class="btn btn-primary">
+      <a type="button" href = "{% url 'managervideo:disablevideo' pk=choice cat=cat id=video.vid_id  %}" 
+        class=" {% if video.vid_status == 1 %}btn btn-primary{% else %}btn btn-secondary{% endif %} ">
         {% if video.vid_status == 1%}
             Disable
         {%else%}
@@ -90,7 +93,7 @@
   </div>
   {% endfor %}
 </div>
-<nav aria-label="Page navigation example " style="margin-top: 10px;">
+<nav aria-label="Page navigation example ">
   <ul class="pagination">
     {% if videos.has_previous %}
       <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>

@@ -1,3 +1,6 @@
+import json
+import requests as rq
+from django.contrib import messages
 from datetime import datetime
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -35,38 +38,57 @@ def decode_Video(videos):
 
 def managervideo(request , pk, cat):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
-    q_encode = bs.encode_Str(q) if request.GET.get('q') != None else ''
     categories = TblCategory.objects.filter(Q(cat_type=pk))
     categories = decode_Cate(categories)
+
     if cat != 0:
         videos = TblVideo.objects.filter( 
             Q(vid_type=pk) &
-            Q(cat__cat_id=cat) &
-            (Q(vid_title__icontains=q_encode) |
-            Q(vid_description__icontains=q_encode))
+            Q(cat__cat_id=cat)
         )
     else:
           videos = TblVideo.objects.filter(
-            Q(vid_type=pk) & 
-            (Q(vid_title__icontains=q_encode) |
-            Q(vid_description__icontains=q_encode))
+            Q(vid_type=pk)
         )
     videos = decode_Video(videos)
-
+    list_search = []
+    for video in videos:
+            if(q in video.vid_title.lower()):
+                list_search.append(video)
     #Paginator
-    p = Paginator(videos, 8)
+    p = Paginator(list_search, 8)
     page = request.GET.get('page') 
     list_res = p.get_page(page)
     nums = "a" * list_res.paginator.num_pages
-    context = {'choice':pk, 'cat':cat, 'categories':categories, 'videos':videos, 'test':q_encode, 'nums':nums}
+    context = {'choice':pk, 'cat':cat, 'categories':categories, 'videos':list_res, 'test':q, 'nums':nums}
     return render(request, 'managervideo/managervideo.html', context)
 
 @login_required(login_url='/login')
 def addTv(request, pk, cat):
     if request.method == 'POST':
+
+        if 'file_img' in request.FILES:
+            print("update image")
+
+            url = 'http://localhost/watchvideoapp/uploadImage.php'
+            files = {'file': request.FILES['file_img']}
+            data = {'crr': request.POST.get('thumbnail')}
+            res = rq.post(url, files=files, params=data)
+        
+            js = json.loads(res.content)
+            if(js['status'] == 1):
+                image_dir = 'http://localhost/watchvideoapp/image/'+js['dir'];
+                thumbnail = base64.b64encode(image_dir.encode('utf-8')).decode('utf-8')
+            else:
+                messages.error(request, "Something wrong when upload image, please try again!")
+                return redirect('videoapp:create')
+        else:
+            messages.error(request, "Thumbnail is required!")
+            return redirect('videoapp:create')
+
         video_new = {'cat': TblCategory.objects.get(cat_id=request.POST.get('category_vid')),
         'vid_title': bs.encode_Str(request.POST.get('title')), 'vid_url': bs.encode_Str(request.POST.get('url')), 
-        'vid_thumbnail': bs.encode_Str('https://s3.cloud.cmctelecom.vn/tinhte2/2019/07/4731556_Cover.jpg'),
+        'vid_thumbnail': thumbnail,
         'vid_description': bs.encode_Str(request.POST.get('description')), 'vid_view': "0", 
         'vid_duration': "0", 'vid_time': request.POST.get('time'), 'vid_avg_rate': "0", 
         'vid_status': request.POST.get('vid_status'), 'vid_type': pk, 'vid_is_premium': "0"}
@@ -81,7 +103,7 @@ def addTv(request, pk, cat):
         categories = decode_Cate(categories)    
         date_time = date.today().strftime("%Y-%m-%d")
         page = 'add'
-        context = {'page': page, 'choice':pk, 'cat':cat, 'date_time':date_time, 'categories':categories}
+        context = {'page': page, 'choice':pk, 'cat':cat, 'date_time':date_time, 'categories':categories, 'mode': 'create'}
         return render(request, 'managervideo/tvradiodetail.html', context)
 
 @login_required(login_url='/login')
@@ -91,10 +113,31 @@ def editTv(request, pk, cat, id):
     date_time = video.vid_time.strftime("%Y-%m-%d")
     categories = TblCategory.objects.filter(Q(cat_type=pk))
     categories = decode_Cate(categories)
+
     if request.method == 'POST':
+
+        thumbnail = bs.encode_Str(request.POST.get('thumbnail'))
+
+        #check user update image
+        if 'file_img' in request.FILES:
+            print("update imageeeeeeeeeeeeeeeeeee")
+
+            url = 'http://localhost/watchvideoapp/uploadImage.php'
+            files = {'file': request.FILES['file_img']}
+            data = {'crr': request.POST.get('thumbnail')}
+            res = rq.post(url, files=files, params=data)
+        
+            js = json.loads(res.content)
+            if(js['status'] == 1):
+                image_dir = 'http://localhost/watchvideoapp/image/'+js['dir'];
+                thumbnail = base64.b64encode(image_dir.encode('utf-8')).decode('utf-8')
+            else:
+                messages.error(request, "Something wrong when upload image, please try again!")
+                return redirect('managervideo:editvideo', cat=cat, id=id)
+
         video_new = {'vid_id': video.vid_id, 'cat': TblCategory.objects.get(cat_id=request.POST.get('category_vid')),
         'vid_title': bs.encode_Str(request.POST.get('title')), 'vid_url': bs.encode_Str(request.POST.get('url')), 
-        'vid_thumbnail': bs.encode_Str('https://kyluc.vn/Userfiles/Upload/images/Download/2016/7/11/5e8a770f146b4ec6aef99fcc2e258edd.jpg'),
+        'vid_thumbnail': thumbnail,
         'vid_description': bs.encode_Str(request.POST.get('description')), 
         'vid_view': request.POST.get('views'), 'vid_duration': "0", 'vid_time': request.POST.get('time'),
         'vid_avg_rate': request.POST.get('rate'), 'vid_status': request.POST.get('vid_status'), 'vid_type': pk,
@@ -107,7 +150,7 @@ def editTv(request, pk, cat, id):
             return HttpResponse("Error")
     else:
         page = 'edit'
-        context = {'page': page, 'choice':pk, 'cat':cat, 'video':video, 'categories':categories, 'date_time':date_time}
+        context = {'page': page, 'choice':pk, 'cat':cat, 'video':video, 'categories':categories, 'date_time':date_time, 'mode': 'update'}
         return render(request, 'managervideo/tvradiodetail.html', context)
 
 @login_required(login_url='/login')

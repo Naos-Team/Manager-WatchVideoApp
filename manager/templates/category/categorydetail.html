@@ -22,7 +22,7 @@
       {% if choice == "3"%} RADIO {%endif%}
     {% endif%}</p>
 
-  <form class="font-weight-bold p-4" method = "POST" action = "">
+  <form class="font-weight-bold p-4" method = "POST" enctype="multipart/form-data" action = "">
     {% csrf_token %}
     {% if page == 'edit' %}
     <div class="form-row">
@@ -57,6 +57,7 @@
       <div class="custom-file">
         <input
           type="file"
+          name="file_img"
           class="custom-file-input"
           id="image_picker"
           accept="image/*"
@@ -66,10 +67,11 @@
       <div class="d-flex flex-row justify-content-center">
         <img
           id="image"
-          class="pt-2 img-fluid w-50"
+          class="pt-2 img-fluid w-25"
           alt="Can't show that picture"
           src="{{category.cat_image}}"
         />
+        <input type="hidden" name="thumbnail" value="{{category.cat_image}}">
       </div>
     </div>
 

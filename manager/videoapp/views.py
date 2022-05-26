@@ -96,6 +96,7 @@ def updateVideo(request, id):
 
         if form.is_valid():
             form.save()
+            messages.success(request, "This video is updated!")
         else:
 
             for err in form.errors.items():
@@ -143,7 +144,7 @@ def createVideo(request):
     
         if(request.POST.get('views') == ""):
             messages.error(request, "Views is empty!")
-            return redirect('videoapp:create')
+            return redirect('videoapp:create')    
 
         if(int(request.POST.get('views')) < 0):
             messages.error(request, "Views can not be negative!")
@@ -216,6 +217,7 @@ def createVideo(request):
 
         if form.is_valid():
             video = form.save()
+            messages.success(request, "Create successfully!")
             return redirect('videoapp:update', video.vid_id)
             
         else:
@@ -245,10 +247,19 @@ def createVideo(request):
     now = datetime.now()
     date_time = now.strftime('%Y-%m-%d')
     
+    default_video = {
+            'vid_title': 'New video title',
+            'vid_url': 'New video url',
+            'vid_thumbnail': 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640',
+            'vid_description': 'New video description',
+            'vid_view': 0,
+            'vid_status': 1,
+        }
 
     context = {
         'mode': 'create',
         'date': date_time,
+        'video': default_video,
         'categories': categories
     }
 
