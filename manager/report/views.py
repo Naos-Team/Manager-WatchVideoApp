@@ -81,7 +81,7 @@ def report_home(request, video_type):
     context = {'list_vid':list_vid, 'video_type':video_type, 'list_vids':list_vids, 'nums': nums}
     return render(request, 'report/home_report.html', context)
 
-
+@login_required(login_url='/login')
 def report_main(request, video_id):
     report_search = request.GET.get('tv_search_report') if request.GET.get('tv_search_report') != None else ''
     if (report_search==""):
@@ -109,6 +109,7 @@ def report_main(request, video_id):
     context = {'reports': decode_Report(reports), 'video_id':video_id, 'num_reports':num_reports , 'list_res':list_res, 'nums': nums }
     return render(request, 'report/list_report.html', context)
 
+@login_required(login_url='/login')
 def detail_report(request, report_id):
     report = get_object_or_404(TblReport, report_id=report_id)
     reportid_de = report.report_id
@@ -138,6 +139,7 @@ def detail_report(request, report_id):
 
     return render(request, 'report/detail_report.html', context)
 
+@login_required(login_url='/login')
 def delete_report(request, report_id):
     report = get_object_or_404(TblReport, report_id=report_id)
     if request.method=="POST":

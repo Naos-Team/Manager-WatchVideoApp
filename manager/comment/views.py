@@ -101,6 +101,7 @@ def comment_home(request, video_type):
     context = {'list_vid': list_vid, 'video_type':video_type, 'list_vids':list_vids, 'nums':nums}
     return render(request, 'comment/home_comment.html', context)
 
+@login_required(login_url='/login')
 def comment_main(request, video_id):
     cmt_search = request.GET.get('tv_search_cmt') if request.GET.get('tv_search_cmt') != None else ''
     if (cmt_search==""):
