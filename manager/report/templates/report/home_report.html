@@ -21,7 +21,7 @@
     </form>
   </div>
 </nav>
-<table class="table table_report">
+<table class="table table_report" >
   <thead class="thead-light">
     <tr>
       <th scope="col">Video ID</th>
@@ -30,8 +30,9 @@
       <th scope="col"></th>
     </tr>
   </thead>
-  {% for x,y in list_vids %}
-  <tbody>
+  
+  <tbody style = "overflow-y:scroll; height:70vh">
+    {% for x,y in list_vids %}
     <tr>
       <td>{{x.vid_id}}</td>
       <td>{{x.vid_title}}</td>

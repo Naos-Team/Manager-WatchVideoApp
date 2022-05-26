@@ -21,8 +21,9 @@
       <th scope="col"></th>
     </tr>
   </thead>
-  {% for report in list_res %}
-  <tbody>
+  
+  <tbody style = "overflow-y:scroll; height:70vh">
+    {% for report in list_res %}
     <tr>
       <td>{{report.report_id}}</td>
       <td>{{report.uid}}</td>

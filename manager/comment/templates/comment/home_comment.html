@@ -31,8 +31,9 @@
     </tr>
   </thead>
   
-  {% for x,y in list_vids %}
-  <tbody>
+  
+  <tbody style = "overflow-y:scroll; height:70vh">
+    {% for x,y in list_vids %}
     <tr>
       <td>{{x.vid_id}}</td>
       <td>{{x.vid_title}}</td>

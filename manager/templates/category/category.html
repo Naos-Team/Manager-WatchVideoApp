@@ -9,7 +9,7 @@
 {% block content %}
 <div>
 <div class="taskbar_category">
-  <select  class="form-select  mb-3" style="width:15%;" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
+  <select  class="form-select  mb-2" style="width:15%;" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
     <option value="{% url 'category:category' 1 %}"
       {% if choice == "1"%} selected = "selected" {%endif%}>Video</option>
     <option value="{% url 'category:category' 2 %}" 
@@ -24,7 +24,7 @@
     <a type="button" href="{%url 'category:add' pk=choice%}" class="btn btn-outline-primary">ADD CATEGORY</a>
   </div>
 </div>
-<div class="row content_category" style = "overflow-y:scroll; height:70vh">
+<div class="row content_category" style = "overflow-y:scroll; height:80vh">
   {% for category in list_cats %}
   <div
     class="card"
@@ -60,7 +60,8 @@
     <div class="card-body">
       <h5 class="card-title">{{category.cat_name}}</h5>
       <a href="{% url 'category:edit' pk=choice  id=category.cat_id %}" class="btn btn-primary">Edit</a>
-      <a type="button" href = "{% url 'category:delcate'  pk=choice  id=category.cat_id %}" class="btn btn-primary">
+      <a type="button" href = "{% url 'category:delcate'  pk=choice  id=category.cat_id %}" class=" {% if category.cat_status == 1 %}btn btn-primary{% else %}btn btn-secondary{% endif %} ">
+
         {% if category.cat_status == 1%}
             Disable
         {%else%}
@@ -72,7 +73,7 @@
   </div>
   {% endfor %}
 </div>
-<nav aria-label="Page navigation example ">
+<nav aria-label="Page navigation example " style="margin-top:10px;">
   <ul class="pagination">
     {% if list_cats.has_previous %}
       <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
