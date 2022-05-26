@@ -5,7 +5,9 @@
   href="{% static 'styles/category/category.css' %}"
 />
 {% endblock style%}
-{% block title %}Category{% endblock title %} {% block content %}
+{% block title %}Category{% endblock title %} 
+{% block content %}
+<div>
 <div class="taskbar_category">
   <select class="form-select form-select-lg mb-3" style="width:15%;" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
     <option value="{% url 'category:category' 1 %}"
@@ -23,7 +25,7 @@
   </div>
 </div>
 <div class="row content_category">
-  {% for category in categories %}
+  {% for category in list_cats %}
   <div
     class="card"
     style="
@@ -50,4 +52,22 @@
   </div>
   {% endfor %}
 </div>
+<nav aria-label="Page navigation example " style="margin-top: 10px;">
+  <ul class="pagination">
+    {% if list_cats.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{list_cats.previous_page_number}}">Previous</a></li>
+    {% endif %}
+    {% for i in nums %}
+    <li class="page-item"><a class="page-link" href="?page={{forloop.counter}}">{{forloop.counter}}</a></li>
+    {% endfor %}
+    {% if list_cats.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{list_cats.next_page_number}}">Next</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{list_cats.paginator.num_pages}}">Last &raquo</a></li>
+    {% endif %}
+  </ul>
+</nav>
+</div>
+
+
 {% endblock content %}
