@@ -31,7 +31,7 @@ def category(request , pk):
     page = request.GET.get('page') 
     list_cats = p.get_page(page)
     nums = "a" * list_cats.paginator.num_pages
-    context = {'categories':list_cats, 'nums': nums, 'choice':pk}
+    context = {'list_cats':list_cats, 'nums': nums, 'choice':pk}
     return render(request, 'category/category.html', context)
 
 @login_required(login_url='/login')
