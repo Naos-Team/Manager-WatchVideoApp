@@ -9,7 +9,7 @@
 {% block content %}
 <div>
 <div class="taskbar_category">
-  <select  class="form-select  mb-2" style="width:15%;" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
+  <select  class="form-select" style="width:15%;" name="type" select = "2" size = "1" onchange = "window.location.href =  this.value">
     <option value="{% url 'category:category' 1 %}"
       {% if choice == "1"%} selected = "selected" {%endif%}>Video</option>
     <option value="{% url 'category:category' 2 %}" 
@@ -17,7 +17,7 @@
     <option value="{% url 'category:category' 3 %}"
       {% if choice == "3"%} selected = "selected" {%endif%}>Radio</optoion>
   </select>
-  <div class="input-group" >
+  <div class="d-flex flex-row ms-auto" style="margin-right:2%">
     <form action="{% url 'category:category' choice %}" method = "GET">
       <input class="input-group-text" type="text" name = "q" placeholder = "Search Category...."/>
     </form>
@@ -29,12 +29,13 @@
   <div
     class="card"
     style="
-      width: 30%;
+      width: 20%;
+      height: 40%;
       padding-left: 15px;
       padding-right: 15px;
       padding-top: 15px;
       padding-bottom: 15px;
-      margin-left: 20px;
+      margin-left: 30px;
       margin-bottom: 15px;
     "
   >
@@ -73,21 +74,23 @@
   </div>
   {% endfor %}
 </div>
-<nav aria-label="Page navigation example " style="margin-top:10px;">
-  <ul class="pagination">
-    {% if list_cats.has_previous %}
-      <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
-      <li class="page-item"><a class="page-link" href="?page={{list_cats.previous_page_number}}">Previous</a></li>
-    {% endif %}
-    {% for i in nums %}
-    <li class="page-item"><a class="page-link" href="?page={{forloop.counter}}">{{forloop.counter}}</a></li>
-    {% endfor %}
-    {% if list_cats.has_next %}
-      <li class="page-item"><a class="page-link" href="?page={{list_cats.next_page_number}}">Next</a></li>
-      <li class="page-item"><a class="page-link" href="?page={{list_cats.paginator.num_pages}}">Last &raquo</a></li>
-    {% endif %}
-  </ul>
-</nav>
+<div class="d-flex justify-content-center align-items-center" style="height: 8%">
+  <nav aria-label="Page navigation example " style="margin-top:10px;">
+    <ul class="pagination">
+      {% if list_cats.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1">&laquo First</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{list_cats.previous_page_number}}">Previous</a></li>
+      {% endif %}
+      {% for i in nums %}
+      <li class="page-item"><a class="page-link" href="?page={{forloop.counter}}">{{forloop.counter}}</a></li>
+      {% endfor %}
+      {% if list_cats.has_next %}
+        <li class="page-item"><a class="page-link" href="?page={{list_cats.next_page_number}}">Next</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{list_cats.paginator.num_pages}}">Last &raquo</a></li>
+      {% endif %}
+    </ul>
+  </nav>  
+</div
 </div>
 
 

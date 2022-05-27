@@ -1,13 +1,13 @@
 
 .taskbar_category{
-    padding-top:2%;
+    height: 10vh;
     display: flex;
-    position: relative;
+    align-items: center;
 }
 
 .content_category{
     justify-content: flex-start;
-    height: 50%;
+    height: 30%;
     width: 100%;
 }
 
@@ -21,7 +21,7 @@
     margin-left: 0px;
 }
 
-.input-group {
+/* .input-group {
     position: absolute;
     display: -ms-flexbox;
     display: flex;
@@ -31,7 +31,7 @@
     align-items: stretch;
     width: 33%;
     right: 0;
-}
+} */
 
 .choice-parent{
     height: 100%;
