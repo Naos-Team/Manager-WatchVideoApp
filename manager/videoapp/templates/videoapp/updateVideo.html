@@ -1,9 +1,12 @@
 {% extends 'main.html' %} {% block content %}
 
-<div class="card border-dark bg-light my-1">
-    <p class="card-header h3 fw-bold text-white bg-dark"> {% if mode == 'create' %}CREATE NEW VIDEO{% else %}VIDEO DETAIL{% endif %}</p>
+<div style="overflow: hidden" >
 
-    <form id="form_update" method="post" enctype="multipart/form-data" action="" class="fw-bold p-4">
+<div class="card border-dark bg-light my-1" >
+    
+    <p class="card-header h3 fw-bold text-white bg-dark" > {% if mode == 'create' %}CREATE NEW VIDEO{% else %}VIDEO DETAIL{% endif %}</p>
+    <div class="card-body" style="overflow: scroll; height:90vh;">
+    <form id="form_update" method="post" enctype="multipart/form-data" action="" class="fw-bold p-4" >
         {% csrf_token %}
         <div class="d-flex mb-3 justify-content-center align-items-center bg-secondary border border-primary rounded">
             <img id="image" class="w-25 " alt="Can't show that picture" src="{% if mode == 'create' %}https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640{% else %} {{video.vid_thumbnail}} {% endif %}"/>
@@ -158,6 +161,10 @@
         {% csrf_token %}
         <input type="hidden" name="url" id="hidden_url">
     </form>
+</div>
+</div>
+
+</div>
 </div>
 
 <script>

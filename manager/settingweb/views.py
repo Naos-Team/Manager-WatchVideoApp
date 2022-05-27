@@ -82,7 +82,7 @@ def choiceTrending(request, type):
         list_trend = [int(item) for item in list_trend]
 
         #Paginator
-        p = Paginator(list_search, 5)
+        p = Paginator(list_search, 10)
         page = request.GET.get('page') 
         list_vid = p.get_page(page)
         nums = "a" * list_vid.paginator.num_pages
