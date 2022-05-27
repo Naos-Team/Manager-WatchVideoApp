@@ -3,26 +3,26 @@
 {% block content %} 
 <nav class="navbar bg-light" style="top: 1%;">
   <div class="container-fluid">
-    <a class="navbar-brand">{{num_reports}}</a>
+    <a class="navbar-brand fw-bold">{{num_reports}}</a>
     <form class="d-flex" role="search" method="GET" action="{% url 'report:report_main' video_id%}"> {% csrf_token %}
       <input class="form-control me-2" type="search" placeholder="Search or All" aria-label="Search" name="tv_search_report">
       <button class="btn btn-outline-success" type="submit" name="btn_search_report" style="margin-left:5px;">Search</button>
     </form>
   </div>
 </nav>
-<table class="table table_report">
+<table class="table table_report" style = "overflow-y:scroll; height:80vh">
   <thead class="thead-light">
     <tr>
-      <th scope="col">Report ID</th>
+      <th scope="col">ID</th>
       <th scope="col">User ID</th>
       <th scope="col">Report Content</th>
-      <th scope="col">Report Status</th>
+      <th scope="col">Status</th>
       <th scope="col"></th>
       <th scope="col"></th>
     </tr>
   </thead>
   
-  <tbody style = "overflow-y:scroll; height:75vh">
+  <tbody>
     {% for report in list_res %}
     <tr>
       <td>{{report.report_id}}</td>

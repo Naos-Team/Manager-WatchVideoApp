@@ -26,21 +26,21 @@
           
       {% endfor %}
     </select>
+    <a type="button b" style="margin-left:10px;"
+    {% if choice == "1"%} 
+      href="{% url 'videoapp:create' %}" 
+    {% else %}
+      href = "{% url 'managervideo:addvideo' pk=choice cat=cat%}"
+    {% endif %}
+    class="btn btn-dark">NEW VIDEO</a>
     <div class="d-flex flex-row ms-auto" style="margin-right:2%">
       <form action="{% url 'managervideo:managervideo' pk=choice cat=cat %}" method = "GET">
         <input class="input-group-text" type="text" name = "q" placeholder = "Search Video...."/>
       </form>
-      <a type="button" 
-        {% if choice == "1"%} 
-          href="{% url 'videoapp:create' %}" 
-        {% else %}
-          href = "{% url 'managervideo:addvideo' pk=choice cat=cat%}"
-        {% endif %}
-        class="btn btn-outline-primary">ADD VIDEO</a>
     </div>
   </div>
 
-  <div style="height: 90vh">
+  <div style="height: 90vh; margin-left:30px;" >
     <div style = "height: 92%; overflow-y:scroll">
       <div class="row content_category" >
         {% for video in videos %}
@@ -48,12 +48,12 @@
           class="card"
           style="
             width: 20%;
-            height: 100%;
+            height: 90%;
             padding-left: 15px;
             padding-right: 15px;
             padding-top: 15px;
             padding-bottom: 15px;
-            margin-left: 20px;
+            margin-left: 30px;
             margin-bottom: 20px;
           "
         >
@@ -76,16 +76,16 @@
                       transform: translate(-50%,-50%);
             " />
           </div>
-          <div class="card-body">
+          <div class="card-body" style="padding:5px; margin-top:2px;">
             <h5 class="card-title">{{video.vid_title}}</h5>
             <a type="button"
             {% if choice == "1"%} 
               href="{% url 'videoapp:update' video.vid_id %}" 
             {% else %}
               href = "{% url 'managervideo:editvideo' pk=choice cat=cat id=video.vid_id%}"
-            {% endif %} class="btn btn-primary">Edit</a>
+            {% endif %} class="btn btn-primary btn-sm">Edit</a>
             <a type="button" href = "{% url 'managervideo:disablevideo' pk=choice cat=cat id=video.vid_id  %}" 
-              class=" {% if video.vid_status == 1 %}btn btn-primary{% else %}btn btn-secondary{% endif %} ">
+              class=" {% if video.vid_status == 1 %}btn btn-primary btn-sm{% else %}btn btn-secondary btn-sm{% endif %} ">
               {% if video.vid_status == 1%}
                   Disable
               {%else%}

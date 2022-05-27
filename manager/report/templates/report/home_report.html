@@ -38,7 +38,7 @@
       <td>{{x.vid_title}}</td>
       <td>{{y}}</td>
       <td>
-        <form action="{% url 'report:report_main' x.vid_id %}"
+        <form action="{% url 'report:report_main' x.vid_id %}">
           <input type="image" class="icon_report" src="{% static 'styles/images/more.png' %}" />
         </form>
       </td>
