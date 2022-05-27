@@ -8,8 +8,6 @@
 from django.db import models
 from django.urls import reverse
 
-
-
 class TblSettingWeb(models.Model):
     ads_key_banner = models.TextField()
     ads_key_interstial = models.TextField()
