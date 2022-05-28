@@ -1,0 +1,1 @@
+SERVER_URL = "https://musicfreeworld.com/public/naosteam/watchvideoapp/"
