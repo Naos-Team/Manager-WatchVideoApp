@@ -30,7 +30,7 @@
       <td>{{report.report_content}}</td>
       <td>{{report.report_status}}</td>
       <td>
-        <form action="{{report.get_absolute_url_report}}">
+        <form action="{% url 'report:detail_report' report.report_id %}">
           <input type="image" class="icon_report" src="{% static 'styles/images/edit.png' %}" />
         </form>
         
