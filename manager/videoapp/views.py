@@ -13,257 +13,207 @@ from django.db.models import Q
 from main.models import TblVideo, TblCategory
 from .forms import VideoForm
 import re
+from Constant import UPLOAD_VIDEO, SERVER_URL, IMAGE_DIR, executePostRequest
 
 url_regex = re.compile(
-        r'^(?:http|ftp)s?://' # http:// or https://
-        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
-        r'localhost|' #localhost...
-        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
-        r'(?::\d+)?' # optional port
-        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+    r'^(?:http|ftp)s?://'  # http:// or https://
+    # domain...
+    r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'
+    r'localhost|'  # localhost...
+    r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # ...or ip
+    r'(?::\d+)?'  # optional port
+    r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+
 
 def updateVideo(request, id):
 
-    video = TblVideo.objects.get(vid_id=id)
-    
-    if request.method == 'POST':
+    try:
 
-        if(request.POST.get('views') == ""):
-            messages.error(request, "Views is empty!")
-            return redirect('videoapp:update', id=id)
+        # get video post request
+        res_video = executePostRequest({
+            'method_name': 'GET_VIDEO_BYID',
+            'vid_id': id
+        })
 
-        if(int(request.POST.get('views')) < 0):
-            messages.error(request, "Views can not be negative!")
-            return redirect('videoapp:update', id=id)
+        res_cat = executePostRequest({
+            'method_name': 'LOAD_CATEGORT',
+            'type': 1,
+            'search_text': ''
+        })
 
-        if(request.POST.get('url') == ""):
-            messages.error(request, "URL is empty!")
-            return redirect('videoapp:update', id=id)
+        if(res_video['status'] != 'success' or res_cat['status'] != 'success'):
+            return HttpResponse("Server Error!")
 
-        #get value form input form
-        vid_id = request.POST.get('id')
-        cat_id = request.POST.get('cat_id')
-        title = base64.b64encode(request.POST.get('title').encode('utf-8')).decode('utf-8')
-        vid_url = base64.b64encode(request.POST.get('url').encode('utf-8')).decode('utf-8')
-        thumbnail = base64.b64encode(request.POST.get('thumbnail').encode('utf-8')).decode('utf-8')
-        description = base64.b64encode(request.POST.get('description').encode('utf-8')).decode('utf-8')
-        views = request.POST.get('views')
-        time = request.POST.get('time')
-        cat_id = request.POST.get('cat_id')
-        rate = request.POST.get('rate')
-        status = request.POST.get('status')
+        video = getDecodeVideo(res_video['video'])
+        categories = res_cat['category']
 
-        data = cv2.VideoCapture(request.POST.get('url'))
-        frames = data.get(cv2.CAP_PROP_FRAME_COUNT)
-        fps = int(data.get(cv2.CAP_PROP_FPS))
-        seconds = int(frames / fps)
+        if request.method == 'POST':
 
-        #check user update image
-        if 'file_img' in request.FILES:
-            print("update image")
+            data = cv2.VideoCapture(request.POST.get('url'))
+            frames = data.get(cv2.CAP_PROP_FRAME_COUNT)
+            fps = int(data.get(cv2.CAP_PROP_FPS))
+            seconds = int(frames / fps)
 
-            url = 'http://localhost/watchvideoapp/uploadImage.php'
-            files = {'file': request.FILES['file_img']}
-            data = {'crr': request.POST.get('thumbnail')}
-            res = rq.post(url, files=files, params=data)
-        
-            js = json.loads(res.content)
-            if(js['status'] == 1):
-                image_dir = 'http://localhost/watchvideoapp/image/'+js['dir'];
-                thumbnail = base64.b64encode(image_dir.encode('utf-8')).decode('utf-8')
-            else:
-                messages.error(request, "Something wrong when upload image, please try again!")
-                return redirect('videoapp:update', id=id)
+            params = {
+                'method_name': 'UPDATE_VIDEO',
+                'vid_id': request.POST.get('id'),
+                'cat_id':  request.POST.get('cat_id'),
+                'vid_title': base64.b64encode(request.POST.get('title').encode('utf-8')).decode('utf-8'),
+                'vid_url': base64.b64encode(request.POST.get('url').encode('utf-8')).decode('utf-8'),
+                'vid_thumbnail':  base64.b64encode(request.POST.get('thumbnail').encode('utf-8')).decode('utf-8')
+                if request.POST.get('thumbnail') != "" else "",
+                'vid_description': base64.b64encode(request.POST.get('description').encode('utf-8')).decode('utf-8'),
+                'vid_view': round(int(request.POST.get('views'))),
+                'vid_duration': seconds,
+                'vid_time': datetime.strptime(request.POST.get('time'), '%Y-%m-%d')
+                .strftime("%Y-%m-%d %H:%M:%S"),
+                'vid_avg_rate':  request.POST.get('rate'),
+                'vid_status': request.POST.get('status'),
+                'vid_type': 1,
+                'vid_is_premium': 0,
+            }
 
-        #save to form
-        updated_video = {
-            'vid_id': vid_id,
-            'cat': TblCategory.objects.get(cat_id=cat_id),
-            'vid_title': title,
-            'vid_url': vid_url,
-            'vid_thumbnail': thumbnail,
-            'vid_description': description,
-            'vid_view': views,
-            'vid_duration': seconds,
-            'vid_time': datetime.strptime(time, '%Y-%m-%d'),
-            'vid_avg_rate': rate,
-            'vid_status': status,
-            'vid_type': 1,
-            'vid_is_premium': 0
-        }
-    
-        form = VideoForm(updated_video, instance = video)
+            # check user update image
+            if 'file_img' in request.FILES:
+                print("update image")
 
-        if form.is_valid():
-            form.save()
-            messages.success(request, "This video is updated!")
-        else:
+                url = UPLOAD_VIDEO
+                files = {'file': request.FILES['file_img']}
+                data = {'crr': request.POST.get('thumbnail')}
+                res = rq.post(url, files=files, params=data)
 
-            for err in form.errors.items():
-
-                if(err[0] == 'vid_title'):
-                    messages.error(request, 'Title: ' + err[1][0])
-                elif(err[0] == 'vid_description'):
-                    messages.error(request, 'Description: ' + err[1][0])
-                elif(err[0] == 'vid_view'):
-                    messages.error(request, 'Views: ' + err[1][0])
-                elif(err[0] == 'vid_url'):
-                    messages.error(request, 'URL: ' + err[1][0])
+                js = json.loads(res.content)
+                if(js['status'] == 1):
+                    image_dir = IMAGE_DIR + js['dir']
+                    params['vid_thumbnail'] = base64.b64encode(
+                        image_dir.encode('utf-8')).decode('utf-8')
                 else:
-                    messages.error(request, 'Form is invalid')
-                
+                    messages.error(
+                        request, "Something wrong when upload image, please try again!")
+                    return redirect('videoapp:update', id=id)
 
-        return redirect('videoapp:update', id=id)
-            
-    date_time = video.vid_time.strftime("%Y-%m-%d")
+            status = executePostRequest(params)
 
-    categories = TblCategory.objects.filter(cat_type=1)
+            if(status == 'success'):
+                messages.success(request, "Update video successfully!")
+            else:
+                messages.error(
+                    request, "Update video failed!")
 
-    for cat in categories:
-        cat.cat_name = base64.b64decode(cat.cat_name).decode('utf-8')
-        cat.cat_image = base64.b64decode(cat.cat_image).decode('utf-8')
+            return redirect('managervideo:managervideo', 1, 0)
 
-    video.vid_title = base64.b64decode(video.vid_title).decode('utf-8')
-    video.vid_url = base64.b64decode(video.vid_url).decode('utf-8')
-    video.vid_thumbnail = base64.b64decode(video.vid_thumbnail).decode('utf-8')
-    video.vid_description = base64.b64decode(video.vid_description).decode('utf-8')
+        # load to screen
+        date_time = datetime.strptime(
+            video['vid_time'], '%Y-%m-%d %H:%M:%S').strftime("%Y-%m-%d")
 
-    context = {
-        'mode': 'update',
-        'video': video,
-        'date': date_time,
-        'categories': categories
-    }
+        for index in range(len(categories)):
+            categories[index] = getDecodeCategory(categories[index])
 
-    return render(request, 'videoapp/updateVideo.html', context)
+        context = {
+            'mode': 'update',
+            'video': video,
+            'date': date_time,
+            'categories': categories
+        }
+
+        return render(request, 'videoapp/updateVideo.html', context)
+
+    except:
+        return HttpResponse("Server Error!")
 
 
 def createVideo(request):
+
+    try:
+
+        #post new video
+        if request.method == 'POST':
     
-    if request.method == 'POST':
-    
-        if(request.POST.get('views') == ""):
-            messages.error(request, "Views is empty!")
-            return redirect('videoapp:create')    
+            data = cv2.VideoCapture(request.POST.get('url'))
+            frames = data.get(cv2.CAP_PROP_FRAME_COUNT)
+            fps = int(data.get(cv2.CAP_PROP_FPS))
+            seconds = int(frames / fps)
 
-        if(int(request.POST.get('views')) < 0):
-            messages.error(request, "Views can not be negative!")
-            return redirect('videoapp:create')
+            param = {
+                'method_name': 'ADD_VIDEO',
+                'cat_id':  request.POST.get('cat_id'),
+                'vid_title': base64.b64encode(request.POST.get('title').encode('utf-8')).decode('utf-8'),
+                'vid_url': base64.b64encode(request.POST.get('url').encode('utf-8')).decode('utf-8'),
+                'vid_thumbnail':  base64.b64encode(request.POST.get('thumbnail').encode('utf-8')).decode('utf-8')
+                    if request.POST.get('thumbnail') != "" else "",
+                'vid_description': base64.b64encode(request.POST.get('description').encode('utf-8')).decode('utf-8'),
+                'vid_view': round(int(request.POST.get('views'))),
+                'vid_duration': seconds,
+                'vid_time': datetime.strptime(request.POST.get('time'), '%Y-%m-%d')
+                    .strftime("%Y-%m-%d %H:%M:%S"),
+                'vid_avg_rate':  0,
+                'vid_status': request.POST.get('status'),
+                'vid_type': 1,
+                'vid_is_premium': 0,
+            }
 
-        if(request.POST.get('url') == ""):
-            messages.error(request, "URL is empty!")
-            return redirect('videoapp:create')
+            # check user update image
+            if 'file_img' in request.FILES:
+                print("update image")
 
-        if(re.match(url_regex, request.POST.get('url')) is None):
-            messages.error(request, "Please enter a correct URL!")
-            return redirect('videoapp:create')
+                url = UPLOAD_VIDEO
+                files = {'file': request.FILES['file_img']}
+                data = {'crr': request.POST.get('thumbnail')}
+                res = rq.post(url, files=files, params=data)
 
-        #get value form input form
-        vid_id = request.POST.get('id')
-        cat_id = request.POST.get('cat_id')
-        title = base64.b64encode(request.POST.get('title').encode('utf-8')).decode('utf-8')
-        vid_url = base64.b64encode(request.POST.get('url').encode('utf-8')).decode('utf-8')
-        thumbnail = base64.b64encode(request.POST.get('thumbnail').encode('utf-8')).decode('utf-8')
-        description = base64.b64encode(request.POST.get('description').encode('utf-8')).decode('utf-8')
-        views = request.POST.get('views')
-        time = request.POST.get('time')
-        cat_id = request.POST.get('cat_id')
-        rate = request.POST.get('rate')
-        status = request.POST.get('status')
-
-        data = cv2.VideoCapture(request.POST.get('url'))
-        frames = data.get(cv2.CAP_PROP_FRAME_COUNT)
-        fps = int(data.get(cv2.CAP_PROP_FPS))
-        seconds = int(frames / fps)
-
-        #check user update image
-        if 'file_img' in request.FILES:
-            print("update image")
-
-            url = 'http://localhost/watchvideoapp/uploadImage.php'
-            files = {'file': request.FILES['file_img']}
-            data = {'crr': request.POST.get('thumbnail')}
-            res = rq.post(url, files=files, params=data)
-        
-            js = json.loads(res.content)
-            if(js['status'] == 1):
-                image_dir = 'http://localhost/watchvideoapp/image/'+js['dir'];
-                thumbnail = base64.b64encode(image_dir.encode('utf-8')).decode('utf-8')
-            else:
-                messages.error(request, "Something wrong when upload image, please try again!")
-                return redirect('videoapp:create')
-        else:
-            messages.error(request, "Thumbnail is required!")
-            return redirect('videoapp:create')
-
-        #save to form
-        updated_video = {
-            'vid_id': vid_id,
-            'cat': TblCategory.objects.get(cat_id=cat_id),
-            'vid_title': title,
-            'vid_url': vid_url,
-            'vid_thumbnail': thumbnail,
-            'vid_description': description,
-            'vid_view': views,
-            'vid_duration': seconds,
-            'vid_time': datetime.strptime(time, '%Y-%m-%d'),
-            'vid_avg_rate': 0,
-            'vid_status': status,
-            'vid_type': 1,
-            'vid_is_premium': 0
-        }
-    
-        form = VideoForm(updated_video)
-
-        if form.is_valid():
-            video = form.save()
-            messages.success(request, "Create successfully!")
-            return redirect('videoapp:update', video.vid_id)
-            
-        else:
-
-            for err in form.errors.items():
-
-                if(err[0] == 'vid_title'):
-                    messages.error(request, 'Title: ' + err[1][0])
-                elif(err[0] == 'vid_description'):
-                    messages.error(request, 'Description: ' + err[1][0])
-                elif(err[0] == 'vid_view'):
-                    messages.error(request, 'Views: ' + err[1][0])
-                elif(err[0] == 'vid_url'):
-                    messages.error(request, 'URL: ' + err[1][0])
+                js = json.loads(res.content)
+                if(js['status'] == 1):
+                    image_dir = IMAGE_DIR +js['dir']
+                    param['vid_thumbnail'] = base64.b64encode(
+                        image_dir.encode('utf-8')).decode('utf-8')
                 else:
-                    messages.error(request, 'Form is invalid')
+                    messages.error(
+                        request, "Something wrong when upload image, please try again!")
+                    return redirect('videoapp:create')
+            else:
+                messages.error(request, "Thumbnail is required!")
+                return redirect('videoapp:create')
+
+
+            status = executePostRequest(param)
+
+            if(status == 'success'):
+                messages.success(request, "Create video successfully!")
+            else:
+                messages.error(request, "Create video failed!")
                 
+            return redirect('managervideo:managervideo', 1, 0)
 
-        return redirect('videoapp:create')
 
-    categories = TblCategory.objects.filter(cat_type=1)
+        #load to screen
+        res_cat = executePostRequest({
+                'method_name': 'LOAD_CATEGORT',
+                'type': 1,
+                'search_text': ''
+        })
 
-    for cat in categories:
-        cat.cat_name = base64.b64decode(cat.cat_name).decode('utf-8')
-        cat.cat_image = base64.b64decode(cat.cat_image).decode('utf-8')
+        if(res_cat['status'] != 'success'):
+            return HttpResponse("Server Error!")
 
-    now = datetime.now()
-    date_time = now.strftime('%Y-%m-%d')
-    
-    default_video = {
-            'vid_title': 'New video title',
-            'vid_url': 'New video url',
-            'vid_thumbnail': 'https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640',
-            'vid_description': 'New video description',
-            'vid_view': 0,
-            'vid_status': 1,
+        categories = res_cat['category']
+
+        for index in range(len(categories)):
+            categories[index] = getDecodeCategory(categories[index])
+
+        now = datetime.now()
+        date_time = now.strftime('%Y-%m-%d')
+
+        context = {
+            'mode': 'create',
+            'date': date_time,
+            'categories': categories
         }
 
-    context = {
-        'mode': 'create',
-        'date': date_time,
-        'video': default_video,
-        'categories': categories
-    }
+        return render(request, 'videoapp/updateVideo.html', context)
+    except:
+        return HttpResponse("Server Error!")
 
-    return render(request, 'videoapp/updateVideo.html', context)
+    
 
 
 def videoPlayer(request):
@@ -272,3 +222,32 @@ def videoPlayer(request):
 
     context = {'url': url}
     return render(request, 'videoapp/videoPlayer.html', context)
+
+
+def getDecodeVideo(video):
+    base64.b64decode(video['vid_title']).decode('utf-8')
+    return {
+
+        'vid_id': int(video['vid_id']),
+        'cat_id': int(video['cat_id']),
+        'vid_title': base64.b64decode(video['vid_title']).decode('utf-8'),
+        'vid_url': base64.b64decode(video['vid_url']).decode('utf-8'),
+        'vid_thumbnail': base64.b64decode(video['vid_thumbnail']).decode('utf-8'),
+        'vid_description': base64.b64decode(video['vid_description']).decode('utf-8'),
+        'vid_view': int(video['vid_view']),
+        'vid_duration': int(video['vid_duration']),
+        'vid_avg_rate': float(video['vid_avg_rate']),
+        'vid_status': int(video['vid_status']),
+        'vid_type': int(video['vid_type']),
+        'vid_time': video['vid_time'],
+        'vid_is_premium': int(video['vid_is_premium'])
+    }
+
+
+def getDecodeCategory(cat):
+    return {
+        'cat_id': int(cat['cat_id']),
+        'cat_name': base64.b64decode(cat['cat_name']).decode('utf-8'),
+        'cat_image': base64.b64decode(cat['cat_image']).decode('utf-8'),
+        'cat_type': int(cat['cat_type'])
+    }
