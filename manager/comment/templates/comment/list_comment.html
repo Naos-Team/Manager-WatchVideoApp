@@ -5,7 +5,7 @@
   <div class="container-fluid">
     <a class="navbar-brand fw-bold">{{video_title}}</a>
     <form class="d-flex" role="search" method="GET" action="{% url 'comment:comment_main' video_id %}"> {% csrf_token %}
-      <input class="form-control me-2" type="search" name="tv_search_cmt" placeholder="Search" aria-label="Search">
+      <input class="form-control me-2" type="search" name="tv_search_cmt" placeholder="Search or All" aria-label="Search">
       <button class="btn btn-outline-success" name="btn_search_cmt" type="submit">Search</button>
     </form>
   </div>
@@ -21,13 +21,13 @@
   <li class="list-group-item d-flex justify-content-between align-items-start">
     <div class="ms-2 me-auto">
       <div class="fw-bold">Video Views</div>
-      {{video_view}}
+      {{vid_view}}
     </div>
   </li>
   <li class="list-group-item d-flex justify-content-between align-items-start">
     <div class="ms-2 me-auto">
       <div class="fw-bold">Total Comments</div>
-      {{num_cmts}}
+      {{total_comments}}
     </div>
   </li>
 </ol>

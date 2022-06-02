@@ -21,7 +21,7 @@
     </form>
   </div>
 </nav>
-<table class="table table_report">
+<table class="table table_report" style = "overflow-y:scroll; height:75vh">
   <thead class="thead-light">
     <tr>
       <th scope="col">Video ID</th>
@@ -32,12 +32,12 @@
   </thead>
   
   
-  <tbody style = "overflow-y:scroll; height:75vh">
-    {% for x,y in list_vids %}
+  <tbody >
+    {% for x in list_vids %}
     <tr>
       <td>{{x.vid_id}}</td>
       <td>{{x.vid_title}}</td>
-      <td>{{y}}</td>
+      <td>{{x.total_cmts}}</td>
       <td>
         <form action="{% url 'comment:comment_main' x.vid_id %}">
           <input type="image" class="icon_report" src="{% static 'styles/images/more.png' %}" />

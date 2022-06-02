@@ -66,7 +66,7 @@ def report_main(request, video_id):
     postObj = {
         'method_name': 'LOAD_REPORT_BY_VID',
         'vid_id': video_id,
-        'report_search': bs.encode_Str(report_search.lower()),
+        'report_search': bs.encode_Str(report_search),
     }
     data = {
         'data': json.dumps(postObj),
