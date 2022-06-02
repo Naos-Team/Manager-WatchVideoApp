@@ -40,7 +40,7 @@ def report_home(request, video_type):
     video_search = request.GET.get('tv_search_video') if request.GET.get('tv_search_video') != None else ''
     postObj = {
         'method_name': 'LOAD_ALL_VID_REPORT',
-        'vid_search': video_search,
+        'vid_search': bs.encode_Str(video_search),
         'vid_type': video_type,
     }
     data = {
