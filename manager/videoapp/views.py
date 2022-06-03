@@ -9,9 +9,6 @@ from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
-from main.models import TblVideo, TblCategory
-from .forms import VideoForm
 import re
 from Constant import UPLOAD_VIDEO, SERVER_URL, IMAGE_DIR, executePostRequest
 

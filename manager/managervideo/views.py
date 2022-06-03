@@ -5,11 +5,8 @@ from django.contrib import messages
 from datetime import datetime
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from main.models import TblCategory, TblVideo
-from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 import main.base64_change as bs
-from .videoform import VideoForm
 from datetime import date
 import base64
 from django.core.paginator import Paginator

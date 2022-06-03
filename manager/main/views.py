@@ -29,6 +29,7 @@ def login_view(request):
 
     return render(request, 'login.html', context)
 
+@login_required(login_url='/login')
 def logoutPage(request):
     logout(request)
     return redirect('/')

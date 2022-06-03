@@ -2,9 +2,6 @@ import requests as rq
 from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from main.models import TblCategory
-from django.db.models import Q
-from .categoryform import CategoryForm
 from django.contrib.auth.decorators import login_required
 import main.base64_change as bs
 import base64

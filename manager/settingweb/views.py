@@ -3,11 +3,8 @@ from datetime import datetime
 import requests
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from main.models import TblCategory, TblVideo, TblSettingWeb
-from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 import main.base64_change as bs
-from .stwform import SettingForm
 from django.core.paginator import Paginator
 from Constant import SERVER_URL
 # Create your views here.
@@ -115,13 +112,8 @@ def choiceTrending(request, type):
         list_trend.pop(0)
         list_trend = [int(item) for item in list_trend]
 
-        #Paginator
-        p = Paginator(videos, 6)
-        page = request.GET.get('page') 
-        list_vid = p.get_page(page)
-        nums = "a" * list_vid.paginator.num_pages
 
-        context = {'type':type, 'videos':list_vid, 'list_trend':list_trend, 'nums': nums}
+        context = {'type':type, 'videos':videos, 'list_trend':list_trend}
         return render(request, 'settingweb/choicetrend.html', context)
 
 def updateSTW(request):

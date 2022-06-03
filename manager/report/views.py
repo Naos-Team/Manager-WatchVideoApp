@@ -7,9 +7,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
-from main.models import TblReport, TblVideo
-from report.forms import ReportForm
-from django.db.models import Q
 import main.base64_change as bs
 from django.core.paginator import Paginator
 from Constant import SERVER_URL
