@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'managervideo',
     'settingweb',
     'videoapp',
+    'notification'
 ]
 
 MIDDLEWARE = [

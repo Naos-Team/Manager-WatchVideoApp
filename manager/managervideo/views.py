@@ -62,6 +62,7 @@ def getVid(id):
 
     return return_obj['video'] if return_obj['status'] == "success" else []
 
+@login_required(login_url='/login')
 def managervideo(request , pk, cat):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
 
