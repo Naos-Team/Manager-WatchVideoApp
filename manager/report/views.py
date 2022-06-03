@@ -1,12 +1,7 @@
-from telnetlib import SE
-from unicodedata import unidata_version
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.contrib import messages
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
 import main.base64_change as bs
 from django.core.paginator import Paginator
 from Constant import SERVER_URL
@@ -32,7 +27,7 @@ def decode_Vid(videos):
         video = decode_Item_Vid( video )
     return videos
 
-
+@login_required(login_url='/login')
 def report_home(request, video_type):
     video_search = request.GET.get('tv_search_video') if request.GET.get('tv_search_video') != None else ''
     postObj = {
@@ -138,21 +133,3 @@ def delete_report(request, report_id):
         res = requests.post(SERVER_URL, data=data)
         return_object = json.loads(res.content)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-
-    
-    # video_search = request.GET.get('tv_search_video') if request.GET.get('tv_search_video') != None else ''
-    # if (video_search=="" and video_type==0):
-    #     videos = TblVideo.objects.all()
-    # elif (video_search==""):
-    #     videos = TblVideo.objects.filter(vid_type = video_type)
-    # else:
-    #     if video_search.isnumeric():
-    #         videos = TblVideo.objects.filter(Q(vid_id = video_search) | Q(vid_type = video_type) )
-    #     else:
-    #         if video_search.lower() == 'all':
-    #             videos = TblVideo.objects.all()
-    #         else:
-    #             videos = TblVideo.objects.filter(Q(vid_title = video_search) | Q(vid_type = video_type) )
-
-    # context = {'videos': videos, 'video_type':video_type}
-    # return render(request, 'report/home_report.html', context)

@@ -1,16 +1,15 @@
 import base64
 import json
-from ntpath import join
 import cv2
 import requests as rq
-from datetime import date, datetime
+from datetime import datetime
 from django.shortcuts import render
 from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 import re
-from Constant import UPLOAD_VIDEO, SERVER_URL, IMAGE_DIR, executePostRequest
+from Constant import UPLOAD_VIDEO, IMAGE_DIR, executePostRequest
 
 url_regex = re.compile(
     r'^(?:http|ftp)s?://'  # http:// or https://
@@ -22,6 +21,7 @@ url_regex = re.compile(
     r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
 
+@login_required(login_url='/login')
 def updateVideo(request, id):
 
     try:
@@ -118,7 +118,7 @@ def updateVideo(request, id):
     except:
         return HttpResponse("Server Error!")
 
-
+@login_required(login_url='/login')
 def createVideo(request):
 
     try:
@@ -212,7 +212,7 @@ def createVideo(request):
 
     
 
-
+@login_required(login_url='/login')
 def videoPlayer(request):
 
     url = request.POST.get('url') if request.POST.get('url') != None else ''

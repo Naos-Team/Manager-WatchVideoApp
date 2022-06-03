@@ -1,12 +1,7 @@
-from unicodedata import unidata_version
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.contrib import messages
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import User
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
-import base64
 import main.base64_change as bs
 from django.core.paginator import Paginator
 from Constant import SERVER_URL
@@ -33,6 +28,7 @@ def decode_Vid(videos):
         video = decode_Item_Vid(video)
     return videos
 
+@login_required(login_url='/login')
 def comment_home(request, video_type):
     video_search = request.GET.get('tv_search_video') if request.GET.get('tv_search_video') != None else ''
     postObj = {

@@ -1,5 +1,4 @@
 import json
-from webbrowser import get
 import requests as rq
 from django.contrib import messages
 from datetime import datetime

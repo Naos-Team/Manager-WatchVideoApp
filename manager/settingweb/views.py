@@ -1,11 +1,9 @@
 import json
-from datetime import datetime
 import requests
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 import main.base64_change as bs
-from django.core.paginator import Paginator
 from Constant import SERVER_URL
 # Create your views here.
 
@@ -36,6 +34,7 @@ def decode_Video(videos):
         video = decode_Item_Video(video)
     return videos
 
+
 def getSettingweb():
     postObj = {
         'method_name': 'GET_SETTING',
@@ -50,6 +49,7 @@ def getSettingweb():
 
     return return_obj['setting_array'] if return_obj['status'] == "success" else []
 
+@login_required(login_url='/login')
 def settingweb(request, able):
     settingweb = getSettingweb()
     settingweb = decode_Item_Setting(settingweb)
@@ -58,6 +58,7 @@ def settingweb(request, able):
     context = {'able':able, 'settingweb':settingweb}
     return render(request, 'settingweb/settingweb.html', context)
 
+@login_required(login_url='/login')
 def choiceTrending(request, type):
     settingweb = getSettingweb()
     if request.method == 'POST':
@@ -116,6 +117,7 @@ def choiceTrending(request, type):
         context = {'type':type, 'videos':videos, 'list_trend':list_trend}
         return render(request, 'settingweb/choicetrend.html', context)
 
+@login_required(login_url='/login')
 def updateSTW(request):
     settingweb = getSettingweb()
     settingweb = decode_Item_Setting(settingweb)
