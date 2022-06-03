@@ -26,7 +26,7 @@
                 value="{{video.vid_title}}"
                 class="form-control"
                 required
-                id="exampleFormControlInput1"
+                id="txt_title"
             />
         </div>
 
@@ -91,7 +91,6 @@
                     class="d-inline form-control"
                     value="{{video.vid_url}}"
                     required
-                    id="exampleFormControlInput1"
                 />
             </div>
             <div class="form-group col d-flex flex-row align-items-center justify-content-center">            
@@ -105,7 +104,6 @@
                 name="description"
                 class="form-control"
                 id="exampleFormControlTextarea1"
-                required
                 rows="5"
             >{{video.vid_description}}</textarea
             >
@@ -121,7 +119,7 @@
                     required
                     class="form-control"
                     value="{{video.vid_view}}"
-                    id="exampleFormControlInput1"
+                    id="txt_views"
                 />
             </div>
             <div class="form-group col-md-6">
@@ -170,7 +168,6 @@
 <script>
 
     form_update = document.getElementById("form_update");
-
     form_check = document.getElementById("form_check");
     hidden_url = document.getElementById("hidden_url");
 
@@ -183,7 +180,43 @@
     }
 
     function save(){
-        if (confirm("Please confirm your action!") == true) {
+
+        title = document.getElementById("txt_title").value;
+        url = document.getElementById("txt_url").value;
+        views = document.getElementById("txt_views").value;
+   
+        if(title === ""){
+            alert("Please enter Title");
+            return;
+        }
+
+        if(views === ""){
+            alert("Please enter Views");
+            return;   
+        }
+
+        if(parseInt(views) < 0){
+            alert("Views cannot be negative!");
+            return;
+        }
+
+        if(views % 1 != 0){
+            alert("Views must be an integer!");
+            return;
+        }
+        
+        if(url === ""){
+            alert("Please enter URL!");
+            return;
+        }
+        
+
+        if(!validURL(url)){
+            alert("Please enter a correct URL!");
+            return;
+        }
+
+        if(confirm("Please confirm your action!") == true) {
             form_update.submit();
         }
     }
