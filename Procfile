@@ -1,1 +1,1 @@
-web: sh -c 'cd ./manager/ && gunicorn manager.wsgi'
+web: cd manager && gunicorn manager.wsgi
