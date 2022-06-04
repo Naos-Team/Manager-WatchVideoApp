@@ -1,1 +1,1 @@
-web: cd manager && gunicorn manager.wsgi
+web: gunicorn --manager app manager.wsgi
