@@ -15,22 +15,23 @@
           <input class="input-group-text" type="text" name = "q" placeholder = "Search...."/>
         </form>
 
-        <div class="ms-auto mr-15" >
-            
-            <input type="submit" class="btn btn-primary" value="Save"/>
-            <a type="button" href="{% url 'settingweb:setting' 1%}" class="btn btn-danger" value="Back">Back</a>
-        </div>
+       
       </div>
+      <p class="card-header h2 text-white bg-dark">
+          Choose
+          {% if type == "1"%} VIDEO {%endif%}
+          {% if type == "2"%} TV {%endif%}
+          {% if type == "3"%} RADIO {%endif%} 
+          Trending
+      </p>    
+      
+<form method="post" action="{% url 'settingweb:choice' type%}" class="fw-bold p-4">
+    {% csrf_token %}
+     <div style = "right:0px;" >   
+        <input type="submit" class="btn btn-primary" value="Save"/>
+        <a type="button" href="{% url 'settingweb:setting' 1%}" class="btn btn-danger" value="Back">Back</a>
+    </div>    
 <div class="card border-dark bg-light my-1" style = "overflow-y:scroll; height:85vh">
-    <p class="card-header h3 text-white bg-dark">
-        Choose
-        {% if type == "1"%} VIDEO {%endif%}
-        {% if type == "2"%} TV {%endif%}
-        {% if type == "3"%} RADIO {%endif%} 
-        Trending
-    </p>
-    <form method="post" action="{% url 'settingweb:choice' type%}" class="fw-bold p-4">
-        {% csrf_token %}        
         <div class="row content_category" >
         {% for video in videos %}
             <div class="card mb-3" style="width: 45%;
@@ -85,9 +86,9 @@
         
 
 
-    </form>
     </div>
     
 
+</form>
 </div>        
 {% endblock content %}
