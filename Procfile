@@ -1,1 +1,1 @@
-web: gunicorn --manager app manager.wsgi
+web: gunicorn --pythonpath manager manager.wsgi
