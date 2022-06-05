@@ -12,6 +12,8 @@ def decode_Item_Setting(stw):
     stw['ads_key_interstial'] = bs.decode_Str(stw['ads_key_interstial'])
     stw['ad_display_count'] = int(stw['ad_display_count'])
     stw['ads_key_openads'] = bs.decode_Str(stw['ads_key_openads'])
+    stw['onesignal_app_id'] = bs.decode_Str(stw['onesignal_app_id'])
+    stw['onesignal_rest_api'] = bs.decode_Str(stw['onesignal_rest_api'])
     return stw
 
 def decode_Item_Video(video):
@@ -130,7 +132,9 @@ def updateSTW(request):
             'ads_key_openads': bs.encode_Str(request.POST.get('openads')), 
             'arr_Vid_trend': request.POST.get('vid_trend'),
             'arr_TV_trend':  request.POST.get('tv_trend'),
-            'arr_Radi_trend':  request.POST.get('radio_trend')
+            'arr_Radi_trend':  request.POST.get('radio_trend'),
+            'onesignal_app_id':   bs.encode_Str(request.POST.get('onesignal_app_id')),
+            'onesignal_rest_api':   bs.encode_Str(request.POST.get('onesignal_rest_api'))
         }
 
         data = {
