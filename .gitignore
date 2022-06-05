@@ -34,7 +34,6 @@ media
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
-db.sqlite3
 
 # File-based project format
 *.iws
