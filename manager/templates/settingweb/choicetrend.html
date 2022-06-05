@@ -25,13 +25,13 @@
           Trending
       </p>    
       
-<form method="post" action="{% url 'settingweb:choice' type%}" class="fw-bold p-4">
+<form method="post" action="{% url 'settingweb:choice' type%}" class="fw-bold">
     {% csrf_token %}
-     <div style = "right:0px;" >   
-        <input type="submit" class="btn btn-primary" value="Save"/>
+     <div class="d-flex flex-row justify-content-end" style = "margin-top:10px;" >   
+        <input style = "margin-right:10px;" type="submit" class="btn btn-primary" value="Save"/>
         <a type="button" href="{% url 'settingweb:setting' 1%}" class="btn btn-danger" value="Back">Back</a>
     </div>    
-<div class="card border-dark bg-light my-1" style = "overflow-y:scroll; height:85vh">
+<div class="card border-dark bg-light my-1" style = "overflow-y:scroll; height:75vh">
         <div class="row content_category" >
         {% for video in videos %}
             <div class="card mb-3" style="width: 45%;
