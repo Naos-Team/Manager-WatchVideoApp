@@ -6,11 +6,12 @@
 
 {% block content %}
 
-<div class="card border-dark bg-light my-1">
+<div class="card border-dark bg-light my-1 " style="overflow: hidden">
     <p class="card-header h3 text-white bg-dark">SETTING</p>
 
-    <form id="form_update" method="post" action="{% url 'settingweb:update'%}" class="fw-bold p-4">
+    <form id="form_update" method="post" action="{% url 'settingweb:update'%}" class="fw-bold p-4" style="overflow: scroll; height:90vh">
         {% csrf_token %}
+        <div class="overflow-scrolly">
       
         <div class="mb-3">
             <label class="form-label" for="exampleFormControlInput1">Key Banner</label>
@@ -145,6 +146,7 @@
                 <a type="button" href="{% url 'settingweb:setting' 0%}" class="btn btn-danger" value="Cancel">Cancel</a>
             {%endif%}
         </div>
+    </div>
     </form>
     <form id="form_check" method="post" action="">
         {% csrf_token %}
