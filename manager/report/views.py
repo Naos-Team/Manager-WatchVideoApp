@@ -7,6 +7,23 @@ from django.core.paginator import Paginator
 from Constant import SERVER_URL
 import json
 import requests
+import pyrebase
+
+config={
+    "apiKey": "AIzaSyBY9DlymbmFWWlE4I2ZXVRuxigNgYUUvjs",
+    "authDomain": "watch-video-app-ffbc5.firebaseapp.com",
+    "databaseURL": "https://watch-video-app-ffbc5-default-rtdb.firebaseio.com",
+    "projectId": "watch-video-app-ffbc5",
+    "storageBucket": "watch-video-app-ffbc5.appspot.com",
+    "messagingSenderId": "926715980598",
+    "appId": "1:926715980598:web:ed1183d1b089adb1cea197",
+    "measurementId": "G-NS1574JPLV"
+}
+
+firebase=pyrebase.initialize_app(config)
+authe = firebase.auth()
+database=firebase.database()
+
 
 def decode_Item_Report(report):
     report['uid']= bs.decode_Str(report['uid'])
@@ -73,6 +90,13 @@ def report_main(request, video_id):
     page = request.GET.get('page') 
     list_res = p.get_page(page)
     nums = "a" * list_res.paginator.num_pages
+
+    try:
+        for l in list_res:
+            l['name'] = database.child('Users').child(l['uid']).child("user_name").get().val()
+            l['url'] = database.child('Users').child(l['uid']).child("photo_url").get().val()
+    except Exception as e:
+        print(str(e))
 
     context = {'video_id':video_id, 'list_res':list_res, 'nums': nums }
     return render(request, 'report/list_report.html', context)

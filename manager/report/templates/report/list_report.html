@@ -14,7 +14,7 @@
   <thead class="thead-light">
     <tr>
       <th scope="col">ID</th>
-      <th scope="col">User ID</th>
+      <th scope="col">User Name</th>
       <th scope="col">Report Content</th>
       <th scope="col">Status</th>
       <th scope="col"></th>
@@ -26,7 +26,7 @@
     {% for report in list_res %}
     <tr>
       <td>{{report.report_id}}</td>
-      <td>{{report.uid}}</td>
+      <td>{{report.name}}</td>
       <td>{{report.report_content}}</td>
       <td>{{report.report_status}}</td>
       <td>
