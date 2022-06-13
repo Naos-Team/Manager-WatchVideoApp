@@ -48,7 +48,8 @@ def updateVideo(request, id):
 
             data = cv2.VideoCapture(request.POST.get('url'))
             frames = data.get(cv2.CAP_PROP_FRAME_COUNT)
-            fps = int(data.get(cv2.CAP_PROP_FPS))
+            # fps = int(data.get(cv2.CAP_PROP_FPS))
+            fps = 20
             seconds = int(frames / fps)
 
             params = {
