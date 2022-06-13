@@ -115,8 +115,8 @@ def updateVideo(request, id):
 
         return render(request, 'videoapp/updateVideo.html', context)
 
-    except:
-        return HttpResponse("Server Error!")
+    except Exception as e:
+        return HttpResponse(str(e))
 
 @login_required(login_url='/login')
 def createVideo(request):
