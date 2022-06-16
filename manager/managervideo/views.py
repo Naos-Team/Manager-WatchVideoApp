@@ -85,7 +85,7 @@ def managervideo(request , pk, cat):
     videos = decode_Video(videos)
     categories = decode_Cate(categories)
     #Paginator
-    p = Paginator(videos, 16)
+    p = Paginator(videos, 15)
     page = request.GET.get('page') 
     list_res = p.get_page(page)
     nums = "a" * list_res.paginator.num_pages

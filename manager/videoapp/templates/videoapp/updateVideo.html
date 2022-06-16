@@ -12,7 +12,7 @@
     <form id="form_update" method="post" enctype="multipart/form-data" action="" class="fw-bold p-4" >
         {% csrf_token %}
         <div class="d-flex mb-3 justify-content-center align-items-center bg-secondary border border-primary rounded">
-            <img id="image" class="w-25 " alt="Can't show that picture" src="{% if mode == 'create' %}https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640{% else %} {{video.vid_thumbnail}} {% endif %}"/>
+            <img id="image" class="w-25 text-white" alt="Can't show that picture"  src="{% if mode == 'create' %}https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640{% else %} {{video.vid_thumbnail}} {% endif %}"/>
         </div>
         <div class="mb-3">
             <label for="fromFile" class="form-label">Thumbnail</label>

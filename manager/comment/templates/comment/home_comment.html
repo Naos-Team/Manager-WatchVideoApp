@@ -4,7 +4,7 @@
 <nav class="navbar bg-light" style="top: 1%;">
   <div class="container-fluid">
     <div class="dropdown">
-        <select class="choice-type btn  btn-dark" name="type" select = "4" size = "1" onchange = "window.location.href =  this.value">
+        <select class="choice-type btn  btn-outline-primary" name="type" select = "4" size = "1" onchange = "window.location.href =  this.value">
           <option value="{% url 'comment:comment_home' 0 %}"
             {% if video_type == 0 %} selected = "selected" {% endif %}>All</option>
           <option value="{% url 'comment:comment_home' 1 %}"
@@ -17,17 +17,17 @@
       </div>
     <form class="d-flex" role="search" method="GET" action="{% url 'comment:comment_home' video_type%}"> {% csrf_token %}
       <input class="form-control me-2" type="search" placeholder="Search or All" aria-label="Search" name="tv_search_video">
-      <button class="btn btn-outline-success" type="submit" name="btn_search_video" style="margin-left:5px;">Search</button>
+      <button class="btn btn-outline-primary" type="submit" name="btn_search_video" style="margin-left:5px;">Search</button>
     </form>
   </div>
 </nav>
-<table class="table table_report" style = "overflow-y:scroll; height:75vh">
+<table class="table table_report bg-light" style = "overflow-y:scroll; height:75vh">
   <thead class="thead-light">
-    <tr>
-      <th scope="col">Video ID</th>
-      <th scope="col">Video Title</th>
-      <th scope="col">Total Comments</th>
-      <th scope="col"></th>
+    <tr class="bg-primary">
+      <th class="text-white" scope="col">Video ID</th>
+      <th class="text-white" scope="col">Video Title</th>
+      <th class="text-white" scope="col">Total Comments</th>
+      <th class="text-white" scope="col"></th>
     </tr>
   </thead>
   
@@ -35,12 +35,12 @@
   <tbody >
     {% for x in list_vids %}
     <tr>
-      <td>{{x.vid_id}}</td>
-      <td>{{x.vid_title}}</td>
-      <td>{{x.total_cmts}}</td>
-      <td>
+      <td class="text-dark">{{x.vid_id}}</td>
+      <td class="text-dark">{{x.vid_title}}</td>
+      <td class="text-dark">{{x.total_cmts}}</td>
+      <td> 
         <form action="{% url 'comment:comment_main' x.vid_id %}">
-          <input type="image" class="icon_report" src="{% static 'styles/images/more.png' %}" />
+          <input type="image" style="width:20px; height:20px;"class="icon_report" src="{% static 'styles/images/more.png' %}" />
         </form>
       </td>
     </tr>

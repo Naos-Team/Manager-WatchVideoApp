@@ -1,22 +1,22 @@
 {% extends 'main.html' %} 
 {% load static %} 
 {% block content %} 
-<nav class="navbar bg-light" style="top: 1%;">
+<nav class="navbar" style="top: 1%;">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold">{{num_reports}}</a>
+    <a class="navbar-brand fw-bold">Total Report: {{num_reports}}</a>
     <form class="d-flex" role="search" method="GET" action="{% url 'report:report_main' video_id%}"> {% csrf_token %}
       <input class="form-control me-2" type="search" placeholder="Search or All" aria-label="Search" name="tv_search_report">
-      <button class="btn btn-outline-success" type="submit" name="btn_search_report" style="margin-left:5px;">Search</button>
+      <button class="btn btn-primary" type="submit" name="btn_search_report" style="margin-left:5px;">Search</button>
     </form>
   </div>
 </nav>
-<table class="table table_report" style = "overflow-y:scroll; height:80vh">
-  <thead class="thead-light">
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">User Name</th>
-      <th scope="col">Report Content</th>
-      <th scope="col">Status</th>
+<table class="table table_report bg-light" style = "overflow-y:scroll; height:80vh">
+  <thead class="thead-light ">
+    <tr class="bg-primary">
+      <th class="text-white" scope="col">ID</th>
+      <th class="text-white" scope="col">User Name</th>
+      <th class="text-white" scope="col">Report Content</th>
+      <th class="text-white" scope="col">Status</th>
       <th scope="col"></th>
       <th scope="col"></th>
     </tr>
@@ -25,18 +25,18 @@
   <tbody>
     {% for report in list_res %}
     <tr>
-      <td>{{report.report_id}}</td>
-      <td>{{report.name}}</td>
-      <td>{{report.report_content}}</td>
-      <td>{{report.report_status}}</td>
+      <td class="text-dark">{{report.report_id}}</td>
+      <td class="text-dark">{{report.name}}</td>
+      <td class="text-dark">{{report.report_content}}</td>
+      <td class="text-dark">{{report.report_status}}</td>
       <td>
         <form action="{% url 'report:detail_report' report.report_id %}">
-          <input type="image" class="icon_report" src="{% static 'styles/images/edit.png' %}" />
+          <input type="image" style="width:20px; height:20px;" class="icon_report" src="{% static 'styles/images/edit.png' %}" />
         </form>
         
       </td>
       <td>
-        <input type="image" class="icon_report" src="{% static 'styles/images/delete.png' %}" data-bs-toggle="modal" data-bs-target="#modal{{report.report_id}}" class="icon_report" />
+        <input type="image" style="width:20px; height:20px;" class="icon_report" src="{% static 'styles/images/delete.png' %}" data-bs-toggle="modal" data-bs-target="#modal{{report.report_id}}" class="icon_report" />
           <div
             class="modal fade"
             id="modal{{report.report_id}}"

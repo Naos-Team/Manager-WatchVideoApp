@@ -98,7 +98,7 @@ def report_main(request, video_id):
     except Exception as e:
         print(str(e))
 
-    context = {'video_id':video_id, 'list_res':list_res, 'nums': nums }
+    context = {'video_id':video_id, 'list_res':list_res, 'nums': nums, 'num_reports' : len(list_res) }
     return render(request, 'report/list_report.html', context)
 
 @login_required(login_url='/login')

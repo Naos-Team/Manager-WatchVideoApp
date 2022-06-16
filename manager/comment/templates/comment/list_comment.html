@@ -1,16 +1,16 @@
 {% extends 'main.html' %} 
 {% load static %} 
 {% block content %}
-<nav class="navbar bg-light">
+<nav class="navbar">
   <div class="container-fluid">
     <a class="navbar-brand fw-bold">{{video_title}}</a>
     <form class="d-flex" role="search" method="GET" action="{% url 'comment:comment_main' video_id %}"> {% csrf_token %}
       <input class="form-control me-2" type="search" name="tv_search_cmt" placeholder="Search or All" aria-label="Search">
-      <button class="btn btn-outline-success" name="btn_search_cmt" type="submit">Search</button>
+      <button class="btn btn-primary" name="btn_search_cmt" type="submit">Search</button>
     </form>
   </div>
 </nav>
-<div style = "overflow-y:scroll; height:82vh">
+<div style = """>
 <ol class="list-group list-group-numbered border border-primary">
   <li class="list-group-item d-flex justify-content-between align-items-start">
     <div class="ms-2 me-auto">
@@ -42,7 +42,8 @@
       <div class="col-md-1 d-flex justify-content-center align-items-center">
         <input
           type="image"
-          class="icon_user rounded-circle border border-2 border-primary"
+          style="width:60px; height:60px;"
+          class="rounded-circle border border-2 border-primary"
           src="{{cmt.url}}"
         />
       </div>
@@ -53,7 +54,7 @@
         </div>
         <div class="d-flex w-100 justify-content-between align-items-center">
             <p>{{cmt.cmt_text}}</p>
-            <input type="image" class="icon_report" src="{% static 'styles/images/delete.png' %}" data-bs-toggle="modal" data-bs-target="#mymodal{{cmt.cmt_id}}" class="icon_report" />
+            <input type="image" style="width:20px; height:20px;"class="icon_report" src="{% static 'styles/images/delete.png' %}" data-bs-toggle="modal" data-bs-target="#mymodal{{cmt.cmt_id}}" class="icon_report" />
           <div
             class="modal fade"
             id="mymodal{{cmt.cmt_id}}"
