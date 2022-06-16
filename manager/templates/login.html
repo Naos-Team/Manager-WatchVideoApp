@@ -1,70 +1,64 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Manager WatchVideoApp</title>
-        <link
-            rel="stylesheet"
-            type="text/css"
-            media="screen"
-            href="{% static 'styles/main.css' %}"
-        />
-        {% comment %} <link rel="stylesheet" href="{% static 'admin/css/main/app.css' %}">
-        <link rel="stylesheet" href="{% static 'admin/css/main/app-dark.css' %}">
-        <link rel="stylesheet" href="{% static 'admin/css/shared/iconly.css' %}"> {% endcomment %}
-        {% comment %} <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-            crossorigin="anonymous"
-        /> {% endcomment %}
-    </head>
-    <body style="background-color: #f0f8ff">
 
-        
-        
-        <span class="login_container">
-            <img src="{% static 'styles/images/login.png' %}" alt="" style="width:20%; height:40%; align:center">
-            <div class="cardparent card">
-                
-                <div class="card-body">
-                    <div>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manager WatchVideoApp</title>
+    <link rel="stylesheet" href="{% static 'styles/css/main/app.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/css/shared/iconly.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/css/pages/auth.css' %}">
+    {% comment %} <link rel="shortcut icon" href="{% static 'images/logo/favicon.svg' %}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'images/logo/favicon.png' %}" type="image/png"> {% endcomment %}
+
+</head>
+
+<body>
+    <div id="auth">
+        <div class="row h-100">
+            <div class="col-lg-5 col-12">
+                <div id="auth-left">
+                    {% comment %} <div class="auth-logo">
+                        <a href="index.html"><img src="assets/images/logo/logo.svg" alt="Logo"></a>
+                    </div> {% endcomment %}
+                    <h1 class="auth-title">Log in.</h1>
+                    <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group position-relative has-icon-left mb-4">
+                            <input type="text" class="form-control form-control-xl" placeholder="Username"
+                                name="username">
+                            <div class="form-control-icon">
+                                <i class="bi bi-person"></i>
+                            </div>
+                        </div>
+                        <div class="form-group position-relative has-icon-left mb-1">
+                            <input type="password" class="form-control form-control-xl" placeholder="Password"
+                                name="password">
+                            <div class="form-control-icon">
+                                <i class="bi bi-shield-lock"></i>
+                            </div>
+                        </div>
                         
-                        <form method="POST">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label for="exampleInputUsername"
-                                    >Username</label
-                                >
-                                <input
-                                    type="text"
-                                    name="username"
-                                    class="form-control"
-                                    placeholder="Enter Username"
-                                />
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1"
-                                    >Password</label
-                                >
-                                <input
-                                    type="password"
-                                    name="password"
-                                    class="form-control"
-                                    id="exampleInputPassword1"
-                                    placeholder="Password"
-                                />
-                            </div>
-                            <button type="submit" class="btn btn-primary">
-                                Login
-                            </button>
-                        </form>
+                        <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-4">Log in</button>
+                    </form>
+                    <div class="text-center mt-5 text-lg fs-4">
+                        <p><a class="font-bold" href="auth-forgot-password.html">Forgot password?</a>.</p>
                     </div>
                 </div>
             </div>
-        </span>
-    </body>
+            <div class="col-lg-7 d-none d-lg-block">
+                <div id="auth-right">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
 </html>
