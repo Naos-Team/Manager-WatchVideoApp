@@ -1,7 +1,3 @@
-.nhi{
-    color: white;
-    font-size: x-large;
-}
 .maincontents{
     display: grid;
     grid-template-columns: 1fr 5fr;

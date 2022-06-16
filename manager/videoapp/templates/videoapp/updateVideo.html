@@ -1,11 +1,14 @@
 {% extends 'main.html' %} {% block content %}
 
 <div style="overflow: hidden" >
-
+    <div class="col-12 col-md-6 order-md-1 order-last">
+        <h3>{% if mode == 'create' %}CREATE NEW VIDEO{% else %}VIDEO DETAIL{% endif %}</h3>
+        <p class="text-subtitle text-muted">{% if mode == 'create' %}Create videos with high quality{% else %}Update videos with high quality{% endif %}</p>
+    </div>
 <div class="card border-dark bg-light my-1" >
     
-    <p class="card-header h3 fw-bold text-white bg-dark" > {% if mode == 'create' %}CREATE NEW VIDEO{% else %}VIDEO DETAIL{% endif %}</p>
-    <div class="card-body" style="overflow: scroll; height:90vh;">
+    
+    <div class="card-body" style="overflow: hidden;">
     <form id="form_update" method="post" enctype="multipart/form-data" action="" class="fw-bold p-4" >
         {% csrf_token %}
         <div class="d-flex mb-3 justify-content-center align-items-center bg-secondary border border-primary rounded">
