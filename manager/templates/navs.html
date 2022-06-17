@@ -23,7 +23,7 @@
       <div class="sidebar-header position-relative">
         <div class="d-flex justify-content-between align-items-center">
           <div class="logo">
-            <a href="index.html"><img src="assets/images/logo/logo.svg" alt="Logo" srcset=""></a>
+            <a href="">Manager</a>
           </div>
           <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
@@ -59,42 +59,48 @@
         </div>
       </div>
       <div class="sidebar-menu">
-        <ul class="menu">
+        <ul class="menu" id="ul-nav">
           <li class="sidebar-title">Menu</li>
-          <li class="sidebar-item  ">
+          <li class="sidebar-item">
             <a href="{% url 'managervideo:dashboard'%}" class='sidebar-link'>
-              <i class="bi bi-life-preserver"></i>
+              <i class="bi bi-grid-fill"></i>
               <span>Dashboard</span>
             </a>
           </li>
           <li class="sidebar-item  ">
             <a href="{% url 'managervideo:managervideo' pk=1 cat=0 %}" class='sidebar-link'>
-              <i class="bi bi-life-preserver"></i>
+              <i class="bi bi-collection-fill"></i>
               <span>Video Manager</span>
             </a>
           </li>
           <li class="sidebar-item  ">
             <a href="{% url 'category:category' 1 %}" class='sidebar-link'>
-              <i class="bi bi-life-preserver"></i>
+              <i class="bi bi-stack"></i>
               <span>Category</span>
             </a>
           </li>
           <li class="sidebar-item  ">
             <a href="{% url 'report:report_home' 0%}" class='sidebar-link'>
-              <i class="bi bi-life-preserver"></i>
+              <i class="bi bi-file-earmark-medical-fill"></i>
               <span>Report</span>
             </a>
           </li>
           <li class="sidebar-item  ">
             <a href="{% url 'comment:comment_home' 0%}" class='sidebar-link'>
-              <i class="bi bi-life-preserver"></i>
+              <i class="bi bi-chat-dots-fill"></i>
               <span>Comment</span>
             </a>
           </li>
           <li class="sidebar-item  ">
             <a href="https://console.firebase.google.com/u/0/project/watch-video-app-ffbc5/overview" class='sidebar-link'>
-              <i class="bi bi-life-preserver"></i>
+              <i class="bi bi-person-badge-fill"></i>
               <span>User</span>
+            </a>
+          </li>
+          <li class="sidebar-item  ">
+            <a href="{% url 'notification:send' %}" class='sidebar-link'>
+              <i class="bi bi-egg-fill"></i>
+              <span>Notification</span>
             </a>
           </li>
           <li class="sidebar-item  ">
@@ -104,14 +110,8 @@
             </a>
           </li>
           <li class="sidebar-item  ">
-            <a href="{% url 'notification:send' %}" class='sidebar-link'>
-              <i class="bi bi-life-preserver"></i>
-              <span>Notication</span>
-            </a>
-          </li>
-          <li class="sidebar-item  ">
             <a href="{% url 'main:logout' %}" class='sidebar-link'>
-              <i class="bi bi-life-preserver"></i>
+              <i class="bi bi-x-octagon-fill"></i>
               <span>Logout</span>
             </a>
           </li>

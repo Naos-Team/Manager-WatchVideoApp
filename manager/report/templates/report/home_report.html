@@ -30,9 +30,9 @@
 <table class="table table_report" style = "overflow-y:scroll; height:75vh">
   <thead class="thead-light">
     <tr class="">
-      <th class="text-dark" scope="col">Video ID</th>
-      <th class="text-dark" scope="col">Video Title</th>
-      <th class="text-dark" scope="col">Total Reports</th>
+      <th class="" scope="col">Video ID</th>
+      <th class="" scope="col">Video Title</th>
+      <th class="" scope="col">Total Reports</th>
       <th scope="col"></th>
     </tr>
   </thead>
@@ -40,9 +40,9 @@
   <tbody >
     {% for x in list_vids %}
     <tr>
-      <td class="text-dark">{{x.vid_id}}</td>
-      <td class="text-dark">{{x.vid_title}}</td>
-      <td class="text-dark">{{x.total_reports}}</td>
+      <td class="">{{x.vid_id}}</td>
+      <td class="">{{x.vid_title}}</td>
+      <td class="">{{x.total_reports}}</td>
       <td>
         <form action="{% url 'report:report_main' x.vid_id %}">
           <input type="image" style="width:20px;height:20px;" class="icon_report" src="{% static 'styles/images/more.png' %}" />

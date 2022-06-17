@@ -18,10 +18,10 @@
 <table class="table table_report" style = "overflow-y:scroll; height:80vh">
   <thead class="thead-light ">
     <tr class="">
-      <th class="text-dark" scope="col">ID</th>
-      <th class="text-dark" scope="col">User Name</th>
-      <th class="text-dark" scope="col">Report Content</th>
-      <th class="text-dark" scope="col">Status</th>
+      <th class="" scope="col">ID</th>
+      <th class="" scope="col">User Name</th>
+      <th class="" scope="col">Report Content</th>
+      <th class="" scope="col">Status</th>
       <th scope="col"></th>
       <th scope="col"></th>
     </tr>
@@ -30,10 +30,10 @@
   <tbody>
     {% for report in list_res %}
     <tr>
-      <td class="text-dark">{{report.report_id}}</td>
-      <td class="text-dark">{{report.name}}</td>
-      <td class="text-dark">{{report.report_content}}</td>
-      <td class="text-dark">{{report.report_status}}</td>
+      <td class="">{{report.report_id}}</td>
+      <td class="">{{report.name}}</td>
+      <td class="">{{report.report_content}}</td>
+      <td class="">{{report.report_status}}</td>
       <td>
         <form action="{% url 'report:detail_report' report.report_id %}">
           <input type="image" style="width:20px; height:20px;" class="icon_report" src="{% static 'styles/images/edit.png' %}" />

@@ -24,12 +24,13 @@
         <link rel="shortcut icon" href="{% static 'styles/images/logo/favicon.svg' %}" type="image/x-icon">
         <link rel="shortcut icon" href="{% static 'styles/images/logo/favicon.png' %}" type="image/png">
         <link rel="shortcut icon" href="{% static 'styles/images/logo/logo.svg' %}" type="image/png">
+        
     {% block style %}
     {% endblock style %}
     <title>{% block title %}Manager{% endblock title %}</title>
   </head>
-  <body>
-    <div id="app" class="maincontents">
+  <body class="body theme-light">
+    <div id="app" class="base">
       <div id="sidebar" class="active">{% include 'navs.html' %}</div>
       <div id="main">
           {% if messages %}
@@ -50,5 +51,7 @@
           {% endblock content %}
       </div>
   </div>
+
+  <script src="{% static 'styles/js/main.js' %}"></script>
   </body>
 </html>
