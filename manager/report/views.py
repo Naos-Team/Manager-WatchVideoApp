@@ -60,7 +60,7 @@ def report_home(request, video_type):
 
     list_vid = decode_Vid(return_object['list'])
 
-    Paginator
+    #Paginator
     p = Paginator(list_vid, 8)
     page = request.GET.get('page') 
     list_vids = p.get_page(page)

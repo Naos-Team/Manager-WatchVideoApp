@@ -5,11 +5,9 @@
 {% endblock title %}
 
 {% block content %}
-
 <div class="card border-dark bg-light my-1" style="overflow: hidden">
-    <p class="card-header h3 text-white bg-dark">SETTING</p>
-
-    <form id="form_update" method="post" action="{% url 'settingweb:update'%}" class="fw-bold p-4" style="overflow: scroll; height:90vh; " >
+    <p class="card-header h3 text-white bg-primary">SETTING</p>
+    <form id="form_update" method="post" action="{% url 'settingweb:update'%}" class="fw-bold p-4"  >
         {% csrf_token %}
         <div class="overflow-scrolly">
       
@@ -178,7 +176,7 @@
                 <input type="submit" class="btn btn-primary me-2" value="Save"/>
             {%endif%}
             {%if able == '0' %}
-                <a type="button" href="{% url 'settingweb:setting' 1%}" class="btn btn-success" value="EDIT">Edit</a>
+                <a type="button" href="{% url 'settingweb:setting' 1%}" class="btn btn-primary" value="EDIT">Edit</a>
             {%else%}
                 <a type="button" href="{% url 'settingweb:setting' 0%}" class="btn btn-danger" value="Cancel">Cancel</a>
             {%endif%}

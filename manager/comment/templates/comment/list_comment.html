@@ -3,31 +3,31 @@
 {% block content %}
 <nav class="navbar">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold">{{video_title}}</a>
+    <a class="navbar-brand fw-bold fs-4" url = "">{{video_title}}</a>
     <form class="d-flex" role="search" method="GET" action="{% url 'comment:comment_main' video_id %}"> {% csrf_token %}
       <input class="form-control me-2" type="search" name="tv_search_cmt" placeholder="Search or All" aria-label="Search">
       <button class="btn btn-primary" name="btn_search_cmt" type="submit">Search</button>
     </form>
   </div>
 </nav>
-<div style = """>
+<div >
 <ol class="list-group list-group-numbered border border-primary">
   <li class="list-group-item d-flex justify-content-between align-items-start">
     <div class="ms-2 me-auto">
-      <div class="fw-bold">Video Category</div>
-      {{video_cat}}
+      <div class="fw-bold">Video Category: {{video_cat}}</div>
+      
     </div>
   </li>
   <li class="list-group-item d-flex justify-content-between align-items-start">
     <div class="ms-2 me-auto">
-      <div class="fw-bold">Video Views</div>
-      {{vid_view}}
+      <div class="fw-bold">Video Views:  {{vid_view}}</div>
+     
     </div>
   </li>
   <li class="list-group-item d-flex justify-content-between align-items-start">
     <div class="ms-2 me-auto">
-      <div class="fw-bold">Total Comments</div>
-      {{total_comments}}
+      <div class="fw-bold">Total Comments: {{total_comments}}</div>
+      
     </div>
   </li>
 </ol>
@@ -35,16 +35,17 @@
 <div>
 
 
-<div class="list-group border border-primary" style="margin-top: 20px">
+<div class="list-group " style="margin-top: 20px">
     {% for cmt in list_cmts %}
   <li class="list-group-item ">
     <div class="row g-3">
       <div class="col-md-1 d-flex justify-content-center align-items-center">
         <input
           type="image"
-          style="width:60px; height:60px;"
+          style="width:65px; height:65px;"
           class="rounded-circle border border-2 border-primary"
           src="{{cmt.url}}"
+          onerror="this.src='{% static 'styles/images/user.png' %}'"
         />
       </div>
       <div class="col-md-11 ">

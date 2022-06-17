@@ -63,6 +63,26 @@ def getVid(id):
     return return_obj['video'] if return_obj['status'] == "success" else []
 
 @login_required(login_url='/login')
+def dashboard(request):
+    postObj = {
+        'method_name': 'LOAD_DASHBOARD',
+    }
+    data = {
+        'data': json.dumps(postObj)
+    }
+    res = requests.post(SERVER_URL, data=data)
+    return_object = json.loads(res.content)
+
+    list_dashboard = return_object['list_dashboard']
+    # total_video = list_dashboard['total_video']
+    # total_category = list_dashboard['total_category']
+    # total_user = list_dashboard['total_user']
+    # context = {'total_video':total_video, 'total_category':total_category, 'total_user':total_user}
+    context = {'list_dashboard':list_dashboard}
+    return render(request, 'managervideo/dashboard.html', context)
+
+
+@login_required(login_url='/login')
 def managervideo(request , pk, cat):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
 

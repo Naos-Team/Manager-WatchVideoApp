@@ -1,9 +1,9 @@
-.maincontents{
+/* .maincontents{
     display: grid;
     grid-template-columns: 1fr 5fr;
     height: 100vh;
-    width: 100%;
-}
+    width: 
+} */
 .container{
     height: 100vh;
     width: 100%;

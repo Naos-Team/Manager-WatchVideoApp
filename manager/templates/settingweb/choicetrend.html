@@ -10,28 +10,38 @@
 
 {% block content %}
 <div>
-    <div class="input-group mt-3 mb-3">
-        <form action="{% url 'settingweb:choice' type=type%}" method = "GET" >
-          <input class="input-group-text" type="text" name = "q" placeholder = "Search...."/>
-        </form>
-
-
-      </div>
-      <p class="card-header h2 text-white bg-dark">
-          Choose
-          {% if type == "1"%} VIDEO {%endif%}
-          {% if type == "2"%} TV {%endif%}
-          {% if type == "3"%} RADIO {%endif%} 
-          Trending
-      </p>    
-      
-<form method="post" action="{% url 'settingweb:choice' type%}" class="fw-bold">
+    <ul class="nav">
+        
+        <li class=" nav-item me-auto">
+            <h3 class="fw-bold ">
+                Choose
+                {% if type == "1"%} VIDEO {%endif%}
+                {% if type == "2"%} TV {%endif%}
+                {% if type == "3"%} RADIO {%endif%} 
+                Trending
+            </h3> 
+        </li>
+        
+            <li class=" nav-item  ms-auto">
+                <form action="{% url 'settingweb:choice' type=type%}" method = "GET" >
+                    <input class="input-group-text" type="text" name = "q" placeholder = "Search...."/>
+                </form> 
+            </li>
+       
+       
+    </ul>
+    </div>
+    
+        
+    
+     
+    <form method="post" action="{% url 'settingweb:choice' type%}" class="fw-bold">
     {% csrf_token %}
-     <div class="d-flex flex-row justify-content-end" style = "margin-top:10px;" >   
+     <div class="d-flex flex-row justify-content-start" style = "margin-top:10px;" >   
         <input style = "margin-right:10px;" type="submit" class="btn btn-primary" value="Save"/>
         <a type="button" href="{% url 'settingweb:setting' 1%}" class="btn btn-danger" value="Back">Back</a>
     </div>    
-<div class="card border-dark bg-light my-1" style = "overflow-y:scroll; height:75vh">
+    <div class="card border-dark bg-light mt-3">
         <div class="row content_category" >
         {% for video in videos %}
             <div class="card mb-3" style="width: 45%;
@@ -45,7 +55,7 @@
                     <div class="col-md-4">
                         <div
                             style = "
-                            height:100px;
+                            height:120px;
                             position: relative;
                             overflow: hidden;
                             "
@@ -56,11 +66,14 @@
                                 left: 50%;
                                 top: 50%;
                                 height: 100%;
-                                min-width: 100%;
+                                min-width:100%;
+                                background-position: center center;
+                                background-repeat: no-repeat;
                                 -webkit-transform: translate(-50%,-50%);
                                     -ms-transform: translate(-50%,-50%);
                                         transform: translate(-50%,-50%);
-                            " />
+                            "
+                            onError= "this.src='https://images.unsplash.com/photo-1520549233664-03f65c1d1327?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'"/>
                         </div>
                     </div>
                     <div class="col">
@@ -82,13 +95,9 @@
             </div>
         {% endfor %}
     </div>
-
-        
-
-
     </div>
-    
+    </form>
+</div>
 
-</form>
-</div>        
+</div>         
 {% endblock content %}

@@ -4,7 +4,7 @@
 {% block title %}Manager Video{% endblock title %}
 {% block content %}
 <div>
-  <div class=" taskbar_category">
+  <div class="taskbar_category">
     <h3>Video Manager For Admin</h3>
     <a type="button" style="margin-left:10px;" {% if choice  ==  "1" %} href="{% url 'videoapp:create' %}" {% else %}
     href="{% url 'managervideo:addvideo' pk=choice cat=cat %}" {% endif %}>
@@ -42,14 +42,14 @@
           <div class="row">
             {% for video in videos %}
             <div class="" style=" width: 30vh;">
-              <div class="card d-flex flex-row justify-content-start align-items-end" style="height: 35vh; transition: all 0.15s linear; background: linear-gradient(rgba(0,0,0,0.0), rgba(0,0,0,0.0), rgba(0,0,0,0.1), rgba(0,0,0,0.3), rgba(0,0,0,0.4)), url({{video.vid_thumbnail}}) center center/cover no-repeat, url('https://images.unsplash.com/photo-1537968659088-50674b7fb37e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80') center center/cover no-repeat;">
-                <div class="card-content">
-                    <div class="card-body ">
-                      <div class="">
+              <div class="card d-flex flex-row justify-content-start align-items-end" style="height: 35vh; transition: all 0.15s linear; background: linear-gradient(rgba(0,0,0,0.0), rgba(0,0,0,0.0), rgba(0,0,0,0.1), rgba(0,0,0,0.3), rgba(0,0,0,0.4)), url({{video.vid_thumbnail}}) center center/cover no-repeat, url('https://images.unsplash.com/photo-1520549233664-03f65c1d1327?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80') center center/cover no-repeat;">
+                <div class="card-content" style="width:100%; ">
+                    <div class="card-body" >
+                      <div class=" d-flex flex-rowv justify-content-end">
                         <h5 class="card-title text-white">{{video.vid_title}}</h5>
                       </div>
                       
-                      <div class="d-flex flex-row ">
+                      <div class="d-flex flex-row justify-content-end" >
                         <a class="me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"  {% if choice  ==  "1" %} href="{% url 'videoapp:update' video.vid_id %}" {% else %}
                           href="{% url 'managervideo:editvideo' pk=choice cat=cat id=video.vid_id %}"  {% endif %}>
                         <img style = "width:24px; height:24px;"src="{% static 'styles/images/edit_video.png' %}" alt="">
@@ -92,8 +92,7 @@
       </nav>
     </div>
 </div>
-{% endblock content %}\
-
+{% endblock content %}
 
   {% comment %} <div class="mt-5" style="margin-left:30px;">
     <div style="overflow:hidden">
