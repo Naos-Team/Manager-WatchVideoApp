@@ -5,6 +5,13 @@
     align-items: center;
 }
 
+.taskbar_comment{
+    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .content_category{
     justify-content: flex-start;
     height: 40%;

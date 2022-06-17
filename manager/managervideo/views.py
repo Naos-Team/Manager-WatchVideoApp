@@ -74,11 +74,15 @@ def dashboard(request):
     return_object = json.loads(res.content)
 
     list_dashboard = return_object['list_dashboard']
-    # total_video = list_dashboard['total_video']
-    # total_category = list_dashboard['total_category']
-    # total_user = list_dashboard['total_user']
-    # context = {'total_video':total_video, 'total_category':total_category, 'total_user':total_user}
-    context = {'list_dashboard':list_dashboard}
+    total_video = list_dashboard[0]['total_video']
+    total_category = list_dashboard[0]['total_category']
+    total_user = list_dashboard[0]['total_user']
+    total_tv = list_dashboard[0]['total_tv']
+    total_radio = list_dashboard[0]['total_radio']
+    total_report = list_dashboard[0]['total_report']
+    total_comment = list_dashboard[0]['total_comment']
+    context = {'total_video':total_video, 'total_category':total_category, 'total_user':total_user, 'total_report':total_report, 'total_tv':total_tv, 'total_radio':total_radio, 'total_comment':total_comment}
+    
     return render(request, 'managervideo/dashboard.html', context)
 
 
