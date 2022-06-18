@@ -61,7 +61,7 @@ def report_home(request, video_type):
     list_vid = decode_Vid(return_object['list'])
 
     #Paginator
-    p = Paginator(list_vid, 8)
+    p = Paginator(list_vid, 10)
     page = request.GET.get('page') 
     list_vids = p.get_page(page)
     nums = "a" * list_vids.paginator.num_pages
@@ -86,7 +86,7 @@ def report_main(request, video_id):
     reports = decode_Report(return_object['list'])
 
     Paginator
-    p = Paginator(reports, 8)
+    p = Paginator(reports, 10)
     page = request.GET.get('page') 
     list_res = p.get_page(page)
     nums = "a" * list_res.paginator.num_pages

@@ -9,13 +9,14 @@
 {% endblock style%}
 {% block content %} 
   <div class="taskbar_comment">
-    <a class="navbar-brand fw-bold">Total Report: {{num_reports}}</a>
+    <h3>Total Report: {{num_reports}}</h3>
     <form class="d-flex" role="search" method="GET" action="{% url 'report:report_main' video_id%}"> {% csrf_token %}
       <input class="form-control me-2" type="search" placeholder="Search or All" aria-label="Search" name="tv_search_report">
       <button class="btn btn-primary" type="submit" name="btn_search_report" style="margin-left:5px;">Search</button>
     </form>
   </div>
-<table class="table table_report" style = "overflow-y:scroll; height:80vh">
+<div class="card border" style="padding:30px;">
+<table class="table table_report">
   <thead class="thead-light ">
     <tr class="">
       <th class="" scope="col">ID</th>
@@ -29,7 +30,7 @@
   
   <tbody>
     {% for report in list_res %}
-    <tr>
+    <tr style="height:10vh">
       <td class="">{{report.report_id}}</td>
       <td class="">{{report.name}}</td>
       <td class="">{{report.report_content}}</td>
@@ -79,6 +80,7 @@
   </tbody>
   {% endfor %} 
 </table>
+</div>
 <nav aria-label="Page navigation example " style="margin-top: 10px;">
   <ul class="pagination">
     {% if list_res.has_previous %}

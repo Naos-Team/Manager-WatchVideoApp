@@ -27,7 +27,8 @@
       <button class="btn btn-primary" type="submit" name="btn_search_video" style="margin-left:5px;">Search</button>
     </form>
   </div>
-<table class="table table_report" style = "overflow-y:scroll; height:75vh">
+<div class="card border" style="padding:30px;"> 
+<table class="table table_report">
   <thead class="thead-light">
     <tr class="">
       <th class="" scope="col">Video ID</th>
@@ -40,19 +41,20 @@
   
   <tbody >
     {% for x in list_vids %}
-    <tr>
+    <tr style="height:10vh">
       <td class="">{{x.vid_id}}</td>
       <td class="">{{x.vid_title}}</td>
       <td class="">{{x.total_cmts}}</td>
       <td> 
         <form action="{% url 'comment:comment_main' x.vid_id %}">
-          <input type="image" style="width:20px; height:20px;"class="icon_report" src="{% static 'styles/images/more.png' %}" />
+          <input type="image" style="width:25px; height:25px;"class="icon_report" src="{% static 'styles/images/more.png' %}" />
         </form>
       </td>
     </tr>
   </tbody>
   {% endfor %} 
 </table>
+</div>
 <nav aria-label="Page navigation example " style="margin-top: 10px;">
   <ul class="pagination">
     {% if list_vids.has_previous %}
