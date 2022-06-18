@@ -130,53 +130,72 @@
     
 </div>
 
-<div>
-    <div class="card">
-        <div class="card-body">
-        <canvas id="myChart"></canvas>
-
-        </div>
+<h4>Top Viewed Videos</h4>
+<div class="card" >
+    <div class="card-body">
+    <canvas height="100" id="myChart1"></canvas>
     </div>
+</div>
 
-    
-  </div>
-  
+<h4>Top Rated Videos</h4>
+<div class="card" >
+    <div class="card-body">
+    <canvas height="100" id="myChart2"></canvas>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const labels = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-    ];
+    const labels1 = {{titles_mv|safe}};
   
-    const data = {
-      labels: labels,
+    const data1 = {
+      labels: labels1,
       datasets: [{
         label: 'Top Viewed Videos',
         backgroundColor: 'transparent',
         borderColor: '#435ebe',
         borderWidth:4,
-        data: [0, 10, 5, 2, 20, 30, 45],
+        data: {{views_mv|safe}},
       }]
     };
   
-    const config = {
+    const config1 = {
       type: 'line',
-      data: data,
+      data: data1,
       options: {
         tension:0.35,
       }
     };
-  </script>
-  <script>
-    const myChart = new Chart(
-      document.getElementById('myChart'),
-      config
+
+    const myChart1 = new Chart(
+      document.getElementById('myChart1'),
+      config1
+    );
+
+    const labels2 = {{titles_tr|safe}};
+  
+    const data2 = {
+      labels: labels2,
+      datasets: [{
+        label: 'Top Rated Videos',
+        backgroundColor: 'transparent',
+        borderColor: '#435ebe',
+        borderWidth:4,
+        data: {{views_tr|safe}},
+      }]
+    };
+  
+    const config2 = {
+      type: 'line',
+      data: data2,
+      options: {
+        tension:0.35,
+      }
+    };
+
+    const myChart2 = new Chart(
+      document.getElementById('myChart2'),
+      config2
     );
   </script>
-  
 {% endblock content %}

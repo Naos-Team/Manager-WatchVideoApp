@@ -74,7 +74,7 @@ def dashboard(request):
     return_object = json.loads(res.content)
 
     postObj1 = {
-        'method_name': 'GET_TOP_VIEW_VIDEO',
+        'method_name': 'GET_CHART_VIDEO',
     }
     data1 = {
         'data': json.dumps(postObj1)
@@ -91,14 +91,22 @@ def dashboard(request):
     total_report = list_dashboard[0]['total_report']
     total_comment = list_dashboard[0]['total_comment']
 
-    titles = []
-    views = []
-    list_video = return_object1['list_video']
-    for v in list_video:
-        titles.append(bs.decode_Str(v['vid_title']))
-        views.append(v['vid_view'])
+    titles_mv = []
+    views_mv = []
+    mostview = return_object1['list_most_view']
+    toprate = return_object1['list_top_rate']
+    for v in mostview:
+        titles_mv.append(bs.decode_Str(v['vid_title']))
+        views_mv.append(v['vid_view'])
 
-    context = {'total_video':total_video, 'total_category':total_category, 'total_user':total_user, 'total_report':total_report, 'total_tv':total_tv, 'total_radio':total_radio, 'total_comment':total_comment, 'titles':titles, 'views':views}
+    titles_tr = []
+    views_tr = []
+    toprate = return_object1['list_top_rate']
+    for v in toprate:
+        titles_tr.append(bs.decode_Str(v['vid_title']))
+        views_tr.append(v['vid_view'])
+
+    context = {'total_video':total_video, 'total_category':total_category, 'total_user':total_user, 'total_report':total_report, 'total_tv':total_tv, 'total_radio':total_radio, 'total_comment':total_comment, 'titles_mv':titles_mv, 'views_mv':views_mv, 'titles_tr':titles_tr, 'views_tr':views_tr }
     
     return render(request, 'managervideo/dashboard.html', context)
 

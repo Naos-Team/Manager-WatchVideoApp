@@ -41,15 +41,14 @@
         
       </td>
       <td>
-        <input type="image" style="width:20px; height:20px;" class="icon_report" src="{% static 'styles/images/delete.png' %}" data-bs-toggle="modal" data-bs-target="#modal{{report.report_id}}" class="icon_report" />
+        <input type="image" style="width:20px; height:20px;" class="icon_report delete_report" src="{% static 'styles/images/delete.png' %}" data-bs-toggle="modal" data-bs-target="#modal{{report.report_id}}" class="icon_report" />
           <div
-            class="modal fade"
+            class="modal fade modal_delete_report"
             id="modal{{report.report_id}}"
             tabindex="-1"
             role="dialog"
             aria-labelledby="exampleModalCenterTitle"
             aria-hidden="true"
-            
           >
             <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
@@ -68,7 +67,7 @@
                 </div>
                 <div class="modal-body">The report {{report.id}} of user {{report.uid}}</div>
                 <div class="modal-footer">
-                  <form action="{% url 'report:delete_report' report.report_id %}"  method="POST"> {% csrf_token %}
+                  <form id="form_delete_report" action="{% url 'report:delete_report' report.report_id %}"  method="POST"> {% csrf_token %}
                   <button type="submit" class="btn btn-primary">Yes</button>
                   </form>
                 </div>
@@ -95,6 +94,23 @@
     {% endif %}
   </ul>
 </nav>
+
+<script src="{% static 'styles/js/modal_report.js' %}"></script>
+{% comment %} <script>
+
+  form_delete = document.getElementById("form_delete_report");
+  
+  form_delete.onsubmit = function(e){
+    e.preventDefault();
+
+  function save(){
+    if(confirm("Are you sure you want to delete?") == true) {
+      form_delete.submit();
+    }
+  }
+}
+
+</script> {% endcomment %}
 {% endblock %}
 
 

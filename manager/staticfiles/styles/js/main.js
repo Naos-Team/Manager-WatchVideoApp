@@ -22,4 +22,26 @@ if (ul.includes( 'dashboard')){
 else if(ul.includes( 'category')){
     document.querySelector('.category').classList.add('active');
 }
+else if(ul.includes( 'managervideo')){
+    document.querySelector('.aaa').classList.add('active');
+}
+else if(ul.includes( 'report')){
+    document.querySelector('.report').classList.add('active');
+}
+else if(ul.includes( 'comment')){
+    document.querySelector('.comment').classList.add('active');
+}
+else if(ul.includes( 'notification')){
+    document.querySelector('.notification').classList.add('active');
+}
+else if(ul.includes( 'setting')){
+    document.querySelector('.setting').classList.add('active');
+}
+else if(ul.includes( 'user')){
+    document.querySelector('.user').classList.add('active');
+}
+else if(ul.includes( 'logout')){
+    document.querySelector('.logout').classList.add('active');
+}
+ 
  
