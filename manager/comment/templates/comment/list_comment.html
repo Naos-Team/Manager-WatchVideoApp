@@ -55,42 +55,10 @@
         </div>
         <div class="d-flex w-100 justify-content-between align-items-center">
             <p>{{cmt.cmt_text}}</p>
-            <input type="image" style="width:20px; height:20px;"class="icon_report" src="{% static 'styles/images/delete.png' %}" data-bs-toggle="modal" data-bs-target="#mymodal{{cmt.cmt_id}}" class="icon_report" />
-          <div
-            class="modal fade"
-            id="mymodal{{cmt.cmt_id}}"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true"
-            
-          >
-            <div class="modal-dialog modal-dialog-centered" role="document" id="a{{cmt.cmt_id}}">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="b{{cmt.cmt_id}}">
-                    Are you sure you want to delete comment of user {{cmt.uid}} at {{cmt.cmt_time}} ?
-                  </h5>
-                  <button
-                    type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">{{cmt.cmt_text}} </div>
-                <div class="modal-footer">
-                  <form id="form_delete_cmt" action="{% url 'comment:delete_comment' cmt.cmt_id %}"  method="POST"> {% csrf_token %}
-                  <button type="submit" class="btn btn-primary">Yes</button>
-                  </form>
-                </div>
-              </div>
+            <form id="form_delete_cmt" action="{% url 'comment:delete_comment' cmt.cmt_id %}"  method="POST"> {% csrf_token %}
+              <input type="image" style="width:20px; height:20px;"class="icon_report" src="{% static 'styles/images/delete.png' %}" onclick="save()" class="icon_report" />
+              </form>
             </div>
-          </div>
-        </div>
-       
       </div>
     </div>
   </li>
@@ -100,9 +68,6 @@
 
 </div>
 
-</div>
-
-</div>
 <nav aria-label="Page navigation example " style="margin-top: 10px;">
   <ul class="pagination">
     {% if list_cmts.has_previous %}
@@ -119,20 +84,20 @@
   </ul>
 </nav>
 
-{% comment %} <script>
+<script>
 
   form_delete = document.getElementById("form_delete_cmt");
   
   form_delete.onsubmit = function(e){
     e.preventDefault();
+  }
 
   function save(){
     if(confirm("Are you sure you want to delete?") == true) {
       form_delete.submit();
     }
   }
-}
 
-</script> {% endcomment %}
+</script>
 
 {% endblock %}
