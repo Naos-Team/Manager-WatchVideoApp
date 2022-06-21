@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 import main.base64_change as bs
 from django.core.paginator import Paginator
+from django.contrib import messages
 from Constant import SERVER_URL
 import json
 import requests
@@ -138,6 +139,7 @@ def detail_report(request, report_id):
         }
         res = requests.post(SERVER_URL, data=data)
         return_object = json.loads(res.content)
+        messages.success(request, "Updated successfully!")
         return redirect('/report/'+str(vid)+'/report_main')
 
     context = { 'report_id':report_id_de, 'uid':uid_de, 'vid':vid_de, 'report_content':report_content_de, 'report_status':report_status_de }
