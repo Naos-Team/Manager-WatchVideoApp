@@ -126,7 +126,7 @@ def detail_report(request, report_id):
         vid = request.POST.get('vid')
         report_content = request.POST.get('report_content')
         report_status = request.POST.get('report_status')
-        postObj = {
+        postObj1 = {
             'method_name': 'UPDATE_REPORT',
             'report_id': report_id,
             'uid': bs.encode_Str(uid),
@@ -134,12 +134,12 @@ def detail_report(request, report_id):
             'report_content': bs.encode_Str(report_content),
             'report_status': report_status, 
         }
-        data = {
-            'data': json.dumps(postObj),
+        data1 = {
+            'data': json.dumps(postObj1),
         }
-        res = requests.post(SERVER_URL, data=data)
-        return_object = json.loads(res.content)
-        messages.success(request, "Updated successfully!")
+        res1 = requests.post(SERVER_URL, data=data1)
+        return_object1 = json.loads(res.content)
+        messages.success(request, "Updated successfully")
         return redirect('/report/'+str(vid)+'/report_main')
 
     context = { 'report_id':report_id_de, 'uid':uid_de, 'vid':vid_de, 'report_content':report_content_de, 'report_status':report_status_de }

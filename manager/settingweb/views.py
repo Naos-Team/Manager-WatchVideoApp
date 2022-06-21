@@ -5,6 +5,9 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 import main.base64_change as bs
 from Constant import SERVER_URL
+from django.contrib import messages
+from django.core.paginator import Paginator
+
 # Create your views here.
 
 def decode_Item_Setting(stw):
@@ -82,8 +85,10 @@ def choiceTrending(request, type):
         res = requests.post(SERVER_URL , data = data)
         return_obj = json.loads(res.content)
         if str(return_obj) == "success":
+            messages.success(request, "Updated successfully")
             return redirect('settingweb:setting', "1")
         else:
+            messages.error(request, "Error updating")
             return HttpResponse("Error")
     else:
         q = request.GET.get('q') if request.GET.get('q') != None else ''
@@ -115,8 +120,12 @@ def choiceTrending(request, type):
         list_trend.pop(0)
         list_trend = [int(item) for item in list_trend]
 
+        p = Paginator(videos, 20)
+        page = request.GET.get('page') 
+        videos = p.get_page(page)
+        nums = "a" * videos.paginator.num_pages
 
-        context = {'type':type, 'videos':videos, 'list_trend':list_trend}
+        context = {'type':type, 'videos':videos, 'list_trend':list_trend, "nums":nums}
         return render(request, 'settingweb/choicetrend.html', context)
 
 @login_required(login_url='/login')
@@ -144,8 +153,10 @@ def updateSTW(request):
         res = requests.post(SERVER_URL , data = data)
         return_obj = json.loads(res.content)
         if str(return_obj) == "success":
+            messages.success(request, "Updated successfully")
             return redirect('settingweb:setting', "0")
         else:
+            messages.error(request, "Error updating setting")
             return HttpResponse("Error")
     else:
         return HttpResponse("Error")

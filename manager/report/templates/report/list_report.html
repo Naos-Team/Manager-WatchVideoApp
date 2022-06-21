@@ -142,20 +142,20 @@
       form_delete.submit();
     }
   }
-  if (document.getElementById('close_success')!=null) {
-    var check2 = document.getElementById('close_success');
-    var alert2 = document.getElementById('alert-success');
-    check2.addEventListener('click', function(e) {   
-      alert2.classList.remove('show');
-    });
-  }
-  else{
-    var check1 = document.getElementById('close_danger');
-    var alert1 = document.getElementById('alert-error');
-    check1.addEventListener('click', function(e) {   
-        alert1.classList.remove('show');
-    });
-  }
+    if (document.getElementById('close_success')!=null) {
+      var check2 = document.getElementById('close_success');
+      var alert2 = document.getElementById('alert-success');
+      check2.addEventListener('click', function(e) {   
+        alert2.classList.remove('show');
+      });
+    }
+    if (document.getElementById('close_danger')!=null){
+      var check1 = document.getElementById('close_danger');
+      var alert1 = document.getElementById('alert-error');
+      check1.addEventListener('click', function(e) {   
+          alert1.classList.remove('show');
+      });
+    }
 </script>
 
 {% endblock content %}

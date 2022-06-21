@@ -172,6 +172,7 @@ def addTv(request, pk, cat):
             if(js['status'] == 1):
                 image_dir = SERVER_URL + '/image/'+js['dir'];
                 thumbnail = base64.b64encode(image_dir.encode('utf-8')).decode('utf-8')
+                messages.success(request, "Added successfully!")
             else:
                 messages.error(request, "Something wrong when upload image, please try again!")
                 return redirect('videoapp:create')
@@ -247,6 +248,7 @@ def editTv(request, pk, cat, id):
             if(js['status'] == 1):
                 image_dir = SERVER_URL + '/image/'+js['dir'];
                 thumbnail = base64.b64encode(image_dir.encode('utf-8')).decode('utf-8')
+                messages.success(request, "Updated successfully!")
             else:
                 messages.error(request, "Something wrong when upload image, please try again!")
                 return redirect('managervideo:editvideo', cat=cat, id=id)

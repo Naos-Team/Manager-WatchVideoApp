@@ -80,6 +80,7 @@ def addCategory(request, pk):
             if(js['status'] == 1):
                 image_dir = SERVER_URL + '/image/'+js['dir'];
                 thumbnail = base64.b64encode(image_dir.encode('utf-8')).decode('utf-8')
+
             else:
                 messages.error(request, "Something wrong when upload image, please try again!")
                 return redirect('videoapp:create')
@@ -102,6 +103,7 @@ def addCategory(request, pk):
         return_obj = json.loads(res.content)
         print(return_obj)
         if str(return_obj) == "success":
+            messages.success(request, "Create category successfully!")
             return redirect('category:category', pk)
         else:
             return HttpResponse("Error")
@@ -132,6 +134,7 @@ def editCategory(request, pk, id):
             if(js['status'] == 1):
                 image_dir = SERVER_URL + '/image/'+js['dir'];
                 thumbnail = base64.b64encode(image_dir.encode('utf-8')).decode('utf-8')
+
             else:
                 messages.error(request, "Something wrong when upload image, please try again!")
                 return redirect('category:category', pk = pk)
@@ -151,6 +154,7 @@ def editCategory(request, pk, id):
         res = requests.post(SERVER_URL , data = data)
         return_obj = json.loads(res.content)
         if str(return_obj) == "success":
+            messages.success(request, "Updated successfully!")
             return redirect('category:category', pk)
         else:
             return HttpResponse("Error")

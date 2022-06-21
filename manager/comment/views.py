@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 import main.base64_change as bs
 from django.core.paginator import Paginator
 from Constant import SERVER_URL
+from django.contrib import messages
 import json
 import requests
 from django.shortcuts import render
@@ -128,5 +129,7 @@ def delete_comment(request, cmt_id):
             'data': json.dumps(postObj),
         }
         res = requests.post(SERVER_URL, data=data)
+        messages.success(request, "Deleted successfully!")
+
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
