@@ -94,7 +94,6 @@ def dashboard(request):
     titles_mv = []
     views_mv = []
     mostview = return_object1['list_most_view']
-    toprate = return_object1['list_top_rate']
     for v in mostview:
         titles_mv.append(bs.decode_Str(v['vid_title']))
         views_mv.append(v['vid_view'])
@@ -104,7 +103,7 @@ def dashboard(request):
     toprate = return_object1['list_top_rate']
     for v in toprate:
         titles_tr.append(bs.decode_Str(v['vid_title']))
-        views_tr.append(v['vid_view'])
+        views_tr.append(v['vid_avg_rate'])
 
     context = {'total_video':total_video, 'total_category':total_category, 'total_user':total_user, 'total_report':total_report, 'total_tv':total_tv, 'total_radio':total_radio, 'total_comment':total_comment, 'titles_mv':titles_mv, 'views_mv':views_mv, 'titles_tr':titles_tr, 'views_tr':views_tr }
     
