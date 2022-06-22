@@ -15,6 +15,7 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+print(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -131,8 +132,13 @@ MEDIA_URL = '/styles/images/'
 # STATIC_URL = 'staticfiles/'
 
 STATIC_URL = '/staticfiles/'
-STATIC_ROOT=os.path.join(BASE_DIR,"/staticfiles/")
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles"),)
+# STATIC_ROOT=os.path.join(BASE_DIR,"/staticfiles/")
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, "staticfiles"),)
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
+STATIC_ROOT= os.path.join(BASE_DIR,'staticfiles/')
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT,'static/'),
+)
 
 
 # Static files (CSS, JavaScript, Images)
